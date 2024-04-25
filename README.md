@@ -1,1 +1,2 @@
-# court-management-system-backend
+# Resolute API
+this is backend for resolute saas
