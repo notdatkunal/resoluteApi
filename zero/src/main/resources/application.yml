@@ -1,3 +1,22 @@
+logging:
+  level:
+    sql: debug
+    web: debug
 spring:
   application:
     name: resolute
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+      format_sql: true
+      show-sql: true
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: sql6701811
+    password: pmqc2T6PGf
+    url: jdbc:mysql://sql6.freesqldatabase.com:3306/sql6701811
