@@ -22,4 +22,4 @@ spring:
 #    url: jdbc:mysql://sql6.freesqldatabase.com:3306/sql6701811
     username: root
     password: hello
-    url: jdbc:mysql://localhost:3306/resolve
+    url: jdbc:mysql://localhost:3306/resolve?createDatabaseIfNotExist=true
