@@ -14,10 +14,10 @@ import java.sql.Blob;
 public class Video {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer videoId;
 
     @Column(unique = true)
-    private String name;
+    private String videoName;
 
     private Blob video;
 
