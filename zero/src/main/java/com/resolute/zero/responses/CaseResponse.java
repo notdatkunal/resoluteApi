@@ -3,6 +3,7 @@ package com.resolute.zero.responses;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Builder

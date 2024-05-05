@@ -7,7 +7,10 @@ import com.resolute.zero.responses.BorrowerResponse;
 import com.resolute.zero.responses.CaseResponse;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -95,7 +98,7 @@ public class AdminController {
     }
 
     @GetMapping("/search/case")
-    public List<CaseResponse> searchCase(@RequestBody SearchRequest searchRequest){
+    public List<CaseResponse> searchCase(@RequestBody SearchRequest searchRequest) throws ParseException {
 
 
 
