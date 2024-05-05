@@ -96,6 +96,41 @@ public class AdminController {
                 .registrationDate(Date.from(Instant.now()))
                 .build();
     }
+
+    @GetMapping("/search/case")
+    public List<CaseResponse> searchCase(@RequestBody String searchParameter,@RequestBody(required = false) Date date){
+
+
+
+       var list =    List.of(CaseResponse.builder()
+                        .caseNo(1)
+                        .serialNo(1)
+                        .caseType(searchParameter)
+                        .registrationDate(Date.from(Instant.now()))
+                        .build(),
+                CaseResponse.builder()
+                        .caseNo(2)
+                        .serialNo(2)
+                        .caseType("xyz"+searchParameter)
+                        .registrationDate(Date.from(Instant.now()))
+                        .build(),
+                CaseResponse.builder()
+                        .caseNo(3)
+                        .serialNo(3)
+                        .caseType("mno"+searchParameter)
+                        .registrationDate(Date.from(Instant.now()))
+                        .build()
+        );
+
+       if(date!=null)
+       {
+           list.forEach(item->{
+               item.setRegistrationDate(date);
+           });
+       }
+
+       return list;
+    }
     @GetMapping("/case")
     public List<CaseResponse> getAllCases(){
 
