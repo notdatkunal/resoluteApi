@@ -1,9 +1,6 @@
 package com.resolute.zero.controllers;
 
-import com.resolute.zero.requests.ArbitratorRequest;
-import com.resolute.zero.requests.BankRequest;
-import com.resolute.zero.requests.BorrowerRequest;
-import com.resolute.zero.requests.CaseRequest;
+import com.resolute.zero.requests.*;
 import com.resolute.zero.responses.ArbitratorResponse;
 import com.resolute.zero.responses.BankResponse;
 import com.resolute.zero.responses.BorrowerResponse;
@@ -98,34 +95,42 @@ public class AdminController {
     }
 
     @GetMapping("/search/case")
-    public List<CaseResponse> searchCase(@RequestBody String searchParameter,@RequestBody(required = false) Date date){
+    public List<CaseResponse> searchCase(@RequestBody SearchRequest searchRequest){
 
 
 
        var list =    List.of(CaseResponse.builder()
                         .caseNo(1)
                         .serialNo(1)
-                        .caseType(searchParameter)
+                       .registrationDate(Date.from(Instant.now()))
+                       .fillingDate(Date.from(Instant.now()))
+                       .registrationNumber(5431532)
+                        .caseType(searchRequest.getSearchParameter())
                         .registrationDate(Date.from(Instant.now()))
                         .build(),
                 CaseResponse.builder()
                         .caseNo(2)
                         .serialNo(2)
-                        .caseType("xyz"+searchParameter)
+                        .caseType("xyz"+searchRequest.getSearchParameter())
                         .registrationDate(Date.from(Instant.now()))
+                        .fillingDate(Date.from(Instant.now()))
+                        .registrationNumber(5431532)
                         .build(),
                 CaseResponse.builder()
                         .caseNo(3)
                         .serialNo(3)
-                        .caseType("mno"+searchParameter)
+                        .registrationDate(Date.from(Instant.now()))
+                        .fillingDate(Date.from(Instant.now()))
+                        .registrationNumber(5431532)
+                        .caseType("mno"+searchRequest.getSearchParameter())
                         .registrationDate(Date.from(Instant.now()))
                         .build()
         );
 
-       if(date!=null)
+       if(searchRequest.getDate()!=null)
        {
            list.forEach(item->{
-               item.setRegistrationDate(date);
+               item.setRegistrationDate(searchRequest.getDate());
            });
        }
 
