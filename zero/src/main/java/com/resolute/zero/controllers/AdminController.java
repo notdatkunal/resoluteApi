@@ -69,7 +69,7 @@ public class AdminController {
     }
 
 
-    @GetMapping("arbitrator/{arbitratorId}")
+    @GetMapping("/arbitrator/{arbitratorId}")
     public ArbitratorResponse getArbitratorById(@PathVariable Integer arbitratorId){
 
         return ArbitratorResponse.builder()
@@ -115,7 +115,7 @@ public class AdminController {
 
 
 
-    @GetMapping("case/{caseId}")
+    @GetMapping("/case/{caseId}")
     public CaseResponse getCaseById(@PathVariable Integer caseId){
 
         return CaseResponse.builder()
@@ -204,7 +204,7 @@ public class AdminController {
 
 
 
-    @GetMapping("borrower/{borrowerId}")
+    @GetMapping("/borrower/{borrowerId}")
     public BorrowerResponse getBorrowerById(@PathVariable Integer borrowerId){
 
         return BorrowerResponse.builder()
@@ -255,7 +255,7 @@ public class AdminController {
 
 
 
-    @GetMapping("bank/{bankId}")
+    @GetMapping("/bank/{bankId}")
     public BankResponse getBankById(@PathVariable Integer bankId){
 
         return BankResponse.builder()
