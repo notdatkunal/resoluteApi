@@ -1,19 +1,15 @@
 package com.resolute.zero.controllers;
 
-import com.resolute.zero.configurations.SampleDocuments;
+
 import com.resolute.zero.requests.*;
 import com.resolute.zero.responses.*;
+import com.resolute.zero.utilities.Constants;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -49,9 +45,9 @@ public class AdminController {
     public List<DocumentResponse> listDocuments(@RequestParam(required = false) String documentType){
         log.info(documentType);
        var list =  List.of(
-                DocumentResponse.builder().documentByteString(SampleDocuments.SAMPLE_DOC).documentTitle("abc").type("arbitrator").uploadDate(Date.from(Instant.now())).build(),
-                DocumentResponse.builder().documentByteString(SampleDocuments.SAMPLE_DOC).documentTitle("abc").type("arbitrator").uploadDate(Date.from(Instant.now())).build(),
-                DocumentResponse.builder().documentByteString(SampleDocuments.SAMPLE_DOC).documentTitle("abc").type("arbitrator").uploadDate(Date.from(Instant.now())).build()
+                DocumentResponse.builder().documentByteString(Constants.SAMPLE_DOC).documentTitle("abc").type("arbitrator").uploadDate(Date.from(Instant.now())).build(),
+                DocumentResponse.builder().documentByteString(Constants.SAMPLE_DOC).documentTitle("abc").type("arbitrator").uploadDate(Date.from(Instant.now())).build(),
+                DocumentResponse.builder().documentByteString(Constants.SAMPLE_DOC).documentTitle("abc").type("arbitrator").uploadDate(Date.from(Instant.now())).build()
 
         );
 
@@ -62,11 +58,11 @@ public class AdminController {
 
     }
     @PostMapping(value = "/document")
-    public void createDocument(@RequestParam String documentTitle,@RequestParam String type,@RequestParam String caseId,@RequestParam("document") MultipartFile file) throws IOException {
+    public void createDocument(@RequestParam String documentTitle,@RequestParam String type,@RequestParam Integer caseId,@RequestParam("document") MultipartFile file) throws IOException {
 
         log.info(Arrays.toString(file.getBytes()));
         log.info(documentTitle);
-        log.info(caseId);
+        log.info(String.valueOf(caseId));
         log.info(type);
 
 

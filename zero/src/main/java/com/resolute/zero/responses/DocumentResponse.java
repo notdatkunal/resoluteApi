@@ -1,6 +1,6 @@
 package com.resolute.zero.responses;
 
-import com.resolute.zero.configurations.SampleDocuments;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
