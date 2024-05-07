@@ -20,7 +20,7 @@ public class AdminController {
 
 
     @PostMapping("/case")
-    public void addCase(@RequestBody CaseRequest request){
+    public void addCase(@RequestBody AdminCaseRequest request){
         System.out.println(request);
     }
 
@@ -104,13 +104,6 @@ public class AdminController {
                 );
 
     }
-
-
-
-
-
-
-
 
 
 
