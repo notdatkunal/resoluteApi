@@ -15,8 +15,6 @@ public class CaseHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer caseId;
 
-
-
     @OneToOne(cascade = CascadeType.ALL)
     private final CaseDetails caseDetails = new CaseDetails();
 }

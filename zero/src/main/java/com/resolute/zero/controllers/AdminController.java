@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 @Slf4j
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/admin")
 public class AdminController {
 
@@ -57,7 +58,7 @@ public class AdminController {
        return list;
 
     }
-    @PostMapping(value = "/document")
+    @PostMapping("/document")
     public void createDocument(@RequestParam String documentTitle,@RequestParam String type,@RequestParam Integer caseId,@RequestParam("document") MultipartFile file) throws IOException {
 
         log.info(Arrays.toString(file.getBytes()));

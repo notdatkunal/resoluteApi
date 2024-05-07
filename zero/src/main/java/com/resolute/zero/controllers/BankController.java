@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/bank")
+@CrossOrigin("*")
 public class BankController {
     @GetMapping("/cases/{bankId}")
     public List<CaseResponse> getCases(@PathVariable Integer bankId){

@@ -14,6 +14,7 @@ import java.util.Collection;
 
 @RestController
 @Slf4j
+@CrossOrigin("*")
 public class MediaController {
 
     @Autowired
