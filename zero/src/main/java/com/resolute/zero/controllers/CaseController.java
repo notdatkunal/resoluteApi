@@ -2,11 +2,13 @@ package com.resolute.zero.controllers;
 
 import com.resolute.zero.models.CaseProceeding;
 import com.resolute.zero.requests.CaseProceedingsResponse;
+import com.resolute.zero.requests.HearingResponse;
 import com.resolute.zero.responses.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/case")
@@ -76,11 +78,27 @@ public class CaseController {
                 .build();
 
     }
-//    @GetMapping("/proceeding/{id}")
-//    public CaseProceedingsResponse getProceedings(@PathVariable Integer id){
-//        return
-//    }
-//    @GetMapping("/order/{id}")
-//    @GetMapping("/communication/{id}")
+    @GetMapping("/proceeding/{id}")
+    public CaseProceedingsResponse getProceedings(@PathVariable Integer id){
+        return CaseProceedingsResponse.builder()
+                .hearings(List.of(HearingResponse.builder().hearingDate(Date.from(Instant.now())).minutesOfMeetings("g-C3N4").build(),HearingResponse.builder().hearingDate(Date.from(Instant.now())).minutesOfMeetings("g-C3N4").build(),HearingResponse.builder().current(true).hearingDate(Date.from(Instant.now())).minutesOfMeetings("g-C3N4").build()))
+                .build();
+    }
+    @GetMapping("/order/{id}")
+    public OrderResponse getOrder(@PathVariable Integer id){
 
+        return OrderResponse.builder()
+                .awardOrder(OrderModel.builder().orderTitle("randomTitle").date(Date.from(Instant.now())).awardOrder(true).build())
+                .interimOrder(OrderModel.builder().orderTitle("randomTitle").date(Date.from(Instant.now())).interimOrder(true).build())
+                .orders(List.of(OrderModel.builder().orderTitle("randomTitle").date(Date.from(Instant.now())).build(),OrderModel.builder().orderTitle("randomTitle").date(Date.from(Instant.now())).build(),OrderModel.builder().orderTitle("randomTitle").date(Date.from(Instant.now())).build()))
+                .build();
+    }
+
+    @GetMapping("/communication/{id}")
+    public CommunicationResponse getComm(@PathVariable Integer id){
+
+        return CommunicationResponse.builder()
+                .dates(List.of(CommDateResponse.builder().date(Date.from(Instant.now())).emailComm("emailDoc").emailCommTitle("emailTitleLink").whatsAppComm("whatsappComm").whatsAppCommTitle("whatsappCommTitleLink").textComm("textComm").textCommTitle("textCommTitleLink").build(),CommDateResponse.builder().date(Date.from(Instant.now())).emailComm("emailDoc").emailCommTitle("emailTitleLink").whatsAppComm("whatsappComm").whatsAppCommTitle("whatsappCommTitleLink").textComm("textComm").textCommTitle("textCommTitleLink").build(),CommDateResponse.builder().date(Date.from(Instant.now())).emailComm("emailDoc").emailCommTitle("emailTitleLink").whatsAppComm("whatsappComm").whatsAppCommTitle("whatsappCommTitleLink").textComm("textComm").textCommTitle("textCommTitleLink").build()))
+                .build();
+    }
 }
