@@ -1,11 +1,9 @@
 package com.resolute.zero.controllers;
 
-import com.resolute.zero.models.CaseProceeding;
 import com.resolute.zero.requests.CaseProceedingsResponse;
 import com.resolute.zero.requests.HearingResponse;
 import com.resolute.zero.responses.*;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
@@ -87,6 +85,7 @@ public class CaseController {
     @GetMapping("/order/{id}")
     public OrderResponse getOrder(@PathVariable Integer id){
 
+        OrderModel.builder().build() ;
         return OrderResponse.builder()
                 .awardOrder(OrderModel.builder().orderTitle("randomTitle").date(Date.from(Instant.now())).awardOrder(true).build())
                 .interimOrder(OrderModel.builder().orderTitle("randomTitle").date(Date.from(Instant.now())).interimOrder(true).build())
