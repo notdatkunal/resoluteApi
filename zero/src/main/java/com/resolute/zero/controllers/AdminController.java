@@ -24,25 +24,25 @@ public class AdminController {
 
     @PostMapping("/case")
     public void addCase(@RequestBody AdminCaseRequest request, HttpSession session){
-        LoginUtility.authenticate(session);
+        LoginUtility.authenticate(session,"admin");
         System.out.println(request);
     }
 
     @PostMapping("/borrower")
     public void addBorrower(@RequestBody BorrowerRequest request, HttpSession session){
-        LoginUtility.authenticate(session);
+        LoginUtility.authenticate(session,"admin");
         System.out.println(request);
     }
 
     @PostMapping("/arbitrator")
     public void addArbitrator(@RequestBody ArbitratorRequest request, HttpSession session){
-        LoginUtility.authenticate(session);
+        LoginUtility.authenticate(session,"admin");
         System.out.println(request);
     }
 
     @PostMapping("/bank")
     public void addBank(@RequestBody BankRequest request, HttpSession session){
-        LoginUtility.authenticate(session);
+        LoginUtility.authenticate(session,"admin");
         System.out.println(request);
     }
 
@@ -50,7 +50,7 @@ public class AdminController {
 
     @GetMapping("/documents")
     public List<DocumentResponse> listDocuments(@RequestParam(required = false) String documentType, HttpSession session){
-        LoginUtility.authenticate(session);
+        LoginUtility.authenticate(session,"admin");
         log.info(documentType);
        var list =  List.of(
                 DocumentResponse.builder().documentByteString(Constants.SAMPLE_DOC).documentTitle("abc").type("arbitrator").uploadDate(Date.from(Instant.now())).build(),
@@ -67,7 +67,7 @@ public class AdminController {
     }
     @PostMapping("/document")
     public void createDocument(@RequestParam String documentTitle,@RequestParam String type,@RequestParam Integer caseId,@RequestParam("document") MultipartFile file, HttpSession session) throws IOException {
-        LoginUtility.authenticate(session);
+        LoginUtility.authenticate(session,"admin");
         log.info(Arrays.toString(file.getBytes()));
         log.info(documentTitle);
         log.info(String.valueOf(caseId));
@@ -79,7 +79,7 @@ public class AdminController {
 
     @GetMapping("/arbitrator/{arbitratorId}")
     public ArbitratorResponse getArbitratorById(@PathVariable Integer arbitratorId, HttpSession session){
-LoginUtility.authenticate(session);
+LoginUtility.authenticate(session,"admin");
         return ArbitratorResponse.builder()
                 .arbitratorId(arbitratorId)
                 .serialNo(arbitratorId)
@@ -89,7 +89,7 @@ LoginUtility.authenticate(session);
     }
     @GetMapping("/arbitrator")
     public List<ArbitratorResponse> getAllArbitrators(HttpSession session){
-        LoginUtility.authenticate(session);
+        LoginUtility.authenticate(session,"admin");
 
         return   List.of(ArbitratorResponse.builder()
                         .arbitratorId(1)
@@ -118,7 +118,7 @@ LoginUtility.authenticate(session);
 
     @GetMapping("/case/{caseId}")
     public CaseResponse getCaseById(@PathVariable Integer caseId, HttpSession session){
-LoginUtility.authenticate(session);
+LoginUtility.authenticate(session,"admin");
         return CaseResponse.builder()
                 .caseNo(caseId)
                 .serialNo(caseId)
@@ -130,7 +130,7 @@ LoginUtility.authenticate(session);
     @GetMapping("/search/case")
     public List<CaseResponse> searchCase(@RequestBody SearchRequest searchRequest, HttpSession session) throws ParseException {
 
-LoginUtility.authenticate(session);
+LoginUtility.authenticate(session,"admin");
 
        var list =    List.of(CaseResponse.builder()
                         .caseNo(1)
@@ -172,7 +172,7 @@ LoginUtility.authenticate(session);
     @GetMapping("/case")
     public List<CaseResponse> getAllCases(HttpSession session){
 
-LoginUtility.authenticate(session);
+LoginUtility.authenticate(session,"admin");
         return   List.of(CaseResponse.builder()
                         .caseNo(1)
                         .serialNo(1)
@@ -207,7 +207,7 @@ LoginUtility.authenticate(session);
 
     @GetMapping("/borrower/{borrowerId}")
     public BorrowerResponse getBorrowerById(@PathVariable Integer borrowerId, HttpSession session){
-LoginUtility.authenticate(session);
+LoginUtility.authenticate(session,"admin");
         return BorrowerResponse.builder()
                 .borrowerId(borrowerId)
                 .serialNo(borrowerId)
@@ -217,7 +217,7 @@ LoginUtility.authenticate(session);
     }
     @GetMapping("/borrower")
     public List<BorrowerResponse> getAllBorrowers( HttpSession session){
-LoginUtility.authenticate(session);
+LoginUtility.authenticate(session,"admin");
 
         return   List.of(BorrowerResponse.builder()
                         .borrowerId(1)
@@ -258,7 +258,7 @@ LoginUtility.authenticate(session);
 
     @GetMapping("/bank/{bankId}")
     public BankResponse getBankById(@PathVariable Integer bankId, HttpSession session){
-LoginUtility.authenticate(session);
+LoginUtility.authenticate(session,"admin");
         return BankResponse.builder()
                 .bankId(bankId)
                 .serialNo(bankId)
@@ -268,7 +268,7 @@ LoginUtility.authenticate(session);
     }
     @GetMapping("/bank")
     public List<BankResponse> getAllBanks( HttpSession session){
-LoginUtility.authenticate(session);
+LoginUtility.authenticate(session,"admin");
 
         return   List.of(BankResponse.builder()
                         .bankId(1)

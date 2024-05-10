@@ -1,6 +1,7 @@
 package com.resolute.zero.controllers;
 
 import com.resolute.zero.models.User;
+import com.resolute.zero.requests.CreateUserRequest;
 import com.resolute.zero.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +22,20 @@ public class LoginController {
             User login = new User(username,password);
             boolean userExists = userService.login(login);
             if(userExists) {
-                session.setAttribute("user", username);
+                session.setAttribute("user", userService.findByUserName(username));
             }
 
         return new ResponseEntity<Boolean>(userExists, HttpStatus.FOUND);
     }
 
     @PostMapping("/register")
-    public void register(@ModelAttribute("username") String username,@ModelAttribute("password") String password,@ModelAttribute("role") String role){
+    public void register(@RequestBody CreateUserRequest user){
 
-
+        User concreteUser = new User();
+        concreteUser.setRole(user.getRole());
+        concreteUser.setPassword(user.getPassword());
+        concreteUser.setUserName(user.getUsername());
+        userService.createUser(concreteUser);
 
 
 
