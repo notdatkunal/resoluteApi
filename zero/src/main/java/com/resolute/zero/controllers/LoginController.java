@@ -17,16 +17,29 @@ public class LoginController {
     private UserService userService;
 
 
-    @GetMapping("/login")
-    public ResponseEntity<Boolean> login(HttpSession session, @ModelAttribute("username") String username, @ModelAttribute("password") String password) {
-            User login = new User(username,password);
-            boolean userExists = userService.login(login);
-            if(userExists) {
-                session.setAttribute("user", userService.findByUserName(username));
-            }
+    @GetMapping("/getSampleLogin")
+    public ResponseEntity getKunalLogin(HttpSession session) {
+
+        User login = new User("userAdmin","root1234");
+        boolean userExists = userService.login(login);
+        if(userExists) {
+            session.setAttribute("user", userService.findByUserName("kunal"));
+        }
 
         return new ResponseEntity<Boolean>(userExists, HttpStatus.FOUND);
     }
+
+    @GetMapping("/login")
+    public ResponseEntity<Boolean> login(HttpSession session, @RequestAttribute("username") String username, @RequestAttribute("password") String password) {
+        User login = new User(username,password);
+        boolean userExists = userService.login(login);
+        if(userExists) {
+            session.setAttribute("user", userService.findByUserName(username));
+        }
+
+        return new ResponseEntity<Boolean>(userExists, HttpStatus.FOUND);
+    }
+
 
     @PostMapping("/register")
     public void register(@RequestBody CreateUserRequest user){
