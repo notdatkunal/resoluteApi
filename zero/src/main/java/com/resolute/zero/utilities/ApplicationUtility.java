@@ -3,12 +3,11 @@ package com.resolute.zero.utilities;
 import com.resolute.zero.exceptions.LogoutException;
 import com.resolute.zero.models.User;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.stereotype.Component;
 
 import java.security.MessageDigest;
 
 
-public class LoginUtility {
+public class ApplicationUtility {
     public static void authenticate(HttpSession session) throws LogoutException {
         User user = (User) session.getAttribute("user");
         if(user==null){
@@ -40,7 +39,10 @@ public class LoginUtility {
             }
             encrypted = hexString.toString();
         }
-        catch( Exception e ) { }
+        catch( Exception e ) {
+
+
+        }
         return encrypted;
     }
 }

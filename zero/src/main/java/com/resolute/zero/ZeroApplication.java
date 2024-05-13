@@ -2,7 +2,7 @@ package com.resolute.zero;
 
 import com.resolute.zero.models.User;
 import com.resolute.zero.repositories.UserRepository;
-import com.resolute.zero.utilities.LoginUtility;
+import com.resolute.zero.utilities.ApplicationUtility;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,7 +26,7 @@ public class ZeroApplication {
 
 				User user = new User();
 				user.setUserName("userAdmin");
-				user.setPassword(LoginUtility.encryptPassword("root1234"));
+				user.setPassword(ApplicationUtility.encryptPassword("root1234"));
 				user.setRole("admin");
 				userRepository.save(user);
 
