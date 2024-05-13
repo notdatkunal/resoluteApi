@@ -19,11 +19,12 @@ public class LoginController {
 
     @GetMapping("/getSampleLogin")
     public ResponseEntity getKunalLogin(HttpSession session) {
-
-        User login = new User("userAdmin","root1234");
+        String password = "root1234";
+        String username = "userAdmin";
+        User login = new User(username,password);
         boolean userExists = userService.login(login);
         if(userExists) {
-            session.setAttribute("user", userService.findByUserName("kunal"));
+            session.setAttribute("user", userService.findByUserName(username));
         }
 
         return new ResponseEntity<Boolean>(userExists, HttpStatus.FOUND);

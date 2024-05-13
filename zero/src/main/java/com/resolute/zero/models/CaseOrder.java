@@ -2,6 +2,10 @@ package com.resolute.zero.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.aspectj.weaver.ast.Or;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,8 +18,12 @@ public class CaseOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer orderId;
 
-    @Column(unique = true)
-    private String orderTitle;
+    @Transient
+    private Order section17 = new Order();
+    @Transient
+    private Order awardOrder = new Order();
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Order> other = new ArrayList<>();
 
 
 }

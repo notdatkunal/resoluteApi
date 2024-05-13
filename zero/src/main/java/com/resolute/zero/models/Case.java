@@ -7,7 +7,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -36,24 +38,24 @@ public class Case {
     @Column(nullable = false)
     private String caseNo;
 
-    @Column(nullable = false)
-    private Date socFillingDate;
+
     @CreationTimestamp
     private Instant createdAt;
     @UpdateTimestamp
     private Instant updatedAt;
 
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private final CaseHistory caseHistory = new CaseHistory();
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private final CaseDocument caseDocuments = new CaseDocument();
-    @OneToOne(cascade = CascadeType.ALL)
-    private final CaseProceeding caseProceeding = new CaseProceeding();
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<Proceeding> caseProceedings = new ArrayList<Proceeding>();
+
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private final CaseOrder caseOrder = new CaseOrder();
-    @OneToOne(cascade = CascadeType.ALL)
-    private final CaseCommunication caseCommunication = new CaseCommunication();
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private final List<CaseCommunication> caseCommunication = new ArrayList<>();
 
 
 
@@ -87,12 +89,8 @@ public class Case {
     private Date noticeDate;
     @Column(nullable = false)
     private Date refLetter;
-    @Column(nullable = false)
-    private String claimAmountInSOC;
-    @Column(nullable = false)
-    private Date firstHearingDate;
-    @Column(nullable = false)
-    private Date lastHearingDate;
+
+
     @Column(nullable = false)
     private Date stagesOfLastHearingDate;
     @Column(nullable = false)

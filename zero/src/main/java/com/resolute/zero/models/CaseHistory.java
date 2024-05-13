@@ -17,4 +17,7 @@ public class CaseHistory {
 
     @OneToOne(cascade = CascadeType.ALL)
     private final CaseDetails caseDetails = new CaseDetails();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private final CaseStatus caseStatus = new CaseStatus();
 }

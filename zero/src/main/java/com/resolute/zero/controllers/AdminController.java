@@ -3,10 +3,13 @@ package com.resolute.zero.controllers;
 
 import com.resolute.zero.requests.*;
 import com.resolute.zero.responses.*;
+import com.resolute.zero.services.AdminService;
 import com.resolute.zero.utilities.Constants;
 import com.resolute.zero.utilities.ApplicationUtility;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
@@ -19,13 +22,18 @@ import java.util.List;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/admin")
+@RequiredArgsConstructor
 public class AdminController {
 
+    @Autowired
+    private final AdminService adminService;
 
     @PostMapping("/case")
     public void addCase(@RequestBody AdminCaseRequest request, HttpSession session){
         ApplicationUtility.authenticate(session,"admin");
         System.out.println(request);
+
+
     }
 
     @PostMapping("/borrower")
@@ -79,7 +87,7 @@ public class AdminController {
 
     @GetMapping("/arbitrator/{arbitratorId}")
     public ArbitratorResponse getArbitratorById(@PathVariable Integer arbitratorId, HttpSession session){
-ApplicationUtility.authenticate(session,"admin");
+        ApplicationUtility.authenticate(session,"admin");
         return ArbitratorResponse.builder()
                 .arbitratorId(arbitratorId)
                 .serialNo(arbitratorId)
@@ -258,6 +266,8 @@ ApplicationUtility.authenticate(session,"admin");
 
     @GetMapping("/bank/{bankId}")
     public BankResponse getBankById(@PathVariable Integer bankId, HttpSession session){
+
+
     ApplicationUtility.authenticate(session,"admin");
         return BankResponse.builder()
                 .bankId(bankId)

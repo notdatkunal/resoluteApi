@@ -4,6 +4,10 @@ package com.resolute.zero.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -15,8 +19,10 @@ public class CaseCommunication {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer commId;
 
-    @Column(unique = true)
-    private String commName;
+
+    private Date date;
+    @OneToMany
+    private List<Image> imageList = new ArrayList<>();
 
 
 }
