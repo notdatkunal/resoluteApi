@@ -31,27 +31,27 @@ public class AdminController {
     @PostMapping("/case")
     public void addCase(@RequestBody AdminCaseRequest request, HttpSession session){
         ApplicationUtility.authenticate(session,"admin");
-        System.out.println(request);
-
+        adminService.saveCase(request);
 
     }
 
     @PostMapping("/borrower")
     public void addBorrower(@RequestBody BorrowerRequest request, HttpSession session){
         ApplicationUtility.authenticate(session,"admin");
-        System.out.println(request);
+        adminService.addBorrower(request);
+
     }
 
     @PostMapping("/arbitrator")
     public void addArbitrator(@RequestBody ArbitratorRequest request, HttpSession session){
         ApplicationUtility.authenticate(session,"admin");
-        System.out.println(request);
+        adminService.addArbitrator(request);
     }
 
     @PostMapping("/bank")
     public void addBank(@RequestBody BankRequest request, HttpSession session){
         ApplicationUtility.authenticate(session,"admin");
-        System.out.println(request);
+        adminService.addBank(request);
     }
 
 
