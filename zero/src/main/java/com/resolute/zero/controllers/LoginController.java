@@ -18,19 +18,6 @@ public class LoginController {
     private UserService userService;
 
 
-    @GetMapping("/getSampleLogin")
-    public ResponseEntity getKunalLogin(HttpSession session) {
-        String password = "root1234";
-        String username = "userAdmin";
-        User login = new User(username,password);
-        boolean userExists = userService.login(login);
-        if(userExists) {
-            session.setAttribute("user", userService.findByUserName(username));
-        }
-
-        return new ResponseEntity<Boolean>(userExists, HttpStatus.FOUND);
-    }
-
     @GetMapping("/login")
     public ResponseEntity<UserModel> login(HttpSession session, @ModelAttribute("username") String username, @ModelAttribute("password") String password) {
         User login = new User(username,password);
