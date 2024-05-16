@@ -18,7 +18,10 @@ public class CaseDocument {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer docId;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @Column(unique = true)
+    private Integer caseId;
+
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<Document> documentList = new ArrayList<>();
 
 

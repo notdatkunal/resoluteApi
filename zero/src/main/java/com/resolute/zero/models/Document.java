@@ -15,8 +15,12 @@ public class Document {
     private Integer documentId;
 
 
+
     private String documentMainTypeTitle;
     private String documentSubTypeTitle;
-    @OneToOne(fetch = FetchType.LAZY)
-    private Image image;
+
+
+    private String imageName;
+//    @OneToOne(fetch = FetchType.LAZY)
+//    private Image image;
 }

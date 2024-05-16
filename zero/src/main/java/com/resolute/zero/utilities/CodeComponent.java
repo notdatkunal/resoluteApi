@@ -2,6 +2,8 @@ package com.resolute.zero.utilities;
 
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -143,5 +145,13 @@ public class CodeComponent {
         System.out.println("created code " + code);
         System.out.println("created meta info"+codeCreator.getMetaDocInfo(code));
 
+    }
+
+    public List<MetaDocInfo> getMetaDocsInfo(ArrayList<String> fileNamesList) {
+        var list = new ArrayList<MetaDocInfo>();
+           for(String fileName :  fileNamesList){
+                list.add(this.getMetaDocInfo(fileName));
+           }
+        return list;
     }
 }

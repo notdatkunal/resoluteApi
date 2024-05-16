@@ -19,6 +19,5 @@ public class Image {
     @Column(unique = true)
     private String imageName;
 
-    @Lob
-    private Blob image;
+
 }

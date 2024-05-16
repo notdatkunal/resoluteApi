@@ -26,14 +26,16 @@ public class MediaController {
     @PostMapping("/media")
     public ResponseEntity<?> singleUploading(@RequestParam("file") MultipartFile file, @RequestParam String mainType,@RequestParam String subType,@RequestParam Integer caseId) throws IOException {
         String code = codeComponent.getCode(mainType,subType,caseId);
-        mediaService.uploadFile(code,file);
+        String fileName =  mediaService.uploadFile(code,file);
+        mediaService.saveDocumentInDB(codeComponent.getMetaDocInfo(code));
         return ResponseEntity.ok(code +" file uploaded successfully");
     }
 
     @PostMapping("/media/bulk")
     public ResponseEntity<?> bulkUploading(@RequestParam("files") MultipartFile[] files) throws IOException {
-        var list = mediaService.uploadFiles(files);
-        return ResponseEntity.ok("file uploaded with names "+list);
+        var fileNamesList = mediaService.uploadFiles(files);
+        mediaService.saveDocumentsInDB(codeComponent.getMetaDocsInfo(fileNamesList));
+        return ResponseEntity.ok("file uploaded with names "+fileNamesList);
     }
 
 
