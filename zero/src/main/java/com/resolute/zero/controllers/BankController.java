@@ -3,6 +3,8 @@ package com.resolute.zero.controllers;
 import com.resolute.zero.requests.CaseRequest;
 import com.resolute.zero.requests.SearchRequest;
 import com.resolute.zero.responses.CaseResponse;
+import com.resolute.zero.utilities.ApplicationUtility;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
@@ -14,7 +16,9 @@ import java.util.List;
 @CrossOrigin("*")
 public class BankController {
     @GetMapping("/cases/{bankId}")
-    public List<CaseResponse> getCases(@PathVariable Integer bankId){
+    public List<CaseResponse> getCases(@PathVariable Integer bankId, HttpSession session){
+        ApplicationUtility.authenticate(session,"bank");
+
         return List.of(
                 CaseResponse.builder().caseNo(1).serialNo(bankId).registrationDate(Date.from(Instant.now())).fillingDate(Date.from(Instant.now())).registrationNumber(5431532).caseType("xyz").registrationDate(Date.from(Instant.now())).build(),
                 CaseResponse.builder().caseNo(1).serialNo(bankId).registrationDate(Date.from(Instant.now())).fillingDate(Date.from(Instant.now())).registrationNumber(5431532).caseType("xyz").registrationDate(Date.from(Instant.now())).build(),
@@ -22,8 +26,8 @@ public class BankController {
         );
     }
     @GetMapping("/search/{bankId}")
-    public List<CaseResponse> searchCase(@PathVariable Integer bankId,@RequestBody(required = false) SearchRequest searchRequest){
-
+    public List<CaseResponse> searchCase(HttpSession session,@PathVariable Integer bankId,@RequestBody(required = false) SearchRequest searchRequest){
+        ApplicationUtility.authenticate(session,"bank");
         if(searchRequest==null){
             return null;
         }
