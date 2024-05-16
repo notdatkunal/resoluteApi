@@ -26,6 +26,8 @@ public class AdminService {
     }
 
     public void addBorrower(BorrowerRequest request) {
+
+
     }
 
     public void addArbitrator(ArbitratorRequest request) {
