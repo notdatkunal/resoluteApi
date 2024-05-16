@@ -2,6 +2,7 @@ package com.resolute.zero.controllers;
 
 import com.resolute.zero.models.User;
 import com.resolute.zero.requests.CreateUserRequest;
+import com.resolute.zero.responses.UserModel;
 import com.resolute.zero.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +32,21 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public ResponseEntity<Boolean> login(HttpSession session, @RequestAttribute("username") String username, @RequestAttribute("password") String password) {
+    public ResponseEntity<UserModel> login(HttpSession session, @ModelAttribute("username") String username, @ModelAttribute("password") String password) {
         User login = new User(username,password);
         boolean userExists = userService.login(login);
         if(userExists) {
-            session.setAttribute("user", userService.findByUserName(username));
-        }
+            var user = userService.findByUserName(username);
+            session.setAttribute("user", user);
 
-        return new ResponseEntity<Boolean>(userExists, HttpStatus.FOUND);
+        return  ResponseEntity.ok(user.getUserModel());
+
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(UserModel.builder()
+                        .status(false)
+                        .username(username)
+                        .build());
     }
 
 

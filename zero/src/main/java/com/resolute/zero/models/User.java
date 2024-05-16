@@ -1,6 +1,7 @@
 package com.resolute.zero.models;
 
 
+import com.resolute.zero.responses.UserModel;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -45,6 +46,20 @@ public class User {
 
         this.userName = userName;
         this.password= password;
+    }
+
+    public UserModel getUserModel(){
+
+
+        return UserModel.builder()
+                .id(this.userId)
+                .status(true)
+                .username(this.userName)
+                .role(this.role)
+                .build();
+
+
+
     }
 
 }
