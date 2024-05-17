@@ -1,6 +1,6 @@
 package com.resolute.zero.repositories;
 
-import com.resolute.zero.models.CaseDocument;
+import com.resolute.zero.domains.CaseDocument;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

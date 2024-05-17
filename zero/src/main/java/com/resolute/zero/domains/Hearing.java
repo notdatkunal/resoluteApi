@@ -1,9 +1,8 @@
-package com.resolute.zero.models;
+package com.resolute.zero.domains;
+
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.sql.Blob;
 
 @Getter
 @Setter
@@ -11,16 +10,12 @@ import java.sql.Blob;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Video {
+public class Hearing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer videoId;
+    private Integer hearingId;
 
     @Column(unique = true)
-    private String videoName;
-
-    private Blob video;
-
-
+    private String hearingTitle;
 
 }

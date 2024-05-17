@@ -1,4 +1,4 @@
-package com.resolute.zero.models;
+package com.resolute.zero.domains;
 
 
 import com.resolute.zero.responses.UserModel;

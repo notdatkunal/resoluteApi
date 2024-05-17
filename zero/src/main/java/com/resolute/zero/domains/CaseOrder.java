@@ -1,8 +1,7 @@
-package com.resolute.zero.models;
+package com.resolute.zero.domains;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.aspectj.weaver.ast.Or;
 
 import java.util.ArrayList;
 import java.util.List;

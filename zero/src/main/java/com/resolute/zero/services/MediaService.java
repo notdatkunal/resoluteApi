@@ -1,7 +1,7 @@
 package com.resolute.zero.services;
 
-import com.resolute.zero.models.CaseDocument;
-import com.resolute.zero.models.Document;
+import com.resolute.zero.domains.CaseDocument;
+import com.resolute.zero.domains.Document;
 import com.resolute.zero.repositories.CaseDocumentRepository;
 import com.resolute.zero.utilities.CodeComponent;
 import com.resolute.zero.utilities.MetaDocInfo;

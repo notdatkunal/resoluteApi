@@ -1,5 +1,4 @@
-package com.resolute.zero.models;
-
+package com.resolute.zero.domains;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,13 +9,13 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Admin {
+public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer adminId;
+    private Integer imageId;
 
     @Column(unique = true)
-    private String userName;
+    private String imageName;
 
 
 }

@@ -1,6 +1,5 @@
-package com.resolute.zero.models;
+package com.resolute.zero.domains;
 
-import com.resolute.zero.requests.AdminCaseRequest;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -20,49 +19,7 @@ import java.util.List;
 public class Case {
 
 
-    public static Case createCase(AdminCaseRequest req){
-        var caseObj = new Case();
 
-        caseObj.setCaseNo(req.getCaseNo());
-        caseObj.setState(req.getState());
-        caseObj.setZone(req.getZone());
-        caseObj.setBranchName(req.getBranchName());
-        caseObj.setCustomerId(req.getCustomerId());
-        caseObj.setAccountNumber(req.getAccountNumber());
-        caseObj.setCreditCardNumber(req.getCreditCardNumber());
-        caseObj.setCustomerName(req.getCustomerName());
-        caseObj.setActualProduct(req.getActualProduct());
-        caseObj.setFlagProductGroup(req.getFlagProductGroup());
-        caseObj.setNatureOfLegalAction(req.getNatureOfLegalAction());
-        caseObj.setTotalTos(req.getTotalTos());
-        caseObj.setTotalTosInCr(req.getTotalTosInCr());
-        caseObj.setNoticeDate(req.getNoticeDate());
-        caseObj.setRefLetter(req.getRefLetter());
-        caseObj.caseHistory.getCaseDetails().setSocFillingDate(req.getSocFillingDate());
-        caseObj.caseHistory.getCaseDetails().setClaimAmountInSOC(req.getClaimAmountInSOC());
-        caseObj.caseHistory.getCaseStatus().setFirstHearingDate(req.getFirstHearingDate());
-        caseObj.caseHistory.getCaseStatus().setLastHearingDate(req.getLastHearingDate());
-        caseObj.setLmName(req.getLmName());
-        caseObj.setLawyerName(req.getLawyerName());
-
-        caseObj.arbitrator.setUserName(req.getArbitrator());
-
-
-        caseObj.setPlace(req.getPlace());
-        caseObj.setCourtName(req.getCourtName());
-        caseObj.setSec17AppStatus(req.getSec17AppStatus());
-        caseObj.setSec17AppFillingDate(req.getSec17AppFillingDate());
-        caseObj.setAwardAmount(req.getAwardAmount());
-        caseObj.setAwardDate(req.getAwardDate());
-        caseObj.setDetailsRemark(req.getDetailsRemark());
-        caseObj.setFlagForContested(req.getFlagForContested());
-        caseObj.setCaseStatus(req.getCaseStatus());
-        caseObj.setStagesOfLastHearingDate(req.getStagesOfLastHearingDate());
-        caseObj.setNextHearingDate(req.getNextHearingDate());
-        caseObj.setStagesOfNextHearingDate(req.getStagesOfNextHearingDate());
-
-        return caseObj;
-    }
 
 
     @Id

@@ -1,9 +1,8 @@
-package com.resolute.zero.models;
+package com.resolute.zero.domains;
+
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.sql.Blob;
 
 @Getter
 @Setter
@@ -11,13 +10,13 @@ import java.sql.Blob;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Image {
+public class Borrower {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer imageId;
+    private Integer borrowerId;
 
     @Column(unique = true)
-    private String imageName;
+    private String borrowerName;
 
 
 }

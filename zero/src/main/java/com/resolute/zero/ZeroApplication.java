@@ -1,6 +1,6 @@
 package com.resolute.zero;
 
-import com.resolute.zero.models.User;
+import com.resolute.zero.domains.User;
 import com.resolute.zero.repositories.UserRepository;
 import com.resolute.zero.utilities.ApplicationUtility;
 import org.springframework.boot.CommandLineRunner;

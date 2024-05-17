@@ -1,9 +1,12 @@
-package com.resolute.zero.models;
+package com.resolute.zero.domains;
+
 
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -11,16 +14,15 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Order {
+public class CaseCommunication {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer orderId;
+    private Integer commId;
 
 
     private Date date;
-    private Boolean awardOrder = false;
-    private Boolean section17 = false;
-    private String  fileName;
+    @OneToMany
+    private List<Image> imageList = new ArrayList<>();
 
 
 }

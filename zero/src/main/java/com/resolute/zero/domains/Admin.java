@@ -1,4 +1,4 @@
-package com.resolute.zero.models;
+package com.resolute.zero.domains;
 
 
 import jakarta.persistence.*;
@@ -10,12 +10,13 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Hearing {
+public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer hearingId;
+    private Integer adminId;
 
     @Column(unique = true)
-    private String hearingTitle;
+    private String userName;
+
 
 }

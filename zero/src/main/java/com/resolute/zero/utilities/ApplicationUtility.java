@@ -1,7 +1,7 @@
 package com.resolute.zero.utilities;
 
 import com.resolute.zero.exceptions.LogoutException;
-import com.resolute.zero.models.User;
+import com.resolute.zero.domains.User;
 import jakarta.servlet.http.HttpSession;
 
 import java.security.MessageDigest;

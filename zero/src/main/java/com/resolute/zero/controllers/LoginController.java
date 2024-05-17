@@ -1,6 +1,6 @@
 package com.resolute.zero.controllers;
 
-import com.resolute.zero.models.User;
+import com.resolute.zero.domains.User;
 import com.resolute.zero.requests.CreateUserRequest;
 import com.resolute.zero.responses.UserModel;
 import com.resolute.zero.services.UserService;

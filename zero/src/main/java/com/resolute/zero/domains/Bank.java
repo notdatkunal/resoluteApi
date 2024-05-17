@@ -1,4 +1,4 @@
-package com.resolute.zero.models;
+package com.resolute.zero.domains;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,6 +22,8 @@ public class Bank {
     private String location;
     @Column(unique = true)
     private String username;
+
+
 
     // create relation between bank and case
 

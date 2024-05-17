@@ -1,4 +1,4 @@
-package com.resolute.zero.models;
+package com.resolute.zero.domains;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,6 +12,8 @@ import java.util.Date;
 @AllArgsConstructor
 @Entity
 public class Arbitrator {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer arbitratorId;
