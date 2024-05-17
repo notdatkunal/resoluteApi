@@ -3,6 +3,8 @@ package com.resolute.zero.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @ToString
@@ -14,8 +16,11 @@ public class Arbitrator {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer arbitratorId;
 
-    @Column(unique = true)
     private String arbitratorName;
+    private Date registrationDate;
+    private String location;
+    @Column(unique = true)
+    private String userName;
 
 
 }
