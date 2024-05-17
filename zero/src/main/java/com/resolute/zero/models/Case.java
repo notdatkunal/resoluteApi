@@ -20,7 +20,7 @@ import java.util.List;
 public class Case {
 
 
-    public Case createCase(AdminCaseRequest req){
+    public static Case createCase(AdminCaseRequest req){
         var caseObj = new Case();
 
         caseObj.setCaseNo(req.getCaseNo());
@@ -44,7 +44,10 @@ public class Case {
         caseObj.caseHistory.getCaseStatus().setLastHearingDate(req.getLastHearingDate());
         caseObj.setLmName(req.getLmName());
         caseObj.setLawyerName(req.getLawyerName());
-        caseObj.setArbitrator(req.getArbitrator());
+
+        caseObj.arbitrator.setUserName(req.getArbitrator());
+
+
         caseObj.setPlace(req.getPlace());
         caseObj.setCourtName(req.getCourtName());
         caseObj.setSec17AppStatus(req.getSec17AppStatus());
@@ -76,16 +79,16 @@ public class Case {
 
 
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private final CaseHistory caseHistory = new CaseHistory();
+    private CaseHistory caseHistory = new CaseHistory();
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private final CaseDocument caseDocuments = new CaseDocument();
+    private CaseDocument caseDocuments = new CaseDocument();
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Proceeding> caseProceedings = new ArrayList<Proceeding>();
 
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private final CaseOrder caseOrder = new CaseOrder();
+    private CaseOrder caseOrder = new CaseOrder();
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private final List<CaseCommunication> caseCommunication = new ArrayList<>();
+    private List<CaseCommunication> caseCommunication = new ArrayList<>();
 
 
 
@@ -145,8 +148,9 @@ public class Case {
     private String courtName;
     @Column(nullable = false)
     private String place;
-    @Column(nullable = false)
-    private String arbitrator;
+   @ManyToOne
+   private Arbitrator arbitrator = new Arbitrator();
+
     @Column(nullable = false)
     private String lawyerName;
     @Column(nullable = false)
