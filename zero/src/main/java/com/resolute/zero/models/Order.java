@@ -20,8 +20,7 @@ public class Order {
     private Date date;
     private Boolean awardOrder = false;
     private Boolean section17 = false;
-    @OneToOne
-    private Image order;
+    private String  fileName;
 
 
 }
