@@ -9,6 +9,7 @@ import java.util.Date;
 @Data
 public class AdminCaseRequest {
     String state;
+    String caseNo;
     String zone;
     String branchName;
     String customerId;
@@ -22,11 +23,14 @@ public class AdminCaseRequest {
     String totalTosInCr;
     Date noticeDate;
     Date refLetter;
-    String caseNo;
+
     Date socFillingDate;
     String claimAmountInSOC;
+
+
     Date firstHearingDate;
     Date lastHearingDate;
+
 
     Date stagesOfLastHearingDate;
     Date nextHearingDate;
@@ -35,6 +39,7 @@ public class AdminCaseRequest {
     String flagForContested;
     String detailsRemark;
     Date awardDate;
+
     String awardAmount;
     Date sec17AppFillingDate;
     Date sec17AppStatus;

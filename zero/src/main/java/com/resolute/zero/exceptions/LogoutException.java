@@ -1,22 +1,18 @@
 package com.resolute.zero.exceptions;
 
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.StandardException;
-import org.springframework.web.servlet.ModelAndView;
+
 
 @Getter
 @Setter
 @ToString
 @Builder
 @StandardException
+@AllArgsConstructor
 public class LogoutException extends RuntimeException{
-
     private  Integer status;
     private  String title;
     private  String Description;
-//    private ModelAndView modelAndView;
 }
