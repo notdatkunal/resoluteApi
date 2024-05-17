@@ -14,12 +14,13 @@ import java.util.Date;
 public class Proceeding {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer proceedingId;
+    private Integer id;
 
     @Column(unique = true)
     private Date hearingDate;
     private String meetingRecordings;
     private String minutesOfMeetings;
+
 
 
 }

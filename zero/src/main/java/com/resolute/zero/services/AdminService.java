@@ -25,18 +25,18 @@ public class AdminService {
     @Autowired
     private ArbitratorRepository arbitratorRepository;
     public void saveCase(AdminCaseRequest request) {
-        var caseObj =  Helper.createCase(request);
+        var caseObj =  Helper.Request.createCase(request);
         caseRepository.save(caseObj);
     }
     public void addBorrower(BorrowerRequest request) {
         throw new RuntimeException();
     }
     public void addArbitrator(ArbitratorRequest request) {
-            var arbitratorObj = Helper.createArbitrator(request);
+            var arbitratorObj = Helper.Request.createArbitrator(request);
             arbitratorRepository.save(arbitratorObj);
     }
     public void addBank(BankRequest request) {
-        var bank = Helper.createBank(request);
+        var bank = Helper.Request.createBank(request);
         bankRepository.save(bank);
     }
 }

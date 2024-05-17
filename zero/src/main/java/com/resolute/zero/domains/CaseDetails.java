@@ -15,7 +15,7 @@ public class CaseDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer caseId;
+    private Integer id;
 
 
     private String caseType;

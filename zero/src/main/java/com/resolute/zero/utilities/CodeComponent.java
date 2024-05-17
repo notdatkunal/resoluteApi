@@ -33,6 +33,7 @@ public class CodeComponent {
             case "contentLetter"->"CNL";
             case "intimationLetter"->"IML";
             case "award"->"AWD";
+            case "communication"->"COM";
             default->throw new IllegalArgumentException();
         };
     }

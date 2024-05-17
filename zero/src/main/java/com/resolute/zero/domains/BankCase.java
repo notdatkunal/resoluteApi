@@ -16,15 +16,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Case {
-
-
-
-
+public class BankCase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer caseId;
+    private Integer id;
     @Column(nullable = false)
     private String caseNo;
 
@@ -37,18 +33,24 @@ public class Case {
 
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private CaseHistory caseHistory = new CaseHistory();
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private CaseDocument caseDocuments = new CaseDocument();
+
+
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    private List<Document> documentList = new ArrayList<>();
+
+
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Proceeding> caseProceedings = new ArrayList<Proceeding>();
-
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private CaseOrder caseOrder = new CaseOrder();
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<CaseCommunication> caseCommunication = new ArrayList<>();
+    private List<Proceeding> proceeding = new ArrayList<Proceeding>();
 
 
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,targetEntity = CaseOrder.class)
+    private List<CaseOrder> orders = new ArrayList<>();
 
+    @ManyToOne
+    private Arbitrator arbitrator = new Arbitrator();
+
+    @ManyToOne
+    private Bank bank = new Bank();
 
 
     @Column(nullable = false)
@@ -80,7 +82,6 @@ public class Case {
     @Column(nullable = false)
     private Date refLetter;
 
-
     @Column(nullable = false)
     private Date stagesOfLastHearingDate;
     @Column(nullable = false)
@@ -105,8 +106,7 @@ public class Case {
     private String courtName;
     @Column(nullable = false)
     private String place;
-   @ManyToOne
-   private Arbitrator arbitrator = new Arbitrator();
+
 
     @Column(nullable = false)
     private String lawyerName;

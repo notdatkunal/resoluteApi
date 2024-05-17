@@ -3,8 +3,7 @@ package com.resolute.zero.domains;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -15,14 +14,15 @@ import java.util.List;
 public class CaseOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer orderId;
+    private Integer id;
 
-    @Transient
-    private Order section17 = new Order();
-    @Transient
-    private Order awardOrder = new Order();
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Order> other = new ArrayList<>();
+
+    private Date date;
+    @Column(nullable = false)
+    private Boolean awardOrder = false;
+    @Column(nullable = false)
+    private Boolean section17 = false;
+    private String  fileName;
 
 
 }

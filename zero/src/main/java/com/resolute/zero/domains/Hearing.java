@@ -13,7 +13,7 @@ import lombok.*;
 public class Hearing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer hearingId;
+    private Integer id;
 
     @Column(unique = true)
     private String hearingTitle;

@@ -13,11 +13,11 @@ public class CaseHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer caseId;
+    private Integer id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private final CaseDetails caseDetails = new CaseDetails();
+    @OneToOne(cascade = CascadeType.ALL,targetEntity = CaseDetails.class)
+    private  CaseDetails caseDetails = new CaseDetails();
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private final CaseStatus caseStatus = new CaseStatus();
+    @OneToOne(cascade = CascadeType.ALL,targetEntity = CaseStatus.class)
+    private CaseStatus caseStatus = new CaseStatus();
 }

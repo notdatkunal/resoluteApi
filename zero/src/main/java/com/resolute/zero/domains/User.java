@@ -1,10 +1,12 @@
 package com.resolute.zero.domains;
 
 
-import com.resolute.zero.responses.UserModel;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.Instant;
 import java.util.Objects;
 
 @Getter
@@ -18,7 +20,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userId;
+    private Integer id;
 
     @Column(unique = true,nullable = false)
     private String userName;
@@ -28,6 +30,13 @@ public class User {
 
     @Column(nullable = false)
     private String role;
+
+
+    @CreationTimestamp
+    private Instant createdAt;
+    @UpdateTimestamp
+    private Instant updatedAt;
+
 
     @Override
     public boolean equals(Object o) {
@@ -46,20 +55,6 @@ public class User {
 
         this.userName = userName;
         this.password= password;
-    }
-
-    public UserModel getUserModel(){
-
-
-        return UserModel.builder()
-                .id(this.userId)
-                .status(true)
-                .username(this.userName)
-                .role(this.role)
-                .build();
-
-
-
     }
 
 }

@@ -14,7 +14,7 @@ import java.util.Date;
 public class CaseStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer statusId;
+    private Integer id;
     @Column(nullable = false)
     private Date firstHearingDate;
     @Column(nullable = false)

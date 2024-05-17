@@ -1,6 +1,7 @@
 package com.resolute.zero.controllers;
 
 import com.resolute.zero.domains.User;
+import com.resolute.zero.helpers.Helper;
 import com.resolute.zero.requests.CreateUserRequest;
 import com.resolute.zero.responses.UserModel;
 import com.resolute.zero.services.UserService;
@@ -26,7 +27,7 @@ public class LoginController {
             var user = userService.findByUserName(username);
             session.setAttribute("user", user);
 
-        return  ResponseEntity.ok(user.getUserModel());
+        return  ResponseEntity.ok(Helper.Response.getUserModel(user));
 
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
