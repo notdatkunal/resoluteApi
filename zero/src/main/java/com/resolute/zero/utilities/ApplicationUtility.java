@@ -10,18 +10,9 @@ import java.util.List;
 
 
 public class ApplicationUtility {
-//    public static void authenticate(HttpSession session) throws LogoutException {
-//        User user = (User) session.getAttribute("user");
-//        if(user==null){
-//            throw new LogoutException("user not logged in ");
-//        }
-//    }
 
-//    public static void authenticate(HttpSession session,String role) throws LogoutException {
-//        User user = (User) session.getAttribute("user");
-//        if (user == null) throw new LogoutException(" user not logged in ");
-//        if(!role.equals(user.getRole())) throw new LogoutException(" unauthorised role ");
-//    }
+
+
 
     public static String encryptPassword( String password ) {
         String encrypted = "";
