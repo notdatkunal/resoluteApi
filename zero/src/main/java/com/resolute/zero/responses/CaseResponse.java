@@ -9,10 +9,9 @@ import java.util.Date;
 @Builder
 @Data
 public class CaseResponse {
-    Integer serialNo;
-    Integer caseNo;
+    String caseNo;
     String  caseType;
-    Date fillingDate;
-    Integer registrationNumber;
     Date registrationDate;
+    Date fillingDate;
+    String accountNumber;
 }

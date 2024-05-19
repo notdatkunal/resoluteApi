@@ -7,10 +7,10 @@ import lombok.Data;
 import java.util.Date;
 
 
-@Builder
-@Data
+
 public class SearchRequest {
 
     String searchParameter;
+
     Date date;
 }

@@ -26,6 +26,7 @@ public class Arbitrator {
     @Column(unique = true)
     private String userName;
 
+
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,targetEntity = BankCase.class)
     private List<BankCase> bankCaseList = new ArrayList<>();
 

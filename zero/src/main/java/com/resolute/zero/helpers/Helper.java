@@ -7,7 +7,12 @@ import com.resolute.zero.domains.User;
 import com.resolute.zero.requests.AdminCaseRequest;
 import com.resolute.zero.requests.ArbitratorRequest;
 import com.resolute.zero.requests.BankRequest;
+import com.resolute.zero.responses.ArbitratorResponse;
+import com.resolute.zero.responses.CaseResponse;
 import com.resolute.zero.responses.UserModel;
+import jakarta.persistence.criteria.CriteriaBuilder;
+
+import java.util.Date;
 
 public class Helper {
     public static class Response{
@@ -20,6 +25,24 @@ public class Helper {
                     .status(true)
                     .username(user.getUserName())
                     .role(user.getRole())
+                    .build();
+        }
+
+        public static ArbitratorResponse getArbitratorResponse(Arbitrator arbitrator) {
+            return ArbitratorResponse.builder()
+                    .arbitratorId(arbitrator.getId())
+                    .arbitratorName(arbitrator.getArbitratorName())
+                    .registrationDate(arbitrator.getRegistrationDate())
+                    .build();
+        }
+
+        public static CaseResponse getCaseResponse(BankCase bankCase) {
+            return CaseResponse.builder()
+                    .caseType(bankCase.getCaseHistory().getCaseDetails().getCaseType())
+                    .caseNo(bankCase.getCaseNo())
+                    .fillingDate(Date.from(bankCase.getUpdatedAt()))
+                    .accountNumber(bankCase.getAccountNumber())
+                    .registrationDate(Date.from(bankCase.getCreatedAt()))
                     .build();
         }
     }

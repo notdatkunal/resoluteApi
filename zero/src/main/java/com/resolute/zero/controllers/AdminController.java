@@ -55,69 +55,26 @@ public class AdminController {
     }
 
 
-
+    /**
+     * please read the service documentation before using this
+     * */
     @GetMapping("/documents")
-    public List<DocumentResponse> listDocuments(@RequestParam(required = false) String documentType, HttpSession session){
+    public List<DocumentResponse> listDocuments(
+            HttpSession session){
         ApplicationUtility.authenticate(session,"admin");
-        log.info(documentType);
-       var list =  List.of(
-                DocumentResponse.builder().documentByteString(Constants.SAMPLE_DOC).documentTitle("abc").type("arbitrator").uploadDate(Date.from(Instant.now())).build(),
-                DocumentResponse.builder().documentByteString(Constants.SAMPLE_DOC).documentTitle("abc").type("arbitrator").uploadDate(Date.from(Instant.now())).build(),
-                DocumentResponse.builder().documentByteString(Constants.SAMPLE_DOC).documentTitle("abc").type("arbitrator").uploadDate(Date.from(Instant.now())).build()
-
-        );
-
-       if(documentType!=null)
-           list.forEach(item->item.setType(documentType));
-
-       return list;
+        return adminService.getDocumentList();
 
     }
-    @PostMapping("/document")
-    public void createDocument(@RequestParam String documentTitle,@RequestParam String type,@RequestParam Integer caseId,@RequestParam("document") MultipartFile file, HttpSession session) throws IOException {
-        ApplicationUtility.authenticate(session,"admin");
-        log.info(Arrays.toString(file.getBytes()));
-        log.info(documentTitle);
-        log.info(String.valueOf(caseId));
-        log.info(type);
-
-
-    }
-
 
     @GetMapping("/arbitrator/{arbitratorId}")
     public ArbitratorResponse getArbitratorById(@PathVariable Integer arbitratorId, HttpSession session){
         ApplicationUtility.authenticate(session,"admin");
-        return ArbitratorResponse.builder()
-                .arbitratorId(arbitratorId)
-                .serialNo(arbitratorId)
-                .arbitratorName("abc")
-                .registrationDate(Date.from(Instant.now()))
-                .build();
+        return adminService.getArbitratorById(arbitratorId);
     }
     @GetMapping("/arbitrator")
     public List<ArbitratorResponse> getAllArbitrators(HttpSession session){
         ApplicationUtility.authenticate(session,"admin");
-
-        return   List.of(ArbitratorResponse.builder()
-                        .arbitratorId(1)
-                        .serialNo(1)
-                        .arbitratorName("abc")
-                        .registrationDate(Date.from(Instant.now()))
-                .build(),
-                ArbitratorResponse.builder()
-                        .arbitratorId(2)
-                        .serialNo(2)
-                        .arbitratorName("xyz")
-                        .registrationDate(Date.from(Instant.now()))
-                        .build(),
-                ArbitratorResponse.builder()
-                        .arbitratorId(3)
-                        .serialNo(3)
-                        .arbitratorName("mno")
-                        .registrationDate(Date.from(Instant.now()))
-                        .build()
-                );
+        return adminService.getArbitratorList();
 
     }
 
@@ -126,76 +83,30 @@ public class AdminController {
 
     @GetMapping("/case/{caseId}")
     public CaseResponse getCaseById(@PathVariable Integer caseId, HttpSession session){
-ApplicationUtility.authenticate(session,"admin");
-        return CaseResponse.builder()
-                .caseNo(caseId)
-                .serialNo(caseId)
-                .caseType("abc")
-                .registrationDate(Date.from(Instant.now()))
-                .build();
+        ApplicationUtility.authenticate(session,"admin");
+        return adminService.getCaseById(caseId);
     }
 
     @GetMapping("/search/case")
-    public List<CaseResponse> searchCase(@RequestBody SearchRequest searchRequest, HttpSession session) throws ParseException {
-
-ApplicationUtility.authenticate(session,"admin");
-
-       var list =    List.of(CaseResponse.builder()
-                        .caseNo(1)
-                        .serialNo(1)
-                       .registrationDate(Date.from(Instant.now()))
-                       .fillingDate(Date.from(Instant.now()))
-                       .registrationNumber(5431532)
-                        .caseType(searchRequest.getSearchParameter())
-                        .registrationDate(Date.from(Instant.now()))
-                        .build(),
-                CaseResponse.builder()
-                        .caseNo(2)
-                        .serialNo(2)
-                        .caseType("xyz"+searchRequest.getSearchParameter())
-                        .registrationDate(Date.from(Instant.now()))
-                        .fillingDate(Date.from(Instant.now()))
-                        .registrationNumber(5431532)
-                        .build(),
-                CaseResponse.builder()
-                        .caseNo(3)
-                        .serialNo(3)
-                        .registrationDate(Date.from(Instant.now()))
-                        .fillingDate(Date.from(Instant.now()))
-                        .registrationNumber(5431532)
-                        .caseType("mno"+searchRequest.getSearchParameter())
-                        .registrationDate(Date.from(Instant.now()))
-                        .build()
-        );
-
-       if(searchRequest.getDate()!=null)
-       {
-           list.forEach(item->{
-               item.setRegistrationDate(searchRequest.getDate());
-           });
-       }
-
-       return list;
+    public List<CaseResponse> searchCase(@RequestParam(value = "parameter",required = false) String searchParameter,@RequestParam(value = "date",required = false) Date date, HttpSession session) {
+    ApplicationUtility.authenticate(session,"admin");
+    return adminService.getSearchResponse(searchParameter,date);
     }
     @GetMapping("/case")
     public List<CaseResponse> getAllCases(HttpSession session){
-
-ApplicationUtility.authenticate(session,"admin");
+    ApplicationUtility.authenticate(session,"admin");
         return   List.of(CaseResponse.builder()
-                        .caseNo(1)
-                        .serialNo(1)
+                        .caseNo("1")
                         .caseType("abc")
                         .registrationDate(Date.from(Instant.now()))
                         .build(),
                 CaseResponse.builder()
-                        .caseNo(2)
-                        .serialNo(2)
+                        .caseNo("2")
                         .caseType("xyz")
                         .registrationDate(Date.from(Instant.now()))
                         .build(),
                 CaseResponse.builder()
-                        .caseNo(3)
-                        .serialNo(3)
+                        .caseNo("3")
                         .caseType("mno")
                         .registrationDate(Date.from(Instant.now()))
                         .build()

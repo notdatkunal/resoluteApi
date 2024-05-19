@@ -46,9 +46,6 @@ public class LoginController {
         concreteUser.setPassword(user.getPassword());
         concreteUser.setUserName(user.getUsername());
         userService.createUser(concreteUser);
-
-
-
     }
 
 }

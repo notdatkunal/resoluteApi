@@ -6,16 +6,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.relational.core.sql.In;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
 @Builder
 @Data
 public class DocumentResponse {
-    String documentByteString;
-    String type;
+
+    Integer caseId;
+    String subType;
+    String mainType;
     String documentTitle;
     Date uploadDate;
+
 
 }
 

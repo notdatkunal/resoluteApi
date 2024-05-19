@@ -5,6 +5,8 @@ import com.resolute.zero.domains.User;
 import jakarta.servlet.http.HttpSession;
 
 import java.security.MessageDigest;
+import java.util.Collections;
+import java.util.List;
 
 
 public class ApplicationUtility {
@@ -17,8 +19,8 @@ public class ApplicationUtility {
 
     public static void authenticate(HttpSession session,String role) throws LogoutException {
         User user = (User) session.getAttribute("user");
-        if (user == null) throw new LogoutException(" user not logged in ");
-        if(!role.equals(user.getRole())) throw new LogoutException(" unauthorised role ");
+//        if (user == null) throw new LogoutException(" user not logged in ");
+//        if(!role.equals(user.getRole())) throw new LogoutException(" unauthorised role ");
     }
 
     public static String encryptPassword( String password ) {
