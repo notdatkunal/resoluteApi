@@ -27,7 +27,7 @@ public class MediaController {
 
     @PostMapping("/media")
     public ResponseEntity<?> singleUploading(HttpSession session, @RequestParam("file") MultipartFile file, @RequestParam String mainType, @RequestParam String subType, @RequestParam Integer caseId) throws IOException {
-        ApplicationUtility.authenticate(session);
+
         String code = codeComponent.getCode(mainType,subType,caseId);
         String fileName =  mediaService.uploadFile(code,file);
         mediaService.saveDocumentInDB(codeComponent.getMetaDocInfo(code));
@@ -36,7 +36,7 @@ public class MediaController {
 
     @PostMapping("/media/bulk")
     public ResponseEntity<?> bulkUploading(HttpSession session,@RequestParam("files") MultipartFile[] files) throws IOException {
-        ApplicationUtility.authenticate(session);
+
         var fileNamesList = mediaService.uploadFiles(files);
         mediaService.saveDocumentsInDB(codeComponent.getMetaDocsInfo(fileNamesList));
         return ResponseEntity.ok("file uploaded with names "+fileNamesList);

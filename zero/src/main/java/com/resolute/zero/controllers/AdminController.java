@@ -30,27 +30,27 @@ public class AdminController {
 
     @PostMapping("/case")
     public void addCase(@RequestBody AdminCaseRequest request, HttpSession session){
-        ApplicationUtility.authenticate(session,"admin");
+
         adminService.saveCase(request);
 
     }
 
     @PostMapping("/borrower")
     public void addBorrower(@RequestBody BorrowerRequest request, HttpSession session){
-        ApplicationUtility.authenticate(session,"admin");
+
         adminService.addBorrower(request);
 
     }
 
     @PostMapping("/arbitrator")
     public void addArbitrator(@RequestBody ArbitratorRequest request, HttpSession session){
-        ApplicationUtility.authenticate(session,"admin");
+
         adminService.addArbitrator(request);
     }
 
     @PostMapping("/bank")
     public void addBank(@RequestBody BankRequest request, HttpSession session){
-        ApplicationUtility.authenticate(session,"admin");
+
         adminService.addBank(request);
     }
 
@@ -61,19 +61,19 @@ public class AdminController {
     @GetMapping("/documents")
     public List<DocumentResponse> listDocuments(
             HttpSession session){
-        ApplicationUtility.authenticate(session,"admin");
+
         return adminService.getDocumentList();
 
     }
 
     @GetMapping("/arbitrator/{arbitratorId}")
     public ArbitratorResponse getArbitratorById(@PathVariable Integer arbitratorId, HttpSession session){
-        ApplicationUtility.authenticate(session,"admin");
+
         return adminService.getArbitratorById(arbitratorId);
     }
     @GetMapping("/arbitrator")
     public List<ArbitratorResponse> getAllArbitrators(HttpSession session){
-        ApplicationUtility.authenticate(session,"admin");
+
         return adminService.getArbitratorList();
 
     }
@@ -83,18 +83,18 @@ public class AdminController {
 
     @GetMapping("/case/{caseId}")
     public CaseResponse getCaseById(@PathVariable Integer caseId, HttpSession session){
-        ApplicationUtility.authenticate(session,"admin");
+
         return adminService.getCaseById(caseId);
     }
 
     @GetMapping("/search/case")
     public List<CaseResponse> searchCase(@RequestParam(value = "parameter",required = false) String searchParameter,@RequestParam(value = "date",required = false) Date date, HttpSession session) {
-    ApplicationUtility.authenticate(session,"admin");
+
     return adminService.getSearchResponse(searchParameter,date);
     }
     @GetMapping("/case")
     public List<CaseResponse> getAllCases(HttpSession session){
-    ApplicationUtility.authenticate(session,"admin");
+
         return   List.of(CaseResponse.builder()
                         .caseNo("1")
                         .caseType("abc")
@@ -126,8 +126,7 @@ public class AdminController {
 
     @GetMapping("/borrower/{borrowerId}")
     public BorrowerResponse getBorrowerById(@PathVariable Integer borrowerId, HttpSession session){
-ApplicationUtility.authenticate(session,"admin");
-        return BorrowerResponse.builder()
+    return BorrowerResponse.builder()
                 .borrowerId(borrowerId)
                 .serialNo(borrowerId)
                 .borrowerName("abc")
@@ -136,7 +135,7 @@ ApplicationUtility.authenticate(session,"admin");
     }
     @GetMapping("/borrower")
     public List<BorrowerResponse> getAllBorrowers( HttpSession session){
-ApplicationUtility.authenticate(session,"admin");
+
 
         return   List.of(BorrowerResponse.builder()
                         .borrowerId(1)
@@ -179,7 +178,7 @@ ApplicationUtility.authenticate(session,"admin");
     public BankResponse getBankById(@PathVariable Integer bankId, HttpSession session){
 
 
-    ApplicationUtility.authenticate(session,"admin");
+
         return BankResponse.builder()
                 .bankId(bankId)
                 .serialNo(bankId)
@@ -189,7 +188,7 @@ ApplicationUtility.authenticate(session,"admin");
     }
     @GetMapping("/bank")
     public List<BankResponse> getAllBanks( HttpSession session){
-ApplicationUtility.authenticate(session,"admin");
+
 
         return   List.of(BankResponse.builder()
                         .bankId(1)
