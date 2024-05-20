@@ -1,22 +1,22 @@
 package com.resolute.zero.services;
 
-import com.resolute.zero.domains.Arbitrator;
+
 import com.resolute.zero.domains.BankCase;
-import com.resolute.zero.exceptions.ErrorResponse;
+import com.resolute.zero.domains.Borrower;
 import com.resolute.zero.helpers.Helper;
 import com.resolute.zero.repositories.ArbitratorRepository;
 import com.resolute.zero.repositories.BankRepository;
+import com.resolute.zero.repositories.BorrowerRepository;
 import com.resolute.zero.repositories.CaseRepository;
 import com.resolute.zero.requests.AdminCaseRequest;
 import com.resolute.zero.requests.ArbitratorRequest;
 import com.resolute.zero.requests.BankRequest;
 import com.resolute.zero.requests.BorrowerRequest;
 import com.resolute.zero.responses.ArbitratorResponse;
-import com.resolute.zero.responses.CaseDocumentsResponse;
+import com.resolute.zero.responses.BankResponse;
+import com.resolute.zero.responses.BorrowerResponse;
 import com.resolute.zero.responses.CaseResponse;
 import com.resolute.zero.responses.DocumentResponse;
-import lombok.Builder;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.management.RuntimeErrorException;
 
 @RequiredArgsConstructor
 @Service
@@ -36,6 +38,9 @@ public class AdminService {
     private BankRepository bankRepository;
     @Autowired
     private ArbitratorRepository arbitratorRepository;
+    @Autowired
+    private BorrowerRepository borrowerRepository;
+    
 
     public void saveCase(AdminCaseRequest request) {
         var caseObj =  Helper.Request.createCase(request);
@@ -99,4 +104,63 @@ public class AdminService {
         });
         return caseResponseList;
     }
+	public List<BankResponse> getBanksList() {
+		// TODO Auto-generated method stub
+		var banks = bankRepository.findAll();
+		LinkedList<BankResponse> bankResponses = new LinkedList<>();
+		banks.forEach(item->{
+			bankResponses.add(Helper.Response.getBankResponse(item));
+			bankResponses.getLast().setSerialNo(bankResponses.size()+1);
+		});
+		
+		return bankResponses;
+	}
+	public List<CaseResponse> getCaseList() {
+		// TODO Auto-generated method stub
+		var cases = caseRepository.findAll();
+		LinkedList<CaseResponse> caseResponses = new LinkedList<>();
+		cases.forEach(item->{
+			caseResponses.add(Helper.Response.getCaseResponse(item));
+		});
+		return caseResponses;
+	}
+	
+	//to be updated later
+	public BankResponse getBankById(Integer bankId) {
+		// TODO Auto-generated method stub
+		return Helper.Response.getBankResponse(bankRepository.findById(bankId).get());
+	}
+	public void deletebank(Integer bankId) {
+		bankRepository.deleteById(bankId);
+	}
+	public void updateBank(BankRequest request) {
+		// TODO Auto-generated method stub
+		var bankOptional = bankRepository.findBankByUsername(request.getUsername());
+		if(bankOptional.isEmpty()) throw new RuntimeException("bank Id does not exist");
+		var bank = bankOptional.get();
+		{
+			//updating bankObj
+			 bank.setBankName(request.getBankName());
+	         bank.setLocation(request.getLocation());
+	         bank.setOfficerName(request.getOfficerName());
+	         bank.setRegistrationDate(request.getRegistrationDate());
+	         bank.setUsername(request.getUsername());
+		}
+		
+		bankRepository.save(bank);
+	}
+	public BorrowerResponse getBorrowerById(Integer borrowerId) {
+		// TODO Auto-generated method stub
+		var borrower = borrowerRepository.findById(borrowerId);
+		if(borrower.isEmpty()) throw new RuntimeException("borrower Id not found");
+		
+		return Helper.Response.getBorrowerResponse(borrower.get());
+	}
+	public List<BorrowerResponse> getBorrwerList() {
+		// TODO Auto-generated method stub
+		var list = borrowerRepository.findAll();
+		var resList = new LinkedList<BorrowerResponse>();
+		list.forEach(item->resList.add(Helper.Response.getBorrowerResponse(item)));
+		return resList;
+	}
 }

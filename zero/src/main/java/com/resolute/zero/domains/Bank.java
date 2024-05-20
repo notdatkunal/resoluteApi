@@ -27,7 +27,7 @@ public class Bank {
     private String location;
     @Column(unique = true)
     private String username;
-
+    private String email;
 
     @CreationTimestamp
     private Instant createdAt;

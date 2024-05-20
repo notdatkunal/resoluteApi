@@ -1,13 +1,5 @@
 package com.resolute.zero.utilities;
-
-import com.resolute.zero.exceptions.LogoutException;
-import com.resolute.zero.domains.User;
-import jakarta.servlet.http.HttpSession;
-
 import java.security.MessageDigest;
-import java.util.Collections;
-import java.util.List;
-
 
 public class ApplicationUtility {
 

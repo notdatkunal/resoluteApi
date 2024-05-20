@@ -3,11 +3,14 @@ package com.resolute.zero.helpers;
 import com.resolute.zero.domains.Arbitrator;
 import com.resolute.zero.domains.Bank;
 import com.resolute.zero.domains.BankCase;
+import com.resolute.zero.domains.Borrower;
 import com.resolute.zero.domains.User;
 import com.resolute.zero.requests.AdminCaseRequest;
 import com.resolute.zero.requests.ArbitratorRequest;
 import com.resolute.zero.requests.BankRequest;
 import com.resolute.zero.responses.ArbitratorResponse;
+import com.resolute.zero.responses.BankResponse;
+import com.resolute.zero.responses.BorrowerResponse;
 import com.resolute.zero.responses.CaseResponse;
 import com.resolute.zero.responses.UserModel;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -31,6 +34,7 @@ public class Helper {
         public static ArbitratorResponse getArbitratorResponse(Arbitrator arbitrator) {
             return ArbitratorResponse.builder()
                     .arbitratorId(arbitrator.getId())
+                    .username(arbitrator.getUserName())
                     .arbitratorName(arbitrator.getArbitratorName())
                     .registrationDate(arbitrator.getRegistrationDate())
                     .build();
@@ -45,6 +49,24 @@ public class Helper {
                     .registrationDate(Date.from(bankCase.getCreatedAt()))
                     .build();
         }
+
+		public static BankResponse getBankResponse(Bank item) {
+			// TODO Auto-generated method stub
+			return BankResponse.builder()
+					.bankName(item.getBankName())
+					.bankId(item.getId())
+					.username(item.getUsername())
+					.registrationDate(Date.from(item.getCreatedAt()))
+					.build();
+		}
+
+		public static BorrowerResponse getBorrowerResponse(Borrower borrower) {
+			// TODO Auto-generated method stub
+			return BorrowerResponse.builder()
+					.borrowerId(borrower.getId())
+					.borrowerName(borrower.getBorrowerName())
+					.build();
+		}
     }
     public static class Request{
 
@@ -57,7 +79,7 @@ public class Helper {
             bank.setOfficerName(request.getOfficerName());
             bank.setRegistrationDate(request.getRegistrationDate());
             bank.setUsername(request.getUsername());
-
+            bank.setEmail(request.getEmail());
             return bank;
         }
 
@@ -67,6 +89,7 @@ public class Helper {
             arbitratorObj.setArbitratorName(request.getArbitratorName());
             arbitratorObj.setRegistrationDate(request.getRegistrationDate());
             arbitratorObj.setLocation(request.getLocation());
+            arbitratorObj.setEmail(request.getEmail());
             return arbitratorObj;
         }
 

@@ -25,7 +25,7 @@ public class Arbitrator {
     private String location;
     @Column(unique = true)
     private String userName;
-
+    String email;
 
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,targetEntity = BankCase.class)
     private List<BankCase> bankCaseList = new ArrayList<>();

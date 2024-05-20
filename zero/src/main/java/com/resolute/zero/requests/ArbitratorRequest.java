@@ -13,4 +13,5 @@ public class ArbitratorRequest {
     Date registrationDate;
     String location;
     String userName;
+    String email;
 }

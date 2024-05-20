@@ -1,21 +1,15 @@
 package com.resolute.zero.controllers;
 
 
+
 import com.resolute.zero.requests.*;
 import com.resolute.zero.responses.*;
 import com.resolute.zero.services.AdminService;
-import com.resolute.zero.utilities.Constants;
-import com.resolute.zero.utilities.ApplicationUtility;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import java.io.IOException;
-import java.text.ParseException;
-import java.time.Instant;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 @Slf4j
@@ -30,9 +24,7 @@ public class AdminController {
 
     @PostMapping("/case")
     public void addCase(@RequestBody AdminCaseRequest request, HttpSession session){
-
         adminService.saveCase(request);
-
     }
 
     @PostMapping("/borrower")
@@ -50,8 +42,16 @@ public class AdminController {
 
     @PostMapping("/bank")
     public void addBank(@RequestBody BankRequest request, HttpSession session){
-
         adminService.addBank(request);
+    }
+    @PutMapping("/bank")
+    public void updateBank(@RequestBody BankRequest request) {
+    	adminService.updateBank(request);
+    }
+    
+    @DeleteMapping("/bank/{bankId}")
+    public void deleteBank(@PathVariable Integer bankId) {
+    	adminService.deletebank(bankId);
     }
 
 
@@ -95,22 +95,7 @@ public class AdminController {
     @GetMapping("/case")
     public List<CaseResponse> getAllCases(HttpSession session){
 
-        return   List.of(CaseResponse.builder()
-                        .caseNo("1")
-                        .caseType("abc")
-                        .registrationDate(Date.from(Instant.now()))
-                        .build(),
-                CaseResponse.builder()
-                        .caseNo("2")
-                        .caseType("xyz")
-                        .registrationDate(Date.from(Instant.now()))
-                        .build(),
-                CaseResponse.builder()
-                        .caseNo("3")
-                        .caseType("mno")
-                        .registrationDate(Date.from(Instant.now()))
-                        .build()
-        );
+        return   adminService.getCaseList();
 
     }
 
@@ -126,36 +111,11 @@ public class AdminController {
 
     @GetMapping("/borrower/{borrowerId}")
     public BorrowerResponse getBorrowerById(@PathVariable Integer borrowerId, HttpSession session){
-    return BorrowerResponse.builder()
-                .borrowerId(borrowerId)
-                .serialNo(borrowerId)
-                .borrowerName("abc")
-                .registrationDate(Date.from(Instant.now()))
-                .build();
+    return adminService.getBorrowerById(borrowerId);
     }
     @GetMapping("/borrower")
-    public List<BorrowerResponse> getAllBorrowers( HttpSession session){
-
-
-        return   List.of(BorrowerResponse.builder()
-                        .borrowerId(1)
-                        .serialNo(1)
-                        .borrowerName("abc")
-                        .registrationDate(Date.from(Instant.now()))
-                        .build(),
-                BorrowerResponse.builder()
-                        .borrowerId(2)
-                        .serialNo(2)
-                        .borrowerName("xyz")
-                        .registrationDate(Date.from(Instant.now()))
-                        .build(),
-                BorrowerResponse.builder()
-                        .borrowerId(3)
-                        .serialNo(3)
-                        .borrowerName("mno")
-                        .registrationDate(Date.from(Instant.now()))
-                        .build()
-        );
+    public List<BorrowerResponse> getAllBorrowers(){
+        return adminService.getBorrwerList();
 
     }
 
@@ -174,41 +134,14 @@ public class AdminController {
 
 
 
+    
     @GetMapping("/bank/{bankId}")
     public BankResponse getBankById(@PathVariable Integer bankId, HttpSession session){
-
-
-
-        return BankResponse.builder()
-                .bankId(bankId)
-                .serialNo(bankId)
-                .bankName("abc")
-                .registrationDate(Date.from(Instant.now()))
-                .build();
+        return adminService.getBankById(bankId);
     }
     @GetMapping("/bank")
     public List<BankResponse> getAllBanks( HttpSession session){
-
-
-        return   List.of(BankResponse.builder()
-                        .bankId(1)
-                        .serialNo(1)
-                        .bankName("abc")
-                        .registrationDate(Date.from(Instant.now()))
-                        .build(),
-                BankResponse.builder()
-                        .bankId(2)
-                        .serialNo(2)
-                        .bankName("xyz")
-                        .registrationDate(Date.from(Instant.now()))
-                        .build(),
-                BankResponse.builder()
-                        .bankId(3)
-                        .serialNo(3)
-                        .bankName("mno")
-                        .registrationDate(Date.from(Instant.now()))
-                        .build()
-        );
+        return adminService.getBanksList();
 
     }
 

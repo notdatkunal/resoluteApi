@@ -12,5 +12,6 @@ public class BankResponse {
     Integer serialNo;
     Integer bankId;
     String bankName;
+    String username;
     Date registrationDate;
 }

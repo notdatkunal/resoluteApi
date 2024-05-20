@@ -15,4 +15,5 @@ public class BankRequest {
     String officerName;
     String location;
     String username;
+    String email;
 }
