@@ -134,7 +134,6 @@ public class AdminService {
 		bankRepository.deleteById(bankId);
 	}
 	public void updateBank(BankRequest request, Integer bankId) {
-		// TODO Auto-generated method stub
 		var bankOptional = bankRepository.findById(bankId);
 		if(bankOptional.isEmpty()) throw new RuntimeException("bank Id does not exist");
 		var bank = Helper.Request.createBank(request);
@@ -142,14 +141,12 @@ public class AdminService {
 		bankRepository.save(bank);
 	}
 	public BorrowerResponse getBorrowerById(Integer borrowerId) {
-		// TODO Auto-generated method stub
 		var borrower = borrowerRepository.findById(borrowerId);
 		if(borrower.isEmpty()) throw new RuntimeException("borrower Id not found");
 		
 		return Helper.Response.getBorrowerResponse(borrower.get());
 	}
 	public List<BorrowerResponse> getBorrwerList() {
-		// TODO Auto-generated method stub
 		var list = borrowerRepository.findAll();
 		var resList = new LinkedList<BorrowerResponse>();
 		list.forEach(item->resList.add(Helper.Response.getBorrowerResponse(item)));
