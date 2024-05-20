@@ -133,20 +133,12 @@ public class AdminService {
 	public void deletebank(Integer bankId) {
 		bankRepository.deleteById(bankId);
 	}
-	public void updateBank(BankRequest request) {
+	public void updateBank(BankRequest request, Integer bankId) {
 		// TODO Auto-generated method stub
-		var bankOptional = bankRepository.findBankByUsername(request.getUsername());
+		var bankOptional = bankRepository.findById(bankId);
 		if(bankOptional.isEmpty()) throw new RuntimeException("bank Id does not exist");
-		var bank = bankOptional.get();
-		{
-			//updating bankObj
-			 bank.setBankName(request.getBankName());
-	         bank.setLocation(request.getLocation());
-	         bank.setOfficerName(request.getOfficerName());
-	         bank.setRegistrationDate(request.getRegistrationDate());
-	         bank.setUsername(request.getUsername());
-		}
-		
+		var bank = Helper.Request.createBank(request);
+		bank.setId(bankId);
 		bankRepository.save(bank);
 	}
 	public BorrowerResponse getBorrowerById(Integer borrowerId) {

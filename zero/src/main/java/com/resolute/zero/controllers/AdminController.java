@@ -44,9 +44,9 @@ public class AdminController {
     public void addBank(@RequestBody BankRequest request, HttpSession session){
         adminService.addBank(request);
     }
-    @PutMapping("/bank")
-    public void updateBank(@RequestBody BankRequest request) {
-    	adminService.updateBank(request);
+    @PutMapping("/bank/{bankId}")
+    public void updateBank(@RequestBody BankRequest request,@PathVariable Integer bankId) {
+    	adminService.updateBank(request,bankId);
     }
     
     @DeleteMapping("/bank/{bankId}")
