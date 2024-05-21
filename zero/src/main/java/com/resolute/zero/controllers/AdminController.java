@@ -29,9 +29,7 @@ public class AdminController {
 
     @PostMapping("/borrower")
     public void addBorrower(@RequestBody BorrowerRequest request, HttpSession session){
-
         adminService.addBorrower(request);
-
     }
 
     @PostMapping("/arbitrator")
@@ -77,24 +75,17 @@ public class AdminController {
         return adminService.getArbitratorList();
 
     }
-
-
-
-
     @GetMapping("/case/{caseId}")
     public CaseResponse getCaseById(@PathVariable Integer caseId, HttpSession session){
-
         return adminService.getCaseById(caseId);
     }
 
     @GetMapping("/search/case")
     public List<CaseResponse> searchCase(@RequestParam(value = "parameter",required = false) String searchParameter,@RequestParam(value = "date",required = false) Date date, HttpSession session) {
-
     return adminService.getSearchResponse(searchParameter,date);
     }
     @GetMapping("/case")
     public List<CaseResponse> getAllCases(HttpSession session){
-
         return   adminService.getCaseList();
 
     }

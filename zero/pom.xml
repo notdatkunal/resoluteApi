@@ -11,7 +11,7 @@
 	<groupId>com.resolute</groupId>
 	<artifactId>zero</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>zero</name>
 	<description>this is first version of resolute</description>
 	<properties>
