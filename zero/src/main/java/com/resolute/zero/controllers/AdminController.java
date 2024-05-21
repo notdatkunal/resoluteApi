@@ -1,11 +1,8 @@
 package com.resolute.zero.controllers;
 
-
-
 import com.resolute.zero.requests.*;
 import com.resolute.zero.responses.*;
 import com.resolute.zero.services.AdminService;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,23 +20,23 @@ public class AdminController {
     private final AdminService adminService;
 
     @PostMapping("/case")
-    public void addCase(@RequestBody AdminCaseRequest request, HttpSession session){
+    public void addCase(@RequestBody AdminCaseRequest request  ){
         adminService.saveCase(request);
     }
 
     @PostMapping("/borrower")
-    public void addBorrower(@RequestBody BorrowerRequest request, HttpSession session){
+    public void addBorrower(@RequestBody BorrowerRequest request  ){
         adminService.addBorrower(request);
     }
 
     @PostMapping("/arbitrator")
-    public void addArbitrator(@RequestBody ArbitratorRequest request, HttpSession session){
+    public void addArbitrator(@RequestBody ArbitratorRequest request  ){
 
         adminService.addArbitrator(request);
     }
 
     @PostMapping("/bank")
-    public void addBank(@RequestBody BankRequest request, HttpSession session){
+    public void addBank(@RequestBody BankRequest request  ){
         adminService.addBank(request);
     }
     @PutMapping("/bank/{bankId}")
@@ -58,34 +55,34 @@ public class AdminController {
      * */
     @GetMapping("/documents")
     public List<DocumentResponse> listDocuments(
-            HttpSession session){
+             ){
 
         return adminService.getDocumentList();
 
     }
 
     @GetMapping("/arbitrator/{arbitratorId}")
-    public ArbitratorResponse getArbitratorById(@PathVariable Integer arbitratorId, HttpSession session){
+    public ArbitratorResponse getArbitratorById(@PathVariable Integer arbitratorId  ){
 
         return adminService.getArbitratorById(arbitratorId);
     }
     @GetMapping("/arbitrator")
-    public List<ArbitratorResponse> getAllArbitrators(HttpSession session){
+    public List<ArbitratorResponse> getAllArbitrators( ){
 
         return adminService.getArbitratorList();
 
     }
     @GetMapping("/case/{caseId}")
-    public CaseResponse getCaseById(@PathVariable Integer caseId, HttpSession session){
+    public CaseResponse getCaseById(@PathVariable Integer caseId  ){
         return adminService.getCaseById(caseId);
     }
 
     @GetMapping("/search/case")
-    public List<CaseResponse> searchCase(@RequestParam(value = "parameter",required = false) String searchParameter,@RequestParam(value = "date",required = false) Date date, HttpSession session) {
+    public List<CaseResponse> searchCase(@RequestParam(value = "parameter",required = false) String searchParameter,@RequestParam(value = "date",required = false) Date date  ) {
     return adminService.getSearchResponse(searchParameter,date);
     }
     @GetMapping("/case")
-    public List<CaseResponse> getAllCases(HttpSession session){
+    public List<CaseResponse> getAllCases( ){
         return   adminService.getCaseList();
 
     }
@@ -101,7 +98,7 @@ public class AdminController {
 
 
     @GetMapping("/borrower/{borrowerId}")
-    public BorrowerResponse getBorrowerById(@PathVariable Integer borrowerId, HttpSession session){
+    public BorrowerResponse getBorrowerById(@PathVariable Integer borrowerId ){
     return adminService.getBorrowerById(borrowerId);
     }
     @GetMapping("/borrower")
@@ -127,11 +124,11 @@ public class AdminController {
 
     
     @GetMapping("/bank/{bankId}")
-    public BankResponse getBankById(@PathVariable Integer bankId, HttpSession session){
+    public BankResponse getBankById(@PathVariable Integer bankId  ){
         return adminService.getBankById(bankId);
     }
     @GetMapping("/bank")
-    public List<BankResponse> getAllBanks( HttpSession session){
+    public List<BankResponse> getAllBanks(  ){
         return adminService.getBanksList();
 
     }
