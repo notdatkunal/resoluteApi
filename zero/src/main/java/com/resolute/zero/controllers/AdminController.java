@@ -48,12 +48,6 @@ public class AdminController {
     public void updateBank(@RequestBody BankRequest request,@PathVariable Integer bankId) {
     	adminService.updateBank(request,bankId);
     }
-    
-    @DeleteMapping("/bank/{bankId}")
-    public void deleteBank(@PathVariable Integer bankId) {
-    	adminService.deletebank(bankId);
-    }
-
 
     /**
      * please read the service documentation before using this
@@ -94,19 +88,8 @@ public class AdminController {
     }
     @GetMapping("/case")
     public List<CaseResponse> getAllCases(HttpSession session){
-
         return   adminService.getCaseList();
-
     }
-
-
-
-
-
-
-
-
-
 
 
     @GetMapping("/borrower/{borrowerId}")
@@ -118,13 +101,6 @@ public class AdminController {
         return adminService.getBorrwerList();
 
     }
-
-
-
-
-
-
-
 
 
 
