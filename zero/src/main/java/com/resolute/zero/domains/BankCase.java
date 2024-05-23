@@ -53,64 +53,46 @@ public class BankCase {
     private Bank bank = new Bank();
 
 
-    @Column(nullable = false)
     private String state;
-    @Column(nullable = false)
     private String zone;
-    @Column(nullable = false)
     private String branchName;
-    @Column(nullable = false)
     private String customerId;
-    @Column(nullable = false)
     private String accountNumber;
-    @Column(nullable = false)
     private String creditCardNumber;
-    @Column(nullable = false)
     private String customerName;
-    @Column(nullable = false)
     private String actualProduct;
-    @Column(nullable = false)
     private String flagProductGroup;
-    @Column(nullable = false)
     private String natureOfLegalAction;
-    @Column(nullable = false)
     private String totalTos;
-    @Column(nullable = false)
     private String totalTosInCr;
-    @Column(nullable = false)
     private Date noticeDate;
-    @Column(nullable = false)
     private Date refLetter;
-
-    @Column(nullable = false)
     private Date stagesOfLastHearingDate;
-    @Column(nullable = false)
     private Date nextHearingDate;
-    @Column(nullable = false)
     private Date stagesOfNextHearingDate;
-    @Column(nullable = false)
+
     private String caseStatus;
-    @Column(nullable = false)
+
     private String flagForContested;
-    @Column(nullable = false)
+
     private String detailsRemark;
-    @Column(nullable = false)
+
     private Date awardDate;
-    @Column(nullable = false)
+
     private String awardAmount;
-    @Column(nullable = false)
+
     private Date sec17AppFillingDate;
-    @Column(nullable = false)
+
     private Date sec17AppStatus;
-    @Column(nullable = false)
+
     private String courtName;
-    @Column(nullable = false)
+
     private String place;
 
 
-    @Column(nullable = false)
+
     private String lawyerName;
-    @Column(nullable = false)
+
     private String lmName;
 
 }
