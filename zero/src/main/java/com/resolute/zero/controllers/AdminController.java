@@ -34,6 +34,12 @@ public class AdminController {
 
     }
 
+    @PutMapping("/arbitrator/{arbitratorId}")
+    public void updateArbitrator(@RequestBody ArbitratorRequest request,@PathVariable Integer arbitratorId){
+
+        adminService.updateArbitrator(request,arbitratorId);
+    }
+
     @PostMapping("/arbitrator")
     public void addArbitrator(@RequestBody ArbitratorRequest request, HttpSession session){
 

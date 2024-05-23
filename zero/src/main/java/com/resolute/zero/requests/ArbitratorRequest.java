@@ -8,7 +8,6 @@ import java.util.Date;
 @Builder
 @Data
 public class ArbitratorRequest {
-
     String arbitratorName;
     Date registrationDate;
     String location;

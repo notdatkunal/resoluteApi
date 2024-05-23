@@ -2,7 +2,6 @@ package com.resolute.zero.services;
 
 
 import com.resolute.zero.domains.BankCase;
-import com.resolute.zero.domains.Borrower;
 import com.resolute.zero.helpers.Helper;
 import com.resolute.zero.repositories.ArbitratorRepository;
 import com.resolute.zero.repositories.BankRepository;
@@ -25,8 +24,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.management.RuntimeErrorException;
 
 @RequiredArgsConstructor
 @Service
@@ -138,6 +135,7 @@ public class AdminService {
 		if(bankOptional.isEmpty()) throw new RuntimeException("bank Id does not exist");
 		var bank = Helper.Request.createBank(request);
 		bank.setId(bankId);
+        bank.setCreatedAt(bankOptional.get().getCreatedAt());
 		bankRepository.save(bank);
 	}
 	public BorrowerResponse getBorrowerById(Integer borrowerId) {
@@ -152,4 +150,12 @@ public class AdminService {
 		list.forEach(item->resList.add(Helper.Response.getBorrowerResponse(item)));
 		return resList;
 	}
+
+    public void updateArbitrator(ArbitratorRequest request, Integer arbitratorId) {
+        var arbitratorOptional = arbitratorRepository.findById(arbitratorId);
+        if(arbitratorOptional.isEmpty()) throw new RuntimeException("arbitrator Id does not exist");
+        var arbitrator = Helper.Request.createArbitrator(request);
+        arbitrator.setId(arbitratorId);
+        arbitratorRepository.save(arbitrator);
+    }
 }
