@@ -27,7 +27,7 @@ public class LoginController {
             var user = userService.findByUserName(username);
             session.setAttribute("user", user);
 
-        return  ResponseEntity.ok(Helper.Response.getUserModel(user));
+        return  ResponseEntity.ok(Helper.Convert.convertUserModel(user));
 
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND)

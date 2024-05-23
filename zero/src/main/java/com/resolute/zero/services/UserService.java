@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 public  class UserService {
 
     private final UserRepository userRepository;
+    private final LoginStatusService loginStatusService;
     public boolean login(User user){
 
          var userOptional = userRepository.findUserByUserName(user.getUserName());
@@ -19,9 +20,9 @@ public  class UserService {
 
          User systemUser = userOptional.get();
          user.setPassword(ApplicationUtility.encryptPassword(user.getPassword()));
-         return systemUser.getPassword().equals(user.getPassword());
-
-
+         var loginStatus =  systemUser.getPassword().equals(user.getPassword());
+         if(loginStatus) loginStatusService.register(systemUser);
+         return loginStatus;
     }
     public User findByUserName(String username){
 

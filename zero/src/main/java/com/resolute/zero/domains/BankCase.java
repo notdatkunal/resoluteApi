@@ -9,6 +9,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Getter
 @Setter
@@ -98,4 +99,9 @@ public class BankCase {
 
     private String lmName;
 
+
+    public boolean contains(String searchParameter) {
+        return Stream.of(accountNumber, caseNo, customerName)
+                .anyMatch(field -> field != null && field.equalsIgnoreCase(searchParameter));
+    }
 }
