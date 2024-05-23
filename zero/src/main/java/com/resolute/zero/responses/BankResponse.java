@@ -13,5 +13,9 @@ public class BankResponse {
     Integer bankId;
     String bankName;
     String username;
+    String officerName;
+    String location;
+    String email;
     Date registrationDate;
+
 }

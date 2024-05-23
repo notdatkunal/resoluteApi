@@ -56,6 +56,9 @@ public class Helper {
 					.bankId(item.getId())
 					.username(item.getUsername())
 					.registrationDate(Date.from(item.getCreatedAt()))
+                    .officerName(item.getOfficerName())
+                    .location(item.getLocation())
+                    .email(item.getEmail())
 					.build();
 		}
 
