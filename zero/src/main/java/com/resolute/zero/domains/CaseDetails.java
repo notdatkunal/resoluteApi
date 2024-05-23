@@ -20,7 +20,7 @@ public class CaseDetails {
 
     private String caseType;
 
-    @Column(nullable = false)
+
     private String claimAmountInSOC;
     private Date socFillingDate;
 }
