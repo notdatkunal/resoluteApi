@@ -17,10 +17,10 @@ import com.resolute.zero.responses.UserModel;
 import java.util.Date;
 
 public class Helper {
-    public static class Response{
+    public static class Convert {
 
 
-        public static UserModel getUserModel(User user){
+        public static UserModel convertUserModel(User user){
 
             return UserModel.builder()
                     .id(user.getId())
@@ -30,7 +30,7 @@ public class Helper {
                     .build();
         }
 
-        public static ArbitratorResponse getArbitratorResponse(Arbitrator arbitrator) {
+        public static ArbitratorResponse convertArbitratorResponse(Arbitrator arbitrator) {
             return ArbitratorResponse.builder()
                     .arbitratorId(arbitrator.getId())
                     .username(arbitrator.getUserName())
@@ -39,7 +39,7 @@ public class Helper {
                     .build();
         }
 
-        public static CaseResponse getCaseResponse(BankCase bankCase) {
+        public static CaseResponse convertCaseResponse(BankCase bankCase) {
             return CaseResponse.builder()
                     .caseType(bankCase.getCaseHistory().getCaseDetails().getCaseType())
                     .caseNo(bankCase.getCaseNo())
@@ -49,7 +49,7 @@ public class Helper {
                     .build();
         }
 
-		public static BankResponse getBankResponse(Bank item) {
+		public static BankResponse convertBankResponse(Bank item) {
 			// TODO Auto-generated method stub
 			return BankResponse.builder()
 					.bankName(item.getBankName())
@@ -59,7 +59,7 @@ public class Helper {
 					.build();
 		}
 
-		public static BorrowerResponse getBorrowerResponse(Borrower borrower) {
+		public static BorrowerResponse convertBorrowerResponse(Borrower borrower) {
 			// TODO Auto-generated method stub
 			return BorrowerResponse.builder()
 					.borrowerId(borrower.getId())
@@ -67,7 +67,7 @@ public class Helper {
 					.build();
 		}
     }
-    public static class Request{
+    public static class Creator {
 
 
         public static Bank createBank(BankRequest request) {
