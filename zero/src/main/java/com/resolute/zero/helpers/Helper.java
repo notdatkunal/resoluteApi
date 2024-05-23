@@ -13,7 +13,6 @@ import com.resolute.zero.responses.BankResponse;
 import com.resolute.zero.responses.BorrowerResponse;
 import com.resolute.zero.responses.CaseResponse;
 import com.resolute.zero.responses.UserModel;
-import jakarta.persistence.criteria.CriteriaBuilder;
 
 import java.util.Date;
 

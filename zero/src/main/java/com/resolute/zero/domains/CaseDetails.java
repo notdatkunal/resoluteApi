@@ -21,6 +21,6 @@ public class CaseDetails {
     private String caseType;
 
 
-    private String claimAmountInSOC;
+    private Double claimAmountInSOC;
     private Date socFillingDate;
 }

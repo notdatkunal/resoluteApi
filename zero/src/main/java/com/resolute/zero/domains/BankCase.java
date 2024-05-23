@@ -40,7 +40,7 @@ public class BankCase {
 
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Proceeding> proceeding = new ArrayList<Proceeding>();
+    private List<Proceeding> proceeding = new ArrayList<>();
 
 
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,targetEntity = CaseOrder.class)
@@ -56,20 +56,23 @@ public class BankCase {
     private String state;
     private String zone;
     private String branchName;
+    @Column(nullable = false)
     private String customerId;
+    @Column(nullable = false)
     private String accountNumber;
     private String creditCardNumber;
+    @Column(nullable = false)
     private String customerName;
     private String actualProduct;
     private String flagProductGroup;
     private String natureOfLegalAction;
-    private String totalTos;
-    private String totalTosInCr;
+    private Double totalTos;
+    private Double totalTosInCr;
     private Date noticeDate;
     private Date refLetter;
-    private Date stagesOfLastHearingDate;
+    private String stagesOfLastHearingDate;
     private Date nextHearingDate;
-    private Date stagesOfNextHearingDate;
+    private String stagesOfNextHearingDate;
 
     private String caseStatus;
 
