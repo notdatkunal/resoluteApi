@@ -7,6 +7,10 @@ import java.util.Date;
 @Builder
 @Data
 public class AdminCaseRequest {
+    Integer bankId;
+    Integer arbitratorId;
+
+
     String state;
     String caseNo;
     String zone;
@@ -24,8 +28,6 @@ public class AdminCaseRequest {
     Date refLetter;
     Date socFillingDate;
     Double claimAmountInSOC;
-
-
     Date firstHearingDate;
     Date lastHearingDate;
     Date nextHearingDate;

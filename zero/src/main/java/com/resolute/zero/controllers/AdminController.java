@@ -67,7 +67,7 @@ public class AdminController {
     }
 
     @GetMapping("/arbitrator/{arbitratorId}")
-    public ArbitratorResponse getArbitratorById(@PathVariable Integer arbitratorId, HttpSession session){
+    public ArbitratorResponse getArbitratorById(@PathVariable Integer arbitratorId){
 
         return adminService.getArbitratorById(arbitratorId);
     }

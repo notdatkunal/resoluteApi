@@ -41,6 +41,12 @@ public class AdminService {
 
     public void saveCase(AdminCaseRequest request) {
         var caseObj =  Helper.Request.createCase(request);
+        var arbitrator = arbitratorRepository.findById(request.getArbitratorId());
+        var bank = bankRepository.findById(request.getBankId());
+        if(arbitrator.isEmpty()) throw new RuntimeException("arbitrator id does not exist");
+        if(bank.isEmpty()) throw new RuntimeException("bank id does not exist");
+        caseObj.setArbitrator(arbitrator.get());
+        caseObj.setBank(bank.get());
         caseRepository.save(caseObj);
     }
     public void addBorrower(BorrowerRequest request) {
