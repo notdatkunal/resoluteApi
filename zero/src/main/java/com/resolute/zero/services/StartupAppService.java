@@ -5,8 +5,6 @@ import com.resolute.zero.repositories.UserRepository;
 import com.resolute.zero.utilities.ApplicationUtility;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
