@@ -17,9 +17,7 @@ public class CaseStatus {
     private Integer id;
 
     private Date firstHearingDate;
-
     private Date lastHearingDate;
-
     private String courtNumber;
     private String judgeNumber;
 }

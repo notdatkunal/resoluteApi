@@ -158,6 +158,7 @@ public class AdminService {
         if(arbitratorOptional.isEmpty()) throw new RuntimeException("arbitrator Id does not exist");
         var arbitrator = Helper.Creator.createArbitrator(request);
         arbitrator.setId(arbitratorId);
+        arbitrator.setRegistrationDate(arbitratorOptional.get().getRegistrationDate());
         arbitratorRepository.save(arbitrator);
     }
 }

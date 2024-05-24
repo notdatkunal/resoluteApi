@@ -2,7 +2,9 @@ package com.resolute.zero;
 
 import com.resolute.zero.domains.User;
 import com.resolute.zero.repositories.UserRepository;
+import com.resolute.zero.services.StartupAppService;
 import com.resolute.zero.utilities.ApplicationUtility;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,24 +19,13 @@ public class ZeroApplication {
 
 
 	@Bean
-	public CommandLineRunner run(UserRepository userRepository){
+	public CommandLineRunner run(StartupAppService startupAppService){
 		return args -> {
-
-
-			var users = userRepository.findAll();
-			if(users.isEmpty()){
-
-				User user = new User();
-				user.setUserName("userAdmin");
-				user.setPassword(ApplicationUtility.encryptPassword("root1234"));
-				user.setRole("admin");
-				userRepository.save(user);
-
-			}
-
-
-			System.out.println("hello");
+			startupAppService.loadDefaultUsers();
+			System.out.println("welcome to backend");
 		};
 	}
+
+
 
 }

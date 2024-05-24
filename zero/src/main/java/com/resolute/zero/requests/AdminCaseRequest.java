@@ -42,7 +42,7 @@ public class AdminCaseRequest {
 
     String awardAmount;
     Date sec17AppFillingDate;
-    Date sec17AppStatus;
+    String sec17AppStatus;
     String courtName;
     String place;
     String arbitrator;

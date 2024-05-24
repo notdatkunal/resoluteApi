@@ -2,7 +2,9 @@ package com.resolute.zero.domains;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,7 +23,9 @@ public class Arbitrator {
     private Integer id;
 
     private String arbitratorName;
-    private Date registrationDate;
+    @CreationTimestamp
+    private Instant registrationDate;
+
     private String location;
     @Column(unique = true)
     private String userName;

@@ -34,8 +34,9 @@ public class Helper {
             return ArbitratorResponse.builder()
                     .arbitratorId(arbitrator.getId())
                     .username(arbitrator.getUserName())
+                    .location(arbitrator.getLocation())
                     .arbitratorName(arbitrator.getArbitratorName())
-                    .registrationDate(arbitrator.getRegistrationDate())
+                    .registrationDate(Date.from(arbitrator.getRegistrationDate()))
                     .build();
         }
 
@@ -89,7 +90,7 @@ public class Helper {
             var arbitratorObj = new Arbitrator();
             arbitratorObj.setUserName(request.getUserName());
             arbitratorObj.setArbitratorName(request.getArbitratorName());
-            arbitratorObj.setRegistrationDate(request.getRegistrationDate());
+//            arbitratorObj.setRegistrationDate(request.getRegistrationDate());
             arbitratorObj.setLocation(request.getLocation());
             arbitratorObj.setEmail(request.getEmail());
             return arbitratorObj;

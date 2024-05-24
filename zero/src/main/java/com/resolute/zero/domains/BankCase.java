@@ -87,7 +87,7 @@ public class BankCase {
 
     private Date sec17AppFillingDate;
 
-    private Date sec17AppStatus;
+    private String sec17AppStatus;
 
     private String courtName;
 

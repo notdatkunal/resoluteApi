@@ -14,4 +14,5 @@ public class ArbitratorResponse {
     String arbitratorName;
     String username;
     Date registrationDate;
+    String location;
 }
