@@ -3,8 +3,10 @@ package com.resolute.zero.controllers;
 import com.resolute.zero.requests.CaseProceedingsResponse;
 import com.resolute.zero.requests.HearingResponse;
 import com.resolute.zero.responses.*;
+import com.resolute.zero.services.CaseService;
 import com.resolute.zero.utilities.ApplicationUtility;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.time.Instant;
 import java.util.Date;
@@ -15,6 +17,8 @@ import java.util.List;
 @CrossOrigin("*")
 public class CaseController {
 
+    @Autowired
+    private CaseService caseService;
 
     @GetMapping("/history/{caseId}")
     public CaseHistoryResponse getCaseHistory(@PathVariable Integer caseId, HttpSession session){
