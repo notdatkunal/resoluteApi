@@ -22,9 +22,9 @@ public class BankCase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String caseNo;
-
+    private Date sec17OrderDate;
 
     @CreationTimestamp
     private Instant createdAt;

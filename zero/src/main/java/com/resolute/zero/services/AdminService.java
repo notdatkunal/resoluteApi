@@ -157,4 +157,20 @@ public class AdminService {
         arbitrator.setRegistrationDate(arbitratorOptional.get().getRegistrationDate());
         arbitratorRepository.save(arbitrator);
     }
+
+    public void updateCase(AdminCaseRequest request, Integer caseId) {
+        var caseOptional = caseRepository.findById(caseId);
+        var caseObj =  Helper.Creator.createCase(request);
+        var arbitrator = arbitratorRepository.findById(request.getArbitratorId());
+        var bank = bankRepository.findById(request.getBankId());
+        if(caseOptional.isEmpty()) throw new RuntimeException("case id does not exist");
+        if(arbitrator.isEmpty()) throw new RuntimeException("arbitrator id does not exist");
+        if(bank.isEmpty()) throw new RuntimeException("bank id does not exist");
+        caseObj.setArbitrator(arbitrator.get());
+        caseObj.setBank(bank.get());
+        caseObj.setId(caseId);
+        caseObj.setCreatedAt(caseOptional.get().getCreatedAt());
+        caseRepository.save(caseObj);
+
+    }
 }

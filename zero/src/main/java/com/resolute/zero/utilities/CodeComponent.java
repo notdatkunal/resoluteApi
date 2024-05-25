@@ -34,6 +34,8 @@ public class CodeComponent {
             case "intimationLetter"->"IML";
             case "award"->"AWD";
             case "communication"->"COM";
+            case "document"->"DOC";
+            case "hearing"->"HER";
             default->throw new IllegalArgumentException();
         };
     }
@@ -93,6 +95,7 @@ public class CodeComponent {
             case "affidavit"->"AFD";
             case "roznama"->"ROZ";
             case "bankDocument"->"BND";
+            case "borrowerDocument"->"BRW";
             default->throw new IllegalArgumentException();
         };
     }

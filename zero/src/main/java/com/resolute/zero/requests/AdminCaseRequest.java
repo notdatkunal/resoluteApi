@@ -9,8 +9,6 @@ import java.util.Date;
 public class AdminCaseRequest {
     Integer bankId;
     Integer arbitratorId;
-
-
     String state;
     String caseNo;
     String zone;
@@ -42,6 +40,7 @@ public class AdminCaseRequest {
 
     String awardAmount;
     Date sec17AppFillingDate;
+    Date sec17OrderDate;
     String sec17AppStatus;
     String courtName;
     String place;

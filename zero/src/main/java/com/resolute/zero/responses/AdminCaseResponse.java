@@ -9,6 +9,7 @@ import java.util.Date;
 @Data
 public class AdminCaseResponse {
     Integer bankId;
+    Date sec17OrderDate;
     Integer arbitratorId;
     String state;
     String caseNo;
@@ -30,14 +31,12 @@ public class AdminCaseResponse {
     Date firstHearingDate;
     Date lastHearingDate;
     Date nextHearingDate;
-
     String stagesOfLastHearingDate;
     String stagesOfNextHearingDate;
     String caseStatus;
     String flagForContested;
     String detailsRemark;
     Date awardDate;
-
     String awardAmount;
     Date sec17AppFillingDate;
     String sec17AppStatus;

@@ -22,13 +22,19 @@ public class AdminController {
     @Autowired
     private final AdminService adminService;
 
+
+    @PutMapping("/case/{caseId}")
+    public void addCase(@RequestBody AdminCaseRequest request,@PathVariable Integer caseId){
+        adminService.updateCase(request,caseId);
+    }
+
     @PostMapping("/case")
-    public void addCase(@RequestBody AdminCaseRequest request, HttpSession session){
+    public void addCase(@RequestBody AdminCaseRequest request){
         adminService.saveCase(request);
     }
 
     @PostMapping("/borrower")
-    public void addBorrower(@RequestBody BorrowerRequest request, HttpSession session){
+    public void addBorrower(@RequestBody BorrowerRequest request){
 
         adminService.addBorrower(request);
 
@@ -41,13 +47,13 @@ public class AdminController {
     }
 
     @PostMapping("/arbitrator")
-    public void addArbitrator(@RequestBody ArbitratorRequest request, HttpSession session){
+    public void addArbitrator(@RequestBody ArbitratorRequest request){
 
         adminService.addArbitrator(request);
     }
 
     @PostMapping("/bank")
-    public void addBank(@RequestBody BankRequest request, HttpSession session){
+    public void addBank(@RequestBody BankRequest request){
         adminService.addBank(request);
     }
     @PutMapping("/bank/{bankId}")
@@ -72,7 +78,7 @@ public class AdminController {
         return adminService.getArbitratorById(arbitratorId);
     }
     @GetMapping("/arbitrator")
-    public List<ArbitratorResponse> getAllArbitrators(HttpSession session){
+    public List<ArbitratorResponse> getAllArbitrators(){
 
         return adminService.getArbitratorList();
 

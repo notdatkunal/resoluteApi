@@ -73,7 +73,7 @@ public class Helper {
 			return CaseHistoryResponse.builder()
 					.caseDetails(CaseDetailsResponse.builder()
 							.caseType(bankCase.getCaseType())
-                            .registrationNumber(bankCase.getAccountNumber())
+                            .registrationNumber(bankCase.getCaseNo())
                             .registrationDate(bankCase.getAwardDate())
                             .caseNumber(bankCase.getCaseNo())
                             .fillingDate(bankCase.getSocFillingDate())
@@ -89,8 +89,11 @@ public class Helper {
 
         public static AdminCaseResponse convertAdminCaseResponse(BankCase bankCase) {
             return AdminCaseResponse.builder()
+            .bankId(bankCase.getBank().getId())
+            .arbitratorId(bankCase.getArbitrator().getId())
             .caseNo(bankCase.getCaseNo())
             .state(bankCase.getState())
+            .sec17OrderDate(bankCase.getSec17OrderDate())
             .zone(bankCase.getZone())
             .branchName(bankCase.getBranchName())
             .customerId(bankCase.getCustomerId())
@@ -123,7 +126,7 @@ public class Helper {
             .stagesOfLastHearingDate(bankCase.getStagesOfLastHearingDate())
             .nextHearingDate(bankCase.getNextHearingDate())
             .stagesOfNextHearingDate(bankCase.getStagesOfNextHearingDate())
-                    .build();
+            .build();
         }
     }
     public static class Creator {
@@ -155,6 +158,7 @@ public class Helper {
             caseObj.setCaseNo(req.getCaseNo());
             caseObj.setState(req.getState());
             caseObj.setZone(req.getZone());
+            caseObj.setSec17OrderDate(req.getSec17OrderDate());
             caseObj.setBranchName(req.getBranchName());
             caseObj.setCustomerId(req.getCustomerId());
             caseObj.setAccountNumber(req.getAccountNumber());
