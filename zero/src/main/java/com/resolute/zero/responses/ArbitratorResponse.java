@@ -12,6 +12,7 @@ public class ArbitratorResponse {
     Integer serialNo;
     Integer arbitratorId;
     String arbitratorName;
+    String email;
     String username;
     Date registrationDate;
     String location;

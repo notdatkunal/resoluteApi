@@ -8,11 +8,7 @@ import com.resolute.zero.domains.User;
 import com.resolute.zero.requests.AdminCaseRequest;
 import com.resolute.zero.requests.ArbitratorRequest;
 import com.resolute.zero.requests.BankRequest;
-import com.resolute.zero.responses.ArbitratorResponse;
-import com.resolute.zero.responses.BankResponse;
-import com.resolute.zero.responses.BorrowerResponse;
-import com.resolute.zero.responses.CaseResponse;
-import com.resolute.zero.responses.UserModel;
+import com.resolute.zero.responses.*;
 
 import java.util.Date;
 
@@ -34,6 +30,7 @@ public class Helper {
             return ArbitratorResponse.builder()
                     .arbitratorId(arbitrator.getId())
                     .username(arbitrator.getUserName())
+                    .email(arbitrator.getEmail())
                     .location(arbitrator.getLocation())
                     .arbitratorName(arbitrator.getArbitratorName())
                     .registrationDate(Date.from(arbitrator.getRegistrationDate()))
@@ -42,7 +39,8 @@ public class Helper {
 
         public static CaseResponse convertCaseResponse(BankCase bankCase) {
             return CaseResponse.builder()
-                    .caseType(bankCase.getCaseHistory().getCaseDetails().getCaseType())
+                    .id(bankCase.getId())
+                    .caseType(bankCase.getCaseType())
                     .caseNo(bankCase.getCaseNo())
                     .fillingDate(Date.from(bankCase.getUpdatedAt()))
                     .accountNumber(bankCase.getAccountNumber())
@@ -64,18 +62,74 @@ public class Helper {
 		}
 
 		public static BorrowerResponse convertBorrowerResponse(Borrower borrower) {
-			// TODO Auto-generated method stub
+			
 			return BorrowerResponse.builder()
 					.borrowerId(borrower.getId())
 					.borrowerName(borrower.getBorrowerName())
 					.build();
 		}
+
+		public static CaseHistoryResponse convertCaseHistoryResponse(BankCase bankCase) {
+			return CaseHistoryResponse.builder()
+					.caseDetails(CaseDetailsResponse.builder()
+							.caseType(bankCase.getCaseType())
+                            .registrationNumber(bankCase.getAccountNumber())
+                            .registrationDate(bankCase.getAwardDate())
+                            .caseNumber(bankCase.getCaseNo())
+                            .fillingDate(bankCase.getSocFillingDate())
+							.build())
+					.caseStatus(CaseStatusResponse.builder()
+                            .caseStage(bankCase.getState())
+                            .NextHearingDate(bankCase.getNextHearingDate())
+                            .firstHearingDate(bankCase.getFirstHearingDate())
+                            .arbitratorName(bankCase.getArbitrator().getArbitratorName())
+							.build())
+					.build();
+		}
+
+        public static AdminCaseResponse convertAdminCaseResponse(BankCase bankCase) {
+            return AdminCaseResponse.builder()
+            .caseNo(bankCase.getCaseNo())
+            .state(bankCase.getState())
+            .zone(bankCase.getZone())
+            .branchName(bankCase.getBranchName())
+            .customerId(bankCase.getCustomerId())
+            .accountNumber(bankCase.getAccountNumber())
+            .creditCardNumber(bankCase.getCreditCardNumber())
+            .customerName(bankCase.getCustomerName())
+            .actualProduct(bankCase.getActualProduct())
+            .flagProductGroup(bankCase.getFlagProductGroup())
+            .natureOfLegalAction(bankCase.getNatureOfLegalAction())
+            .totalTos(bankCase.getTotalTos())
+            .totalTosInCr(bankCase.getTotalTosInCr())
+            .noticeDate(bankCase.getNoticeDate())
+            .refLetter(bankCase.getRefLetter())
+            .socFillingDate(bankCase.getSocFillingDate())
+            .claimAmountInSOC(bankCase.getClaimAmountInSOC())
+            .firstHearingDate(bankCase.getFirstHearingDate())
+            .lastHearingDate(bankCase.getLastHearingDate())
+            .lmName(bankCase.getLmName())
+            .lawyerName(bankCase.getLawyerName())
+            .arbitrator(bankCase.getArbitrator().getArbitratorName())
+            .place(bankCase.getPlace())
+            .courtName(bankCase.getCourtName())
+            .sec17AppStatus(bankCase.getSec17AppStatus())
+            .sec17AppFillingDate(bankCase.getSec17AppFillingDate())
+            .awardAmount(bankCase.getAwardAmount())
+            .awardDate(bankCase.getAwardDate())
+            .detailsRemark(bankCase.getDetailsRemark())
+            .flagForContested(bankCase.getFlagForContested())
+            .caseStatus(bankCase.getCaseStatus())
+            .stagesOfLastHearingDate(bankCase.getStagesOfLastHearingDate())
+            .nextHearingDate(bankCase.getNextHearingDate())
+            .stagesOfNextHearingDate(bankCase.getStagesOfNextHearingDate())
+                    .build();
+        }
     }
     public static class Creator {
 
 
         public static Bank createBank(BankRequest request) {
-
             var bank = new Bank();
             bank.setBankName(request.getBankName());
             bank.setLocation(request.getLocation());
@@ -88,7 +142,7 @@ public class Helper {
 
         public static Arbitrator createArbitrator(ArbitratorRequest request){
             var arbitratorObj = new Arbitrator();
-            arbitratorObj.setUserName(request.getUserName());
+            arbitratorObj.setUserName(request.getUsername());
             arbitratorObj.setArbitratorName(request.getArbitratorName());
 //            arbitratorObj.setRegistrationDate(request.getRegistrationDate());
             arbitratorObj.setLocation(request.getLocation());
@@ -113,10 +167,10 @@ public class Helper {
             caseObj.setTotalTosInCr(req.getTotalTosInCr());
             caseObj.setNoticeDate(req.getNoticeDate());
             caseObj.setRefLetter(req.getRefLetter());
-            caseObj.getCaseHistory().getCaseDetails().setSocFillingDate(req.getSocFillingDate());
-            caseObj.getCaseHistory().getCaseDetails().setClaimAmountInSOC(req.getClaimAmountInSOC());
-            caseObj.getCaseHistory().getCaseStatus().setFirstHearingDate(req.getFirstHearingDate());
-            caseObj.getCaseHistory().getCaseStatus().setLastHearingDate(req.getLastHearingDate());
+            caseObj.setSocFillingDate(req.getSocFillingDate());
+            caseObj.setClaimAmountInSOC(req.getClaimAmountInSOC());
+            caseObj.setFirstHearingDate(req.getFirstHearingDate());
+            caseObj.setLastHearingDate(req.getLastHearingDate());
             caseObj.setLmName(req.getLmName());
             caseObj.setLawyerName(req.getLawyerName());
             caseObj.getArbitrator().setUserName(req.getArbitrator());

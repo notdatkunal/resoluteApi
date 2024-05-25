@@ -33,5 +33,6 @@ public class MetaDocInfo {
     String mainType;
     String subType;
     Integer caseId;
+    String fileExtension;
 
 }

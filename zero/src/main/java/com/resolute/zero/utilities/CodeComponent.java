@@ -58,7 +58,8 @@ public class CodeComponent {
     public MetaDocInfo getMetaDocInfo(String code){
         String mainTypeCode = code.substring(0,3);
         String subTypeCode = code.substring(3,6);
-        String caseCode = code.substring(6);
+        String caseCode = code.substring(6,code.indexOf("."));
+        String extension = code.substring(code.indexOf("."));
         int index = 0;
         for(char character :caseCode.toCharArray()){
 
@@ -78,6 +79,7 @@ public class CodeComponent {
                 .caseId(Integer.parseInt(caseCode))
                 .mainType(getMainTypeByAbbreviation(mainTypeCode))
                 .subType(getSubTypeKeyByAbbr(subTypeCode))
+                .fileExtension(extension)
                 .build();
 
     }

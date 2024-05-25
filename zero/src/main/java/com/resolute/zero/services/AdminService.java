@@ -11,11 +11,7 @@ import com.resolute.zero.requests.AdminCaseRequest;
 import com.resolute.zero.requests.ArbitratorRequest;
 import com.resolute.zero.requests.BankRequest;
 import com.resolute.zero.requests.BorrowerRequest;
-import com.resolute.zero.responses.ArbitratorResponse;
-import com.resolute.zero.responses.BankResponse;
-import com.resolute.zero.responses.BorrowerResponse;
-import com.resolute.zero.responses.CaseResponse;
-import com.resolute.zero.responses.DocumentResponse;
+import com.resolute.zero.responses.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -81,10 +77,10 @@ public class AdminService {
         return arbitratorList.stream().map(Helper.Convert::convertArbitratorResponse).collect(Collectors.toList());
     }
 
-    public CaseResponse getCaseById(Integer caseId) {
+    public AdminCaseResponse getCaseById(Integer caseId) {
         var caseOptional = caseRepository.findById(caseId);
         if(caseOptional.isEmpty()) throw new RuntimeException("Case ID Does Not Exist");
-        return Helper.Convert.convertCaseResponse(caseOptional.get());
+        return Helper.Convert.convertAdminCaseResponse(caseOptional.get());
     }
 
     public List<CaseResponse> getSearchResponse(String searchParameter, Date date) {

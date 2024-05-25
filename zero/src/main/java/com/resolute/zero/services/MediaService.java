@@ -59,7 +59,7 @@ public class MediaService {
         document.setDocumentMainTypeTitle(metaDocInfo.getMainType());
         document.setDocumentSubTypeTitle(metaDocInfo.getSubType());
         document.setImageName(codeComponent.getCode(metaDocInfo.getMainType(),metaDocInfo.getSubType(),metaDocInfo.getCaseId()));
-
+        document.setFileExtension(metaDocInfo.getFileExtension());
         var caseOptional = caseRepository.findById(metaDocInfo.getCaseId());
 
         if(caseOptional.isPresent()){
@@ -70,12 +70,7 @@ public class MediaService {
             caseRepository.save(caseObj);
         }else {
             throw new RuntimeException("Case Does Not exist!!");
-//            CaseDocument caseDocument = new CaseDocument();
-//            caseDocument.setCaseId(metaDocInfo.getCaseId());
-//            var documentList = caseDocument.getDocumentList();
-//            documentList.add(document);
-//            caseDocument.setDocumentList(documentList);
-//            caseDocumentRepository.save(caseDocument);
+
         }
 
 

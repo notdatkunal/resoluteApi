@@ -82,15 +82,13 @@ public class AdminController {
 
 
     @GetMapping("/case/{caseId}")
-    public CaseResponse getCaseById(@PathVariable Integer caseId, HttpSession session){
-
+    public AdminCaseResponse getCaseById(@PathVariable Integer caseId){
         return adminService.getCaseById(caseId);
     }
 
     @GetMapping("/search/case")
-    public List<CaseResponse> searchCase(@RequestParam(value = "parameter",required = false) String searchParameter,@RequestParam(value = "date",required = false) Date date, HttpSession session) {
-
-    return adminService.getSearchResponse(searchParameter,date);
+    public List<CaseResponse> searchCase(@RequestParam(value = "parameter",required = false) String searchParameter,@RequestParam(value = "date",required = false) Date date) {
+            return adminService.getSearchResponse(searchParameter,date);
     }
     @GetMapping("/case")
     public List<CaseResponse> getAllCases(HttpSession session){

@@ -24,7 +24,7 @@ public class BankController {
         );
     }
     @GetMapping("/search/{bankId}")
-    public List<CaseResponse> searchCase(HttpSession session,@PathVariable Integer bankId,@RequestBody(required = false) SearchRequest searchRequest){
+    public List<CaseResponse> searchCase(@PathVariable Integer bankId,@RequestBody(required = false) SearchRequest searchRequest){
 
         if(searchRequest==null){
             return null;

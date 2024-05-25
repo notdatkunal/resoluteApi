@@ -23,23 +23,7 @@ public class CaseController {
     @GetMapping("/history/{caseId}")
     public CaseHistoryResponse getCaseHistory(@PathVariable Integer caseId, HttpSession session){
 
-        return CaseHistoryResponse.builder()
-                .caseDetails(CaseDetailsResponse.builder()
-                        .caseType("abc type")
-                        .fillingNumber("111234/56")
-                        .fillingDate(Date.from(Instant.now()))
-                        .registrationDate(Date.from(Instant.now()))
-                        .registrationNumber("100051/2021")
-                        .registrationDate(Date.from(Instant.now()))
-                        .CNRNumber("MGCC01111456732464")
-                        .build())
-                .caseStatus(CaseStatusResponse.builder()
-                        .firstHearingDate(Date.from(Instant.now()))
-                        .NextHearingDate(Date.from(Instant.now()))
-                        .caseStage("final")
-                        .courtAndJudgeNumber("83-court 83 ADDL sessions judge")
-                        .build())
-                .build();
+        return caseService.getCaseHistoryByCaseId(caseId);
     }
     @GetMapping("/document/{caseId}")
     public CaseDocumentsResponse getDocument(@PathVariable Integer caseId,HttpSession session){

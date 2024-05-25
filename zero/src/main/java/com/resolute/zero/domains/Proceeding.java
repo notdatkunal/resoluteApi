@@ -18,6 +18,7 @@ public class Proceeding {
 
     @Column(unique = true)
     private Date hearingDate;
+
     private String meetingRecordings;
     private String minutesOfMeetings;
 

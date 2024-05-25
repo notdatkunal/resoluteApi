@@ -32,8 +32,14 @@ public class BankCase {
     private Instant updatedAt;
 
 
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private CaseHistory caseHistory = new CaseHistory();
+    private String caseType;
+
+
+    private Double claimAmountInSOC;
+    private Date socFillingDate;
+    private Date firstHearingDate;
+    private Date lastHearingDate;
+
 
 
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
