@@ -21,9 +21,8 @@ public class CaseController {
 
 
     @PostMapping("/hearing/{caseId}")
-    public void  createHearingByCaseId(@PathVariable Integer caseId, @RequestBody CaseHearingRequest caseHearingRequest){
-        System.out.println(caseHearingRequest.getHearingDate());
-        caseService.createHearingByCaseId(caseId,caseHearingRequest);
+    public void  createHearingByCaseId(@PathVariable Integer caseId, @RequestHeader Date date){
+        caseService.createHearingByCaseId(caseId,CaseHearingRequest.builder().hearingDate(date).build());
     }
 
 
