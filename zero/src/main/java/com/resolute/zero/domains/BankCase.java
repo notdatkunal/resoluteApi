@@ -106,8 +106,12 @@ public class BankCase {
     private String lmName;
 
 
+
     public boolean contains(String searchParameter) {
-        return Stream.of(accountNumber, caseNo, customerName)
-                .anyMatch(field -> field != null && field.equalsIgnoreCase(searchParameter));
+        return caseNo.contains(searchParameter)||caseNo.contains(searchParameter.toUpperCase());
     }
+//    public boolean contains(String searchParameter) {
+//        return Stream.of(accountNumber, caseNo, customerName)
+//                .anyMatch(field -> field != null && field.equalsIgnoreCase(searchParameter));
+//    }
 }

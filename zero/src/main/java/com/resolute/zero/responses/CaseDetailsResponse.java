@@ -13,7 +13,6 @@ public class CaseDetailsResponse {
     String caseType;
     String caseNumber;
     Date fillingDate;
-    String registrationNumber;
     Date registrationDate;
 
 

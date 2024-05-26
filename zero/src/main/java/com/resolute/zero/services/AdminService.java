@@ -90,12 +90,12 @@ public class AdminService {
         List<CaseResponse> caseResponseList;
         if(searchParameter!=null){
             cases.forEach(item->{
-                if(!item.contains(searchParameter)) caseList.add(item);
+                if(item.contains(searchParameter)) caseList.add(item);
             });
         }
         if(date!=null){
             cases.forEach(item->{
-                if(!item.getAwardDate().equals(date)) caseList.add(item);
+                if(item.getSocFillingDate().equals(date)) caseList.add(item);
             });
         }
         caseResponseList = caseList.stream().map(Helper.Convert::convertCaseResponse).collect(Collectors.toList());
@@ -109,7 +109,6 @@ public class AdminService {
 			bankResponses.add(Helper.Convert.convertBankResponse(item));
 			bankResponses.getLast().setSerialNo(bankResponses.size()+1);
 		});
-		
 		return bankResponses;
 	}
 	public List<CaseResponse> getCaseList() {

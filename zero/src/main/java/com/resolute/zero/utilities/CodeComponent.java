@@ -25,21 +25,6 @@ public class CodeComponent {
     return getMainTypeAbbreviation(mainType)+getSubTypeMapping(subType)+formatNumberWithLeadingZeros(caseId);
     }
 
-    public String getMainType(String mainType){
-        return switch (mainType){
-            case "loanRecallNotice"->"LRN";
-            case "intentLetter"->"ITL";
-            case "referenceLetter"->"RFL";
-            case "contentLetter"->"CNL";
-            case "intimationLetter"->"IML";
-            case "award"->"AWD";
-            case "communication"->"COM";
-            case "document"->"DOC";
-            case "hearing"->"HER";
-            default->throw new IllegalArgumentException();
-        };
-    }
-
 
     public String getMainTypeAbbreviation(String mainType) {
         String abbreviation = MetaDocInfo.MAIN_TYPE_MAP.get(mainType);
@@ -85,21 +70,6 @@ public class CodeComponent {
                 .build();
 
     }
-
-    public String getSubType(String subType){
-        return switch (subType){
-            case "notice"->"NOT";
-            case "RPAD"->"RPA";
-            case "tracking"->"TRA";
-            case "statementOfClaim"->"SOC";
-            case "affidavit"->"AFD";
-            case "roznama"->"ROZ";
-            case "bankDocument"->"BND";
-            case "borrowerDocument"->"BRW";
-            default->throw new IllegalArgumentException();
-        };
-    }
-
 
     public String getSubTypeMapping(String subType) {
         String mappedValue = MetaDocInfo.SUB_TYPE_MAP.get(subType);

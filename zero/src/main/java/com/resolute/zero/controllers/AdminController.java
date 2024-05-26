@@ -94,10 +94,11 @@ public class AdminController {
 
     @GetMapping("/search/case")
     public List<CaseResponse> searchCase(@RequestParam(value = "parameter",required = false) String searchParameter,@RequestParam(value = "date",required = false) Date date) {
+        System.out.println("the date is :"+date);
             return adminService.getSearchResponse(searchParameter,date);
     }
     @GetMapping("/case")
-    public List<CaseResponse> getAllCases(HttpSession session){
+    public List<CaseResponse> getAllCases(){
         return   adminService.getCaseList();
     }
 

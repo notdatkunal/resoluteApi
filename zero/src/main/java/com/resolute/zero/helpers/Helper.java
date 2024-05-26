@@ -1,16 +1,14 @@
 package com.resolute.zero.helpers;
 
-import com.resolute.zero.domains.Arbitrator;
-import com.resolute.zero.domains.Bank;
-import com.resolute.zero.domains.BankCase;
-import com.resolute.zero.domains.Borrower;
-import com.resolute.zero.domains.User;
+import com.resolute.zero.requests.CaseHearingRequest;
+import com.resolute.zero.domains.*;
 import com.resolute.zero.requests.AdminCaseRequest;
 import com.resolute.zero.requests.ArbitratorRequest;
 import com.resolute.zero.requests.BankRequest;
 import com.resolute.zero.responses.*;
-
+import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 
 public class Helper {
     public static class Convert {
@@ -42,14 +40,13 @@ public class Helper {
                     .id(bankCase.getId())
                     .caseType(bankCase.getCaseType())
                     .caseNo(bankCase.getCaseNo())
-                    .fillingDate(Date.from(bankCase.getUpdatedAt()))
+                    .fillingDate(bankCase.getSocFillingDate())
                     .accountNumber(bankCase.getAccountNumber())
                     .registrationDate(Date.from(bankCase.getCreatedAt()))
                     .build();
         }
 
 		public static BankResponse convertBankResponse(Bank item) {
-			// TODO Auto-generated method stub
 			return BankResponse.builder()
 					.bankName(item.getBankName())
 					.bankId(item.getId())
@@ -62,7 +59,6 @@ public class Helper {
 		}
 
 		public static BorrowerResponse convertBorrowerResponse(Borrower borrower) {
-			
 			return BorrowerResponse.builder()
 					.borrowerId(borrower.getId())
 					.borrowerName(borrower.getBorrowerName())
@@ -73,13 +69,12 @@ public class Helper {
 			return CaseHistoryResponse.builder()
 					.caseDetails(CaseDetailsResponse.builder()
 							.caseType(bankCase.getCaseType())
-                            .registrationNumber(bankCase.getCaseNo())
                             .registrationDate(bankCase.getAwardDate())
                             .caseNumber(bankCase.getCaseNo())
                             .fillingDate(bankCase.getSocFillingDate())
 							.build())
 					.caseStatus(CaseStatusResponse.builder()
-                            .caseStage(bankCase.getState())
+                            .caseStage(bankCase.getCaseStatus())
                             .NextHearingDate(bankCase.getNextHearingDate())
                             .firstHearingDate(bankCase.getFirstHearingDate())
                             .arbitratorName(bankCase.getArbitrator().getArbitratorName())
@@ -127,6 +122,56 @@ public class Helper {
             .nextHearingDate(bankCase.getNextHearingDate())
             .stagesOfNextHearingDate(bankCase.getStagesOfNextHearingDate())
             .build();
+        }
+
+
+        public static CaseDocumentsResponse convertCaseDocumentResponse(BankCase bankCase) {
+            // to be continued
+            return CaseDocumentsResponse.builder()
+                    .loanRecallNotice(LoanRecallNoticeResponse.builder()
+                            .notice("LRNNOT000044")
+                            .RPAD("LRNNOT000044")
+                            .tracking("LRNNOT000044")
+                            .build())
+                    .intentLetter(IntentLetterResponse.builder()
+                            .notice("LRNNOT000044")
+                            .RPAD("LRNNOT000044")
+                            .tracking("LRNNOT000044")
+                            .build())
+                    .referenceLetter(ReferenceLetterResponse.builder()
+                            .notice("LRNNOT000044")
+                            .RPAD("LRNNOT000044")
+                            .tracking("LRNNOT000044")
+                            .build())
+                    .concentLetter(ConcentLetterResponse.builder()
+                            .notice("LRNNOT000044")
+                            .RPAD("LRNNOT000044")
+                            .tracking("LRNNOT000044")
+                            .statementOfClaim("LRNNOT000044")
+                            .build())
+                    .intimationLetter(IntimationLetterResponse.builder()
+                            .notice("LRNNOT000044")
+                            .RPAD("LRNNOT000044")
+                            .tracking("LRNNOT000044")
+                            .affidavit("LRNNOT000044")
+                            .build())
+                    .awardLetter(AwardLetterResponse.builder()
+                            .notice("LRNNOT000044")
+                            .RPAD("LRNNOT000044")
+                            .tracking("LRNNOT000044")
+                            .roznama("LRNNOT000044")
+                            .bankDocument("LRNNOT000044")
+                            .build())
+                    .build();
+        }
+
+        public static CommunicationResponse convertCommunicationResponse(BankCase obj) {
+            // to be completed
+            return CommunicationResponse.builder()
+                    .dates(List.of(CommDateResponse.builder().date(Date.from(Instant.now())).emailComm("emailDoc").emailCommTitle("emailTitleLink").whatsAppComm("whatsappComm").whatsAppCommTitle("whatsappCommTitleLink").textComm("textComm").textCommTitle("textCommTitleLink").build(),CommDateResponse.builder().date(Date.from(Instant.now())).emailComm("emailDoc").emailCommTitle("emailTitleLink").whatsAppComm("whatsappComm").whatsAppCommTitle("whatsappCommTitleLink").textComm("textComm").textCommTitle("textCommTitleLink").build(),CommDateResponse.builder().date(Date.from(Instant.now())).emailComm("emailDoc").emailCommTitle("emailTitleLink").whatsAppComm("whatsappComm").whatsAppCommTitle("whatsappCommTitleLink").textComm("textComm").textCommTitle("textCommTitleLink").build()))
+                    .build();
+
+
         }
     }
     public static class Creator {
@@ -192,6 +237,12 @@ public class Helper {
             caseObj.setStagesOfNextHearingDate(req.getStagesOfNextHearingDate());
 
             return caseObj;
+        }
+
+        public static Proceeding createProceeding(CaseHearingRequest caseHearingRequest) {
+            var proceeding = new Proceeding();
+            proceeding.setHearingDate(caseHearingRequest.getHearingDate());
+            return proceeding;
         }
     }
 

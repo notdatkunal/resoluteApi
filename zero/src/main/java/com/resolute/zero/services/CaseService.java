@@ -1,6 +1,11 @@
 package com.resolute.zero.services;
 
 
+import com.resolute.zero.requests.CaseHearingRequest;
+import com.resolute.zero.domains.Proceeding;
+import com.resolute.zero.repositories.ProceedingRepository;
+import com.resolute.zero.responses.CaseDocumentsResponse;
+import com.resolute.zero.responses.CommunicationResponse;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +26,8 @@ public class CaseService {
 	private final CaseRepository caseRepository;
 	
 	public CaseHistoryResponse getCaseHistoryByCaseId(Integer caseId) {
-	    return Helper.Convert.convertCaseHistoryResponse(extracted(caseRepository,caseId));
+		var obj = CaseService.extracted(caseRepository,caseId);
+	    return Helper.Convert.convertCaseHistoryResponse(obj);
 	}
 
 	
@@ -31,4 +37,23 @@ public class CaseService {
 		return caseOptional.get();
 	}
 
+	public CaseDocumentsResponse getCaseDocuments(Integer caseId) {
+		var obj = CaseService.extracted(caseRepository,caseId);
+		return Helper.Convert.convertCaseDocumentResponse(obj);
+	}
+
+	public CommunicationResponse getCommunicationByCaseId(Integer id) {
+		var obj = CaseService.extracted(caseRepository,id);
+		return Helper.Convert.convertCommunicationResponse(obj);
+
+	}
+	@Autowired
+	private ProceedingRepository proceedingRepository;
+	public void createHearingByCaseId(Integer caseId, CaseHearingRequest caseHearingRequest) {
+		var obj = CaseService.extracted(caseRepository,caseId);
+		Proceeding hearing = Helper.Creator.createProceeding(caseHearingRequest);
+		obj.getProceeding().add(hearing);
+		proceedingRepository.save(hearing);
+		caseRepository.save(obj);
+	}
 }
