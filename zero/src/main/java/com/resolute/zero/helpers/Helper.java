@@ -1,10 +1,7 @@
 package com.resolute.zero.helpers;
 
-import com.resolute.zero.requests.CaseHearingRequest;
+import com.resolute.zero.requests.*;
 import com.resolute.zero.domains.*;
-import com.resolute.zero.requests.AdminCaseRequest;
-import com.resolute.zero.requests.ArbitratorRequest;
-import com.resolute.zero.requests.BankRequest;
 import com.resolute.zero.responses.*;
 import java.time.Instant;
 import java.util.Date;
@@ -172,6 +169,15 @@ public class Helper {
                     .build();
 
 
+        }
+
+        public static HearingResponse convertHearingResponse(Proceeding proceeding) {
+            return HearingResponse.builder()
+                    .current(false).
+                    hearingDate(proceeding.getHearingDate())
+                    .minutesOfMeetings(proceeding.getMinutesOfMeetings())
+                    .meetingRecordings(proceeding.getMeetingRecordings())
+                    .build();
         }
     }
     public static class Creator {

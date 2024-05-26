@@ -4,6 +4,7 @@ package com.resolute.zero.services;
 import com.resolute.zero.requests.CaseHearingRequest;
 import com.resolute.zero.domains.Proceeding;
 import com.resolute.zero.repositories.ProceedingRepository;
+import com.resolute.zero.requests.HearingResponse;
 import com.resolute.zero.responses.CaseDocumentsResponse;
 import com.resolute.zero.responses.CommunicationResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,9 @@ import com.resolute.zero.domains.BankCase;
 import com.resolute.zero.helpers.Helper;
 import com.resolute.zero.repositories.CaseRepository;
 import com.resolute.zero.responses.CaseHistoryResponse;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -55,5 +59,14 @@ public class CaseService {
 		obj.getProceeding().add(hearing);
 		proceedingRepository.save(hearing);
 		caseRepository.save(obj);
+	}
+
+	public List<HearingResponse> getHearingsByCaseId(Integer caseId) {
+		return CaseService.extracted(caseRepository,caseId)
+				.getProceeding()
+				.stream()
+				.map(Helper.Convert::convertHearingResponse)
+				.toList();
+
 	}
 }

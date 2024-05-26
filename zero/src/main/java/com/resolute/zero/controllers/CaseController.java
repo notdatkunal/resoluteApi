@@ -27,6 +27,7 @@ public class CaseController {
     }
 
 
+
     @GetMapping("/history/{caseId}")
     public CaseHistoryResponse getCaseHistory(@PathVariable Integer caseId){
         return caseService.getCaseHistoryByCaseId(caseId);
@@ -36,18 +37,12 @@ public class CaseController {
         return caseService.getCaseDocuments(caseId);
 
     }
-    @GetMapping("/proceeding/{id}")
-    public CaseProceedingsResponse getProceedings(@PathVariable Integer id){
-
-        return CaseProceedingsResponse.builder()
-                .hearings(List.of(HearingResponse.builder().hearingDate(Date.from(Instant.now())).minutesOfMeetings("g-C3N4").build(),HearingResponse.builder().hearingDate(Date.from(Instant.now())).minutesOfMeetings("g-C3N4").build(),HearingResponse.builder().current(true).hearingDate(Date.from(Instant.now())).minutesOfMeetings("g-C3N4").build()))
-                .build();
+    @GetMapping("/proceeding/{caseId}")
+    public List<HearingResponse> getProceedings(@PathVariable Integer caseId){
+        return caseService.getHearingsByCaseId(caseId);
     }
     @GetMapping("/order/{id}")
     public OrderResponse getOrder(@PathVariable Integer id){
-
-
-
         return OrderResponse.builder()
                 .awardOrder(OrderModel.builder().orderTitle("randomTitle").date(Date.from(Instant.now())).awardOrder(true).build())
                 .interimOrder(OrderModel.builder().orderTitle("randomTitle").date(Date.from(Instant.now())).interimOrder(true).build())

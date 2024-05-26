@@ -10,6 +10,7 @@ import java.util.Date;
 public class HearingResponse {
     Date hearingDate;
     String minutesOfMeetings;
+    String meetingRecordings;
 
     Boolean current;
 }
