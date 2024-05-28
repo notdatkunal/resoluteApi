@@ -4,16 +4,19 @@ import com.resolute.zero.domains.User;
 import com.resolute.zero.repositories.UserRepository;
 import com.resolute.zero.utilities.ApplicationUtility;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public  class UserService {
+public  class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     public boolean login(User user){
 
-         var userOptional = userRepository.findUserByUserName(user.getUserName());
+         var userOptional = userRepository.findUserByUserName(user.getUsername());
          if(userOptional.isEmpty())
              return false;
 
@@ -32,11 +35,15 @@ public  class UserService {
 
     public void createUser(User user){
 
-        if(userRepository.findUserByUserName(user.getUserName()).isPresent()){
+        if(userRepository.findUserByUserName(user.getUsername()).isPresent()){
             throw new RuntimeException("user already exists");
         }
         user.setPassword(ApplicationUtility.encryptPassword(user.getPassword()));
         userRepository.save(user);
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return this.findByUserName(username);
+    }
 }

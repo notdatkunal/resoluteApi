@@ -13,6 +13,7 @@ import com.resolute.zero.responses.BankResponse;
 import com.resolute.zero.responses.BorrowerResponse;
 import com.resolute.zero.responses.CaseResponse;
 import com.resolute.zero.responses.UserModel;
+import com.resolute.zero.services.JWTutil;
 import jakarta.persistence.criteria.CriteriaBuilder;
 
 import java.util.Date;
@@ -26,7 +27,8 @@ public class Helper {
             return UserModel.builder()
                     .id(user.getId())
                     .status(true)
-                    .username(user.getUserName())
+                    .token(JWTutil.generateToken(user.getUsername()))
+                    .username(user.getUsername())
                     .role(user.getRole())
                     .build();
         }
