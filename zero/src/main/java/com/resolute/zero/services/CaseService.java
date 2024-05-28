@@ -18,6 +18,7 @@ import com.resolute.zero.helpers.Helper;
 import com.resolute.zero.repositories.CaseRepository;
 import com.resolute.zero.responses.CaseHistoryResponse;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +29,9 @@ public class CaseService {
 	
 	@Autowired
 	private final CaseRepository caseRepository;
-	
+	@Autowired
+	private final ProceedingRepository proceedingRepository;
+
 	public CaseHistoryResponse getCaseHistoryByCaseId(Integer caseId) {
 		var obj = CaseService.extracted(caseRepository,caseId);
 	    return Helper.Convert.convertCaseHistoryResponse(obj);
@@ -51,8 +54,7 @@ public class CaseService {
 		return Helper.Convert.convertCommunicationResponse(obj);
 
 	}
-	@Autowired
-	private ProceedingRepository proceedingRepository;
+
 	public void createHearingByCaseId(Integer caseId, CaseHearingRequest caseHearingRequest) {
 		var obj = CaseService.extracted(caseRepository,caseId);
 		Proceeding hearing = Helper.Creator.createProceeding(caseHearingRequest);
@@ -67,6 +69,23 @@ public class CaseService {
 				.stream()
 				.map(Helper.Convert::convertHearingResponse)
 				.toList();
+	}
 
+	public void updateHearingByHearingId(Integer hearingId, Date date) {
+		var proceedingOptional = proceedingRepository.findById(hearingId);
+		if(proceedingOptional.isEmpty()) throw new RuntimeException("hearing id does not exist");
+		var proceeding = proceedingOptional.get();
+		proceeding.setHearingDate(date);
+		proceedingRepository.save(proceeding);
+	}
+
+	public void deleteHearingById(Integer hearingId) {
+		var proceeding = proceedingRepository.findById(hearingId);
+		if(proceeding.isEmpty()) throw new RuntimeException("hearing id does not exist");
+		var obj = caseRepository.findByProceeding_Id(hearingId);
+		if(obj.isEmpty()) throw new RuntimeException("hearing is orphaned");
+		obj.get().getProceeding().remove(proceeding.get());
+		caseRepository.save(obj.get());
+		proceedingRepository.deleteById(hearingId);
 	}
 }

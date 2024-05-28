@@ -5,13 +5,20 @@ import com.resolute.zero.domains.Document;
 import com.resolute.zero.repositories.CaseRepository;
 import com.resolute.zero.utilities.CodeComponent;
 import com.resolute.zero.utilities.MetaDocInfo;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 
@@ -75,5 +82,21 @@ public class MediaService {
 
 
 
+    }
+
+    public ResponseEntity<String> getFile(String fileName) throws IOException {
+        // Path to the media folder (replace with your actual path)
+        String mediaPath = "/media/" + fileName;
+
+        // Read the file as bytes
+        byte[] fileBytes = IOUtils.toByteArray(new FileInputStream(mediaPath));
+
+        // Convert bytes to Base64 string
+        String base64Encoded = Base64.getEncoder().encodeToString(fileBytes);
+
+        // Prepare and return the response
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(base64Encoded);
     }
 }

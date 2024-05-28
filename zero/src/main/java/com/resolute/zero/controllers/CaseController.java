@@ -19,14 +19,6 @@ public class CaseController {
     @Autowired
     private CaseService caseService;
 
-
-    @PostMapping("/hearing/{caseId}")
-    public void  createHearingByCaseId(@PathVariable Integer caseId, @RequestHeader Date date){
-        caseService.createHearingByCaseId(caseId,CaseHearingRequest.builder().hearingDate(date).build());
-    }
-
-
-
     @GetMapping("/history/{caseId}")
     public CaseHistoryResponse getCaseHistory(@PathVariable Integer caseId){
         return caseService.getCaseHistoryByCaseId(caseId);
@@ -36,7 +28,7 @@ public class CaseController {
         return caseService.getCaseDocuments(caseId);
 
     }
-    @GetMapping("/proceeding/{caseId}")
+    @GetMapping("/hearings/{caseId}")
     public List<HearingResponse> getProceedings(@PathVariable Integer caseId){
         return caseService.getHearingsByCaseId(caseId);
     }

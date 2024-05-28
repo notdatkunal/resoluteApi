@@ -1,10 +1,9 @@
 package com.resolute.zero.controllers;
 
-
-
 import com.resolute.zero.requests.*;
 import com.resolute.zero.responses.*;
 import com.resolute.zero.services.AdminService;
+import com.resolute.zero.services.CaseService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +17,18 @@ import java.util.List;
 @RequestMapping("/admin")
 @RequiredArgsConstructor
 public class AdminController {
+
+    @Autowired
+    private CaseService caseService;
+
+    @PostMapping("/hearing/{caseId}")
+    public void  createHearingByCaseId(@PathVariable Integer caseId, @RequestBody CaseHearingRequest caseHearingRequest){
+        caseService.createHearingByCaseId(caseId,CaseHearingRequest.builder().hearingDate(caseHearingRequest.getHearingDate()).build());
+    }
+    @PutMapping("/hearing/{hearingId}")
+    public void  createHearingByCaseId(@RequestHeader CaseHearingRequest date,@PathVariable Integer hearingId){
+        caseService.updateHearingByHearingId(hearingId,date.getHearingDate());
+    }
 
     @Autowired
     private final AdminService adminService;
@@ -50,6 +61,19 @@ public class AdminController {
     public void addArbitrator(@RequestBody ArbitratorRequest request){
 
         adminService.addArbitrator(request);
+    }
+
+
+
+    @GetMapping("/hearings/{caseId}")
+    public List<HearingResponse> getProceedings(@PathVariable Integer caseId){
+        return caseService.getHearingsByCaseId(caseId);
+    }
+
+
+    @DeleteMapping("/hearing/{hearingId}")
+    public void  deleteHearingByCaseId(@PathVariable Integer hearingId){
+        caseService.deleteHearingById(hearingId);
     }
 
     @PostMapping("/bank")

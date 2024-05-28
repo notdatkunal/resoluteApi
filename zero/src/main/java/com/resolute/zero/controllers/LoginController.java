@@ -1,5 +1,6 @@
 package com.resolute.zero.controllers;
 
+import com.resolute.zero.domains.LoginRecord;
 import com.resolute.zero.domains.User;
 import com.resolute.zero.helpers.Helper;
 import com.resolute.zero.requests.CreateUserRequest;
@@ -11,9 +12,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin("*")
 public class LoginController {
+
+    @GetMapping("/loginRecords")
+    public List<LoginRecordResponse> loginRecordResponse(){
+        return userService.getLoginRecords();
+    }
 
     @Autowired
     private UserService userService;

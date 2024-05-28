@@ -7,10 +7,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 
-@Builder
-@Data
-public class CaseHearingRequest {
 
-    private Date hearingDate;
+    @Builder
+    @Data
+    public class CaseHearingRequest {
 
-}
+        private Date hearingDate;
+
+        String minutesOfMeetings;
+        String meetingRecordings;
+
+        Boolean current;
+
+
+    }

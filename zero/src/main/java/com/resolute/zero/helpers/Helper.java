@@ -1,8 +1,11 @@
 package com.resolute.zero.helpers;
 
+import com.resolute.zero.controllers.LoginRecordResponse;
 import com.resolute.zero.requests.*;
 import com.resolute.zero.domains.*;
 import com.resolute.zero.responses.*;
+import lombok.extern.java.Log;
+
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
@@ -173,10 +176,18 @@ public class Helper {
 
         public static HearingResponse convertHearingResponse(Proceeding proceeding) {
             return HearingResponse.builder()
-                    .current(false).
-                    hearingDate(proceeding.getHearingDate())
+                    .current(false)
+                    .hearingId(proceeding.getId())
+                    .hearingDate(proceeding.getHearingDate())
                     .minutesOfMeetings(proceeding.getMinutesOfMeetings())
                     .meetingRecordings(proceeding.getMeetingRecordings())
+                    .build();
+        }
+
+        public static LoginRecordResponse convertLoginRecord(LoginRecord loginRecord) {
+            return LoginRecordResponse.builder()
+                    .loginTime(loginRecord.getLoginTime())
+                    .username(loginRecord.getUser().getUserName())
                     .build();
         }
     }

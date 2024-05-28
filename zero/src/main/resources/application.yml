@@ -1,3 +1,5 @@
+server:
+  port: 80
 management:
   endpoint:
     shutdown:
@@ -20,23 +22,16 @@ spring:
     properties:
       format_sql: true
       show-sql: true
-
   servlet:
     multipart:
       enabled: true
       max-file-size: 1000MB
       max-request-size: 1000MB
-
-
-
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    username: sql6701811
-#    password: pmqc2T6PGf
-#    url: jdbc:mysql://sql6.freesqldatabase.com:3306/sql6701811
     username: ${RESOLUTE_USER}
     password: ${RESOLUTE_PASS}
     url: ${RESOLUTE_LINK}

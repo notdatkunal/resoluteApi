@@ -25,6 +25,11 @@ public class MediaController {
     @Autowired
     private MediaService mediaService;
 
+    @GetMapping("/media/{fileName}")
+    public ResponseEntity<String> getFile(@PathVariable String fileName) throws IOException {
+        return mediaService.getFile(fileName);
+    }
+
     @PostMapping("/media")
     public ResponseEntity<?> singleUploading(@RequestParam("file") MultipartFile file, @RequestParam String mainType, @RequestParam String subType, @RequestParam Integer caseId) throws IOException {
         String code = codeComponent.getCode(mainType,subType,caseId);
