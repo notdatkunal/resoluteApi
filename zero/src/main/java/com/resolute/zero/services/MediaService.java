@@ -6,12 +6,14 @@ import com.resolute.zero.repositories.CaseRepository;
 import com.resolute.zero.utilities.CodeComponent;
 import com.resolute.zero.utilities.MetaDocInfo;
 import org.apache.commons.io.IOUtils;
+import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -87,12 +89,27 @@ public class MediaService {
     public ResponseEntity<String> getFile(String fileName) throws IOException {
         // Path to the media folder (replace with your actual path)
         String mediaPath = "/media/" + fileName;
+//        String mediaPath = "C:\\Users\\kunal\\Downloads\\quarkus-web-interface\\resoluteApi\\zero\\media\\" + fileName;
 
         // Read the file as bytes
-        byte[] fileBytes = IOUtils.toByteArray(new FileInputStream(mediaPath));
+        var fileInputStream = new FileInputStream(mediaPath);
+        byte[] fileBytes = IOUtils.toByteArray(fileInputStream);
+        String mimeType = "";
+//        String mimeType = "";
+        Tika tika = new Tika();
+        try {
+            // Get MIME type
+            var file = new File(mediaPath);
+            mimeType = tika.detect(file);
 
+        } catch (IOException e) {
+            e.printStackTrace();
+            mimeType = "application/octet-stream";
+        }
+//        String format = fileName.split("\\.")[1];
+        String bytes = Base64.getEncoder().encodeToString(fileBytes);
         // Convert bytes to Base64 string
-        String base64Encoded = Base64.getEncoder().encodeToString(fileBytes);
+        String base64Encoded = "data:"+mimeType+";base64,"+bytes;
 
         // Prepare and return the response
         return ResponseEntity.ok()
