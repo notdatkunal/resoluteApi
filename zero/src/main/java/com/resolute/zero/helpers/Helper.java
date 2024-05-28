@@ -1,10 +1,9 @@
 package com.resolute.zero.helpers;
 
-import com.resolute.zero.controllers.LoginRecordResponse;
+import com.resolute.zero.responses.LoginRecordResponse;
 import com.resolute.zero.requests.*;
 import com.resolute.zero.domains.*;
 import com.resolute.zero.responses.*;
-import lombok.extern.java.Log;
 
 import java.time.Instant;
 import java.util.Date;

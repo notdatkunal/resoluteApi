@@ -59,6 +59,13 @@ public class CaseService {
 		var obj = CaseService.extracted(caseRepository,caseId);
 		Proceeding hearing = Helper.Creator.createProceeding(caseHearingRequest);
 		obj.getProceeding().add(hearing);
+		obj.setHearingsCount(obj.getHearingsCount()+1);
+		if(obj.getHearingsCount()<10) {
+			hearing.setOrderType("H0" + obj.getHearingsCount());
+		}
+		else {
+			hearing.setOrderType("H" + obj.getHearingsCount());
+		}
 		proceedingRepository.save(hearing);
 		caseRepository.save(obj);
 	}

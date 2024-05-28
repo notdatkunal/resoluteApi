@@ -18,7 +18,7 @@ public class Proceeding {
     private Date hearingDate;
     private String meetingRecordings;
     private String minutesOfMeetings;
-
+    private String OrderType;
 
 
 }

@@ -1,5 +1,7 @@
 package com.resolute.zero.utilities;
 
+import com.resolute.zero.repositories.ProceedingRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -13,17 +15,33 @@ public class CodeComponent {
      * LRNNOT000044 (12-digit code)
      * code consists three parts
      * ABC+XYZ+(6-digit number)
-     * @param  mainType (ABC) - represents main type of document
-     * @param subType (XYZ) - represents subtype of document
-     * @param caseId (6-digit number) - unique case number
+     *
+     * @param mainType  (ABC) - represents main type of document
+     * @param subType   (XYZ) - represents subtype of document
+     * @param caseId    (6-digit number) - unique case number
+     * @param hearingId
      * @return 12-character alphanumeric code
      * @author notdatkunal
      * @since 1.0
      */
-    public String getCode(String mainType,String subType,Integer caseId){
+    public String getCode(String mainType, String subType, Integer caseId, Integer hearingId){
+        String main = getMainTypeAbbreviation(mainType);
+        String sub  = getSubTypeMapping(subType);
+        String cId = formatNumberWithLeadingZeros(caseId);
+        var listOfHearingType = List.of("REC","MOM");
+        if(listOfHearingType.contains(main)){
+            var hearing = proceedingRepository.findById(hearingId);
+            if(hearing.isEmpty()) throw new RuntimeException("hearing object not fount");
+            sub = hearing.get().getOrderType();
+        }
 
-    return getMainTypeAbbreviation(mainType)+getSubTypeMapping(subType)+formatNumberWithLeadingZeros(caseId);
+    return main+sub+cId;
+
+
+
     }
+    @Autowired
+    private ProceedingRepository proceedingRepository;
 
 
     public String getMainTypeAbbreviation(String mainType) {
@@ -116,7 +134,7 @@ public class CodeComponent {
         Integer digits = 4224;
 
         CodeComponent codeCreator = new CodeComponent();
-        String code = codeCreator.getCode("loanRecallNotice","notice",digits);
+        String code = codeCreator.getCode("loanRecallNotice","notice",digits, hearingId);
 
         System.out.println("created code " + code);
         System.out.println("created meta info"+codeCreator.getMetaDocInfo(code));

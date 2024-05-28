@@ -1,6 +1,6 @@
 package com.resolute.zero.services;
 
-import com.resolute.zero.controllers.LoginRecordResponse;
+import com.resolute.zero.responses.LoginRecordResponse;
 import com.resolute.zero.domains.User;
 import com.resolute.zero.helpers.Helper;
 import com.resolute.zero.repositories.LoginRecordRepository;

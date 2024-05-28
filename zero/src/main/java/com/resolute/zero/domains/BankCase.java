@@ -9,7 +9,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Stream;
+
 
 @Getter
 @Setter
@@ -25,6 +25,7 @@ public class BankCase {
     @Column(nullable = false,unique = true)
     private String caseNo;
     private Date sec17OrderDate;
+    private Integer hearingsCount;
 
     @CreationTimestamp
     private Instant createdAt;

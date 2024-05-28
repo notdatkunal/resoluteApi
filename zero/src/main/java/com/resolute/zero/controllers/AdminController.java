@@ -4,7 +4,6 @@ import com.resolute.zero.requests.*;
 import com.resolute.zero.responses.*;
 import com.resolute.zero.services.AdminService;
 import com.resolute.zero.services.CaseService;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,8 +88,7 @@ public class AdminController {
      * please read the service documentation before using this
      * */
     @GetMapping("/documents")
-    public List<DocumentResponse> listDocuments(
-            HttpSession session){
+    public List<DocumentResponse> listDocuments(){
 
         return adminService.getDocumentList();
 
@@ -128,7 +126,7 @@ public class AdminController {
 
 
     @GetMapping("/borrower/{borrowerId}")
-    public BorrowerResponse getBorrowerById(@PathVariable Integer borrowerId, HttpSession session){
+    public BorrowerResponse getBorrowerById(@PathVariable Integer borrowerId){
     return adminService.getBorrowerById(borrowerId);
     }
     @GetMapping("/borrower")
@@ -147,11 +145,11 @@ public class AdminController {
 
     
     @GetMapping("/bank/{bankId}")
-    public BankResponse getBankById(@PathVariable Integer bankId, HttpSession session){
+    public BankResponse getBankById(@PathVariable Integer bankId){
         return adminService.getBankById(bankId);
     }
     @GetMapping("/bank")
-    public List<BankResponse> getAllBanks( HttpSession session){
+    public List<BankResponse> getAllBanks(){
         return adminService.getBanksList();
 
     }

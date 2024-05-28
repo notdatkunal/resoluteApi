@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -33,7 +32,8 @@ public class MediaService {
         Files.createDirectories(Path.of("media"));
         Path uploadTo = Path.of(String.format("media/%s.%s", code,format));
         file.transferTo(uploadTo);
-        return code;
+
+        return uploadTo.getFileName().toString();
     }
     public ArrayList<String> uploadFiles(MultipartFile[] files) throws IOException {
         Files.createDirectories(Path.of("media"));
@@ -67,7 +67,7 @@ public class MediaService {
 
         document.setDocumentMainTypeTitle(metaDocInfo.getMainType());
         document.setDocumentSubTypeTitle(metaDocInfo.getSubType());
-        document.setImageName(codeComponent.getCode(metaDocInfo.getMainType(),metaDocInfo.getSubType(),metaDocInfo.getCaseId()));
+        document.setImageName(codeComponent.getCode(metaDocInfo.getMainType(),metaDocInfo.getSubType(),metaDocInfo.getCaseId(), hearingId));
         document.setFileExtension(metaDocInfo.getFileExtension());
         var caseOptional = caseRepository.findById(metaDocInfo.getCaseId());
 

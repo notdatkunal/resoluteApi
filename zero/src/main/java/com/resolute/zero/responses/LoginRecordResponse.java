@@ -1,4 +1,4 @@
-package com.resolute.zero.controllers;
+package com.resolute.zero.responses;
 
 import lombok.Builder;
 import lombok.Data;

@@ -1,7 +1,6 @@
 package com.resolute.zero.controllers;
 
-import com.resolute.zero.requests.CaseHearingRequest;
-import com.resolute.zero.requests.CaseProceedingsResponse;
+
 import com.resolute.zero.requests.HearingResponse;
 import com.resolute.zero.responses.*;
 import com.resolute.zero.services.CaseService;

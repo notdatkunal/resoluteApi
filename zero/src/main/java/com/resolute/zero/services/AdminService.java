@@ -43,6 +43,7 @@ public class AdminService {
         if(bank.isEmpty()) throw new RuntimeException("bank id does not exist");
         caseObj.setArbitrator(arbitrator.get());
         caseObj.setBank(bank.get());
+        caseObj.setHearingsCount(0);
         caseRepository.save(caseObj);
     }
     public void addBorrower(BorrowerRequest request) {

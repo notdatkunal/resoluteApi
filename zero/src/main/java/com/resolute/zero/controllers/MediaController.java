@@ -1,10 +1,8 @@
 package com.resolute.zero.controllers;
 
 import com.resolute.zero.services.MediaService;
-import com.resolute.zero.utilities.ApplicationUtility;
 import com.resolute.zero.utilities.CodeComponent;
 import com.resolute.zero.utilities.MetaDocInfo;
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,11 +29,11 @@ public class MediaController {
     }
 
     @PostMapping("/media")
-    public ResponseEntity<?> singleUploading(@RequestParam("file") MultipartFile file, @RequestParam String mainType, @RequestParam String subType, @RequestParam Integer caseId) throws IOException {
-        String code = codeComponent.getCode(mainType,subType,caseId);
+    public ResponseEntity<?> singleUploading(@RequestParam("file") MultipartFile file, @RequestParam String mainType, @RequestParam String subType, @RequestParam Integer caseId, @RequestParam Integer hearingId) throws IOException {
+        String code = codeComponent.getCode(mainType,subType,caseId,hearingId);
         String fileName =  mediaService.uploadFile(code,file);
         mediaService.saveDocumentInDB(codeComponent.getMetaDocInfo(code));
-        return ResponseEntity.ok(code +" file uploaded successfully");
+        return ResponseEntity.ok(fileName +" file uploaded successfully");
     }
 
     @PostMapping("/media/bulk")

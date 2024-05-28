@@ -3,9 +3,7 @@ package com.resolute.zero.services;
 import com.resolute.zero.domains.DocMainType;
 import com.resolute.zero.domains.DocSubType;
 import com.resolute.zero.domains.User;
-import com.resolute.zero.repositories.DocMainTypeRepository;
-import com.resolute.zero.repositories.DocSubTypeRepository;
-import com.resolute.zero.repositories.UserRepository;
+import com.resolute.zero.repositories.*;
 import com.resolute.zero.utilities.ApplicationUtility;
 import com.resolute.zero.utilities.MetaDocInfo;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +13,19 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class StartupAppService {
+
+//        caseRepository.findAll().forEach(bankCase -> {
+//            bankCase.setHearingsCount(0);
+//            bankCase.getProceeding().forEach(proceeding -> {
+//                bankCase.setHearingsCount(bankCase.getHearingsCount()+1);
+//                if(bankCase.getHearingsCount()<10)
+//                    proceeding.setOrderType("H0"+bankCase.getHearingsCount());
+//                else
+//                    proceeding.setOrderType("H"+bankCase.getHearingsCount());
+//                proceedingRepository.save(proceeding);
+//            });
+//            caseRepository.save(bankCase);
+//        });
 
     @Autowired
     private final UserRepository userRepository ;
@@ -40,6 +51,9 @@ public class StartupAppService {
 
             });
         }
+
+
+
         if(docSubTypeRepository.count()==0){
 
             MetaDocInfo.SUB_TYPE_MAP.forEach((key,value)->{

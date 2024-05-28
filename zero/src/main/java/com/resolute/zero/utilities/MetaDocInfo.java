@@ -21,6 +21,8 @@ public class MetaDocInfo {
         put("hearing", "HER");
         put("bankDocument","BND");
         put("borrowerDocument","BRW");
+        put("recording","REC");
+        put("minutesOfMeeting","MOM");
     }};
     public static final Map<String, String> SUB_TYPE_MAP = new HashMap<>() {{
         put("notice", "NOT");
