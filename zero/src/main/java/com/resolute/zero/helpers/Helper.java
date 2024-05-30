@@ -5,6 +5,8 @@ import com.resolute.zero.responses.*;
 import com.resolute.zero.requests.*;
 import com.resolute.zero.domains.*;
 import com.resolute.zero.responses.*;
+import com.resolute.zero.services.JWTutil;
+
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
@@ -187,7 +189,7 @@ public class Helper {
         public static LoginRecordResponse convertLoginRecord(LoginRecord loginRecord) {
             return LoginRecordResponse.builder()
                     .loginTime(loginRecord.getLoginTime())
-                    .username(loginRecord.getUser().getUserName())
+                    .username(loginRecord.getUser().getUsername())
                     .build();
         }
     }

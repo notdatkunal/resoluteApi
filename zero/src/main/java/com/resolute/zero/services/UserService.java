@@ -57,6 +57,7 @@ public  class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return this.findByUserName(username);
 
+    }
     public List<LoginRecordResponse> getLoginRecords() {
 
         return loginRecordRepository.findAll().stream().map(Helper.Convert::convertLoginRecord).toList();
