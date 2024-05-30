@@ -29,14 +29,14 @@ public class LoginController {
 
     @GetMapping("/login")
     public ResponseEntity<UserModel> login(HttpSession session, @ModelAttribute("username") String username, @ModelAttribute("password") String password) {
+        System.out.println("hello from login");
         User login = new User(username,password);
         boolean userExists = userService.login(login);
         if(userExists) {
             var user = userService.findByUserName(username);
-            session.setAttribute("user", user);
+            System.out.println("userObject"+user);
 
         return  ResponseEntity.ok(Helper.Convert.convertUserModel(user));
-
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(UserModel.builder()

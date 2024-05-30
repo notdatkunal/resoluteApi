@@ -39,15 +39,17 @@ public class AdminController {
     }
 
     @PostMapping("/case")
-    public void addCase(@RequestBody AdminCaseRequest request){
+    public void addCase(@RequestBody AdminCaseRequest request  ){
+
         adminService.saveCase(request);
     }
 
     @PostMapping("/borrower")
+
     public void addBorrower(@RequestBody BorrowerRequest request){
 
-        adminService.addBorrower(request);
 
+        adminService.addBorrower(request);
     }
 
     @PutMapping("/arbitrator/{arbitratorId}")
@@ -57,7 +59,9 @@ public class AdminController {
     }
 
     @PostMapping("/arbitrator")
+
     public void addArbitrator(@RequestBody ArbitratorRequest request){
+
 
         adminService.addArbitrator(request);
     }
@@ -89,26 +93,19 @@ public class AdminController {
      * */
     @GetMapping("/documents")
     public List<DocumentResponse> listDocuments(){
-
         return adminService.getDocumentList();
 
     }
 
     @GetMapping("/arbitrator/{arbitratorId}")
     public ArbitratorResponse getArbitratorById(@PathVariable Integer arbitratorId){
-
         return adminService.getArbitratorById(arbitratorId);
     }
     @GetMapping("/arbitrator")
     public List<ArbitratorResponse> getAllArbitrators(){
-
         return adminService.getArbitratorList();
 
     }
-
-
-
-
     @GetMapping("/case/{caseId}")
     public AdminCaseResponse getCaseById(@PathVariable Integer caseId){
         return adminService.getCaseById(caseId);
@@ -126,7 +123,7 @@ public class AdminController {
 
 
     @GetMapping("/borrower/{borrowerId}")
-    public BorrowerResponse getBorrowerById(@PathVariable Integer borrowerId){
+    public BorrowerResponse getBorrowerById(@PathVariable Integer borrowerId ){
     return adminService.getBorrowerById(borrowerId);
     }
     @GetMapping("/borrower")

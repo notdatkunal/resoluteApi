@@ -9,6 +9,7 @@ public class UserModel {
 
     String username;
     Boolean status;
+    String token;
     Integer id;
     String role;
 }

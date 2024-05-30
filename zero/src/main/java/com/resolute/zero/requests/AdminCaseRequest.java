@@ -29,15 +29,12 @@ public class AdminCaseRequest {
     Date firstHearingDate;
     Date lastHearingDate;
     Date nextHearingDate;
-
-
     String stagesOfLastHearingDate;
     String stagesOfNextHearingDate;
     String caseStatus;
     String flagForContested;
     String detailsRemark;
     Date awardDate;
-
     String awardAmount;
     Date sec17AppFillingDate;
     Date sec17OrderDate;

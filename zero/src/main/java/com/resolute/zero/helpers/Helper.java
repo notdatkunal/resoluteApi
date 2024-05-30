@@ -1,10 +1,10 @@
 package com.resolute.zero.helpers;
 
-import com.resolute.zero.responses.LoginRecordResponse;
+
+import com.resolute.zero.responses.*;
 import com.resolute.zero.requests.*;
 import com.resolute.zero.domains.*;
 import com.resolute.zero.responses.*;
-
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +18,8 @@ public class Helper {
             return UserModel.builder()
                     .id(user.getId())
                     .status(true)
-                    .username(user.getUserName())
+                    .token(JWTutil.generateToken(user.getUsername()))
+                    .username(user.getUsername())
                     .role(user.getRole())
                     .build();
         }
