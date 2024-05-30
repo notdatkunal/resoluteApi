@@ -3,8 +3,7 @@ package com.resolute.zero.controllers;
 
 import com.resolute.zero.requests.SearchRequest;
 import com.resolute.zero.responses.CaseResponse;
-import com.resolute.zero.utilities.ApplicationUtility;
-import jakarta.servlet.http.HttpSession;
+
 import org.springframework.web.bind.annotation.*;
 import java.time.Instant;
 import java.util.Date;
@@ -15,7 +14,7 @@ import java.util.List;
 @CrossOrigin("*")
 public class BankController {
     @GetMapping("/cases/{bankId}")
-    public List<CaseResponse> getCases(@PathVariable Integer bankId, HttpSession session){
+    public List<CaseResponse> getCases(@PathVariable Integer bankId){
 
         return List.of(
                 CaseResponse.builder().registrationDate(Date.from(Instant.now())).fillingDate(Date.from(Instant.now())).caseType("xyz").registrationDate(Date.from(Instant.now())).build(),
@@ -24,7 +23,7 @@ public class BankController {
         );
     }
     @GetMapping("/search/{bankId}")
-    public List<CaseResponse> searchCase(HttpSession session,@PathVariable Integer bankId,@RequestBody(required = false) SearchRequest searchRequest){
+    public List<CaseResponse> searchCase(@PathVariable Integer bankId,@RequestBody(required = false) SearchRequest searchRequest){
 
         if(searchRequest==null){
             return null;

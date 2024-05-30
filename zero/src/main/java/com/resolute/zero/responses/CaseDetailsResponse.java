@@ -11,10 +11,9 @@ import java.util.Date;
 public class CaseDetailsResponse {
 
     String caseType;
-    String fillingNumber;
+    String caseNumber;
     Date fillingDate;
-    String registrationNumber;
     Date registrationDate;
-    String CNRNumber;
+
 
 }

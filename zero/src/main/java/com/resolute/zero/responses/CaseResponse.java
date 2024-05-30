@@ -9,6 +9,7 @@ import java.util.Date;
 @Builder
 @Data
 public class CaseResponse {
+    Integer id;
     String caseNo;
     String  caseType;
     Date registrationDate;

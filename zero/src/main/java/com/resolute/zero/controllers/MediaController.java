@@ -1,10 +1,8 @@
 package com.resolute.zero.controllers;
 
 import com.resolute.zero.services.MediaService;
-import com.resolute.zero.utilities.ApplicationUtility;
 import com.resolute.zero.utilities.CodeComponent;
 import com.resolute.zero.utilities.MetaDocInfo;
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,18 +23,21 @@ public class MediaController {
     @Autowired
     private MediaService mediaService;
 
-    @PostMapping("/media")
-    public ResponseEntity<?> singleUploading(HttpSession session, @RequestParam("file") MultipartFile file, @RequestParam String mainType, @RequestParam String subType, @RequestParam Integer caseId) throws IOException {
+    @GetMapping("/media/{fileName}")
+    public ResponseEntity<String> getFile(@PathVariable String fileName) throws IOException {
+        return mediaService.getFile(fileName);
+    }
 
-        String code = codeComponent.getCode(mainType,subType,caseId);
+    @PostMapping("/media")
+    public ResponseEntity<?> singleUploading(@RequestParam("file") MultipartFile file, @RequestParam String mainType, @RequestParam String subType, @RequestParam Integer caseId, @RequestParam Integer hearingId) throws IOException {
+        String code = codeComponent.getCode(mainType,subType,caseId,hearingId);
         String fileName =  mediaService.uploadFile(code,file);
         mediaService.saveDocumentInDB(codeComponent.getMetaDocInfo(code));
-        return ResponseEntity.ok(code +" file uploaded successfully");
+        return ResponseEntity.ok(fileName +" file uploaded successfully");
     }
 
     @PostMapping("/media/bulk")
-    public ResponseEntity<?> bulkUploading(HttpSession session,@RequestParam("files") MultipartFile[] files) throws IOException {
-
+    public ResponseEntity<?> bulkUploading(@RequestParam("files") MultipartFile[] files) throws IOException {
         var fileNamesList = mediaService.uploadFiles(files);
         mediaService.saveDocumentsInDB(codeComponent.getMetaDocsInfo(fileNamesList));
         return ResponseEntity.ok("file uploaded with names "+fileNamesList);
@@ -51,7 +52,6 @@ public class MediaController {
     }
     @GetMapping("/list/subTypes")
     public Collection<String> getDocumentSubTypes(){
-
         return MetaDocInfo.SUB_TYPE_MAP.keySet();
     }
 

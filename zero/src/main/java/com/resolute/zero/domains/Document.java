@@ -22,12 +22,14 @@ public class Document {
 
     private String documentMainTypeTitle;
     private String documentSubTypeTitle;
+    private String fileExtension;
 
     @CreationTimestamp
     private Instant createdAt;
     @UpdateTimestamp
     private Instant updatedAt;
 
+    @Column(unique = true)
     private String imageName;
 
 }

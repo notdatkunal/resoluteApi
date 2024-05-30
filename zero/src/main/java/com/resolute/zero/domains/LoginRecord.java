@@ -3,6 +3,9 @@ package com.resolute.zero.domains;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.Instant;
 
 @Getter
 @Setter
@@ -10,12 +13,17 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Hearing {
+public class LoginRecord {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @ManyToOne
+    private User user;
 
-    @Column(unique = true)
-    private String hearingTitle;
+    @CreationTimestamp
+    private Instant loginTime;
+
+
 
 }

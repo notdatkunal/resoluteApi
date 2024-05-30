@@ -16,7 +16,13 @@ public class MetaDocInfo {
         put("contentLetter", "CNL");
         put("intimationLetter", "IML");
         put("award", "AWD");
-        put("order", "ORD");
+        put("communication", "COM");
+        put("document", "DOC");
+        put("hearing", "HER");
+        put("bankDocument","BND");
+        put("borrowerDocument","BRW");
+        put("recording","REC");
+        put("minutesOfMeeting","MOM");
     }};
     public static final Map<String, String> SUB_TYPE_MAP = new HashMap<>() {{
         put("notice", "NOT");
@@ -30,8 +36,10 @@ public class MetaDocInfo {
         put("award", "AWD");
         put("other", "OTH");
     }};
+
     String mainType;
     String subType;
     Integer caseId;
+    String fileExtension;
 
 }

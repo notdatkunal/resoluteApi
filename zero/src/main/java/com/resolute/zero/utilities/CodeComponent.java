@@ -1,5 +1,7 @@
 package com.resolute.zero.utilities;
 
+import com.resolute.zero.repositories.ProceedingRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -13,30 +15,33 @@ public class CodeComponent {
      * LRNNOT000044 (12-digit code)
      * code consists three parts
      * ABC+XYZ+(6-digit number)
-     * @param  mainType (ABC) - represents main type of document
-     * @param subType (XYZ) - represents subtype of document
-     * @param caseId (6-digit number) - unique case number
+     *
+     * @param mainType  (ABC) - represents main type of document
+     * @param subType   (XYZ) - represents subtype of document
+     * @param caseId    (6-digit number) - unique case number
+     * @param hearingId (single digit) - this is an ID which creates a custom subType for teh document
      * @return 12-character alphanumeric code
      * @author notdatkunal
      * @since 1.0
      */
-    public String getCode(String mainType,String subType,Integer caseId){
+    public String getCode(String mainType, String subType, Integer caseId, Integer hearingId){
+        String main = getMainTypeAbbreviation(mainType);
+        String sub  = getSubTypeMapping(subType);
+        String cId = formatNumberWithLeadingZeros(caseId);
+        var listOfHearingType = List.of("REC","MOM");
+        if(listOfHearingType.contains(main)){
+            var hearing = proceedingRepository.findById(hearingId);
+            if(hearing.isEmpty()) throw new RuntimeException("hearing object not fount");
+            sub = hearing.get().getOrderType();
+        }
 
-    return getMainTypeAbbreviation(mainType)+getSubTypeMapping(subType)+formatNumberWithLeadingZeros(caseId);
-    }
+    return main+sub+cId;
 
-    public String getMainType(String mainType){
-        return switch (mainType){
-            case "loanRecallNotice"->"LRN";
-            case "intentLetter"->"ITL";
-            case "referenceLetter"->"RFL";
-            case "contentLetter"->"CNL";
-            case "intimationLetter"->"IML";
-            case "award"->"AWD";
-            case "communication"->"COM";
-            default->throw new IllegalArgumentException();
-        };
+
+
     }
+    @Autowired
+    private ProceedingRepository proceedingRepository;
 
 
     public String getMainTypeAbbreviation(String mainType) {
@@ -58,7 +63,8 @@ public class CodeComponent {
     public MetaDocInfo getMetaDocInfo(String code){
         String mainTypeCode = code.substring(0,3);
         String subTypeCode = code.substring(3,6);
-        String caseCode = code.substring(6);
+        String caseCode = code.substring(6,code.indexOf("."));
+        String extension = code.substring(code.indexOf("."));
         int index = 0;
         for(char character :caseCode.toCharArray()){
 
@@ -78,23 +84,10 @@ public class CodeComponent {
                 .caseId(Integer.parseInt(caseCode))
                 .mainType(getMainTypeByAbbreviation(mainTypeCode))
                 .subType(getSubTypeKeyByAbbr(subTypeCode))
+                .fileExtension(extension)
                 .build();
 
     }
-
-    public String getSubType(String subType){
-        return switch (subType){
-            case "notice"->"NOT";
-            case "RPAD"->"RPA";
-            case "tracking"->"TRA";
-            case "statementOfClaim"->"SOC";
-            case "affidavit"->"AFD";
-            case "roznama"->"ROZ";
-            case "bankDocument"->"BND";
-            default->throw new IllegalArgumentException();
-        };
-    }
-
 
     public String getSubTypeMapping(String subType) {
         String mappedValue = MetaDocInfo.SUB_TYPE_MAP.get(subType);
@@ -137,16 +130,16 @@ public class CodeComponent {
         }
         return (int) Math.floor(Math.log10(number)) + 1;
     }
-    public static void main(String[] args) {
-        Integer digits = 4224;
-
-        CodeComponent codeCreator = new CodeComponent();
-        String code = codeCreator.getCode("loanRecallNotice","notice",digits);
-
-        System.out.println("created code " + code);
-        System.out.println("created meta info"+codeCreator.getMetaDocInfo(code));
-
-    }
+//    public static void main(String[] args) {
+//        Integer digits = 4224;
+//
+//        CodeComponent codeCreator = new CodeComponent();
+//        String code = codeCreator.getCode("loanRecallNotice","notice",digits, hearingId);
+//
+//        System.out.println("created code " + code);
+//        System.out.println("created meta info"+codeCreator.getMetaDocInfo(code));
+//
+//    }
 
     public List<MetaDocInfo> getMetaDocsInfo(ArrayList<String> fileNamesList) {
         var list = new ArrayList<MetaDocInfo>();

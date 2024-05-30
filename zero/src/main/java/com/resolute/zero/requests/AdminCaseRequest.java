@@ -2,12 +2,13 @@ package com.resolute.zero.requests;
 
 import lombok.Builder;
 import lombok.Data;
-
 import java.util.Date;
 
 @Builder
 @Data
 public class AdminCaseRequest {
+    Integer bankId;
+    Integer arbitratorId;
     String state;
     String caseNo;
     String zone;
@@ -19,24 +20,25 @@ public class AdminCaseRequest {
     String actualProduct;
     String flagProductGroup;
     String natureOfLegalAction;
-    String totalTos;
-    String totalTosInCr;
+    Double totalTos;
+    Double totalTosInCr;
     Date noticeDate;
     Date refLetter;
     Date socFillingDate;
-    String claimAmountInSOC;
+    Double claimAmountInSOC;
     Date firstHearingDate;
     Date lastHearingDate;
-    Date stagesOfLastHearingDate;
     Date nextHearingDate;
-    Date stagesOfNextHearingDate;
+    String stagesOfLastHearingDate;
+    String stagesOfNextHearingDate;
     String caseStatus;
     String flagForContested;
     String detailsRemark;
     Date awardDate;
     String awardAmount;
     Date sec17AppFillingDate;
-    Date sec17AppStatus;
+    Date sec17OrderDate;
+    String sec17AppStatus;
     String courtName;
     String place;
     String arbitrator;
