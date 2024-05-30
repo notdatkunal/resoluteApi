@@ -1,5 +1,6 @@
 package com.resolute.zero.controllers;
 
+import com.resolute.zero.domains.Document;
 import com.resolute.zero.services.MediaService;
 import com.resolute.zero.utilities.CodeComponent;
 import com.resolute.zero.utilities.MetaDocInfo;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
 
 @RestController
@@ -27,12 +29,16 @@ public class MediaController {
     public ResponseEntity<String> getFile(@PathVariable String fileName) throws IOException {
         return mediaService.getFile(fileName);
     }
+    @GetMapping("/docs/{caseId}")
+    public List<Document> getDocsByCaseId(@PathVariable Integer caseId){
+        return mediaService.getDocsByCaseId(caseId);
+    }
 
     @PostMapping("/media")
-    public ResponseEntity<?> singleUploading(@RequestParam("file") MultipartFile file, @RequestParam String mainType, @RequestParam String subType, @RequestParam Integer caseId, @RequestParam Integer hearingId) throws IOException {
+    public ResponseEntity<?> singleUploading(@RequestAttribute("file") MultipartFile file, @RequestParam String mainType, @RequestParam String subType, @RequestParam Integer caseId, @RequestParam(required = false) Integer hearingId) throws IOException {
         String code = codeComponent.getCode(mainType,subType,caseId,hearingId);
         String fileName =  mediaService.uploadFile(code,file);
-        mediaService.saveDocumentInDB(codeComponent.getMetaDocInfo(code));
+        mediaService.saveDocumentInDB(codeComponent.getMetaDocInfo(code,file));
         return ResponseEntity.ok(fileName +" file uploaded successfully");
     }
 

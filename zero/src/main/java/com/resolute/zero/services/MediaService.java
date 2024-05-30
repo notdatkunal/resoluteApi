@@ -2,7 +2,9 @@ package com.resolute.zero.services;
 
 
 import com.resolute.zero.domains.Document;
+import com.resolute.zero.helpers.Helper;
 import com.resolute.zero.repositories.CaseRepository;
+import com.resolute.zero.repositories.DocumentRepository;
 import com.resolute.zero.utilities.CodeComponent;
 import com.resolute.zero.utilities.MetaDocInfo;
 import org.apache.commons.io.IOUtils;
@@ -67,6 +69,7 @@ public class MediaService {
 
         document.setDocumentMainTypeTitle(metaDocInfo.getMainType());
         document.setDocumentSubTypeTitle(metaDocInfo.getSubType());
+        document.setCaseId(metaDocInfo.getCaseId());
         document.setImageName(codeComponent.getCode(metaDocInfo.getMainType(),metaDocInfo.getSubType(),metaDocInfo.getCaseId(), 0));
         document.setFileExtension(metaDocInfo.getFileExtension());
         var caseOptional = caseRepository.findById(metaDocInfo.getCaseId());
@@ -115,5 +118,11 @@ public class MediaService {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(base64Encoded);
+    }
+
+    @Autowired
+    private DocumentRepository documentRepository;
+    public List<Document> getDocsByCaseId(Integer caseId) {
+       return documentRepository.findByCaseId(caseId);
     }
 }

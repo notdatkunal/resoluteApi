@@ -1,5 +1,6 @@
 package com.resolute.zero.domains;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -18,15 +19,16 @@ public class Document {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
-
     private String documentMainTypeTitle;
     private String documentSubTypeTitle;
     private String fileExtension;
+    private Integer caseId;
 
     @CreationTimestamp
+    @JsonIgnore
     private Instant createdAt;
     @UpdateTimestamp
+    @JsonIgnore
     private Instant updatedAt;
 
     @Column(unique = true)

@@ -3,10 +3,12 @@ package com.resolute.zero.utilities;
 import com.resolute.zero.repositories.ProceedingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Component
 public class CodeComponent {
@@ -60,11 +62,38 @@ public class CodeComponent {
         throw new IllegalArgumentException("Invalid mainType abbreviation : " + abbreviation); // Indicate no mainType found for the abbreviation
     }
 
+
     public MetaDocInfo getMetaDocInfo(String code){
         String mainTypeCode = code.substring(0,3);
         String subTypeCode = code.substring(3,6);
-        String caseCode = code.substring(6,code.indexOf("."));
-        String extension = code.substring(code.indexOf("."));
+        String caseCode = code.substring(6);
+        int index = 0;
+        for(char character :caseCode.toCharArray()){
+
+            if(character!='0')
+            {
+                index = caseCode.indexOf(character);
+                break;
+            }
+
+
+        }
+        if(index!=0){
+            caseCode = caseCode.substring(index);
+        }
+
+        return MetaDocInfo.builder()
+                .caseId(Integer.parseInt(caseCode))
+                .mainType(getMainTypeByAbbreviation(mainTypeCode))
+                .subType(getSubTypeKeyByAbbr(subTypeCode))
+                .build();
+
+    }
+    public MetaDocInfo getMetaDocInfo(String code, MultipartFile file){
+        String mainTypeCode = code.substring(0,3);
+        String subTypeCode = code.substring(3,6);
+        String caseCode = code.substring(6);
+        String extension = Objects.requireNonNull(file.getOriginalFilename()).substring(file.getOriginalFilename().indexOf("."));
         int index = 0;
         for(char character :caseCode.toCharArray()){
 
