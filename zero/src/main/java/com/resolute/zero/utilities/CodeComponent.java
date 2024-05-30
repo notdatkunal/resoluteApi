@@ -19,7 +19,7 @@ public class CodeComponent {
      * @param mainType  (ABC) - represents main type of document
      * @param subType   (XYZ) - represents subtype of document
      * @param caseId    (6-digit number) - unique case number
-     * @param hearingId
+     * @param hearingId (single digit) - this is an ID which creates a custom subType for teh document
      * @return 12-character alphanumeric code
      * @author notdatkunal
      * @since 1.0
@@ -130,16 +130,16 @@ public class CodeComponent {
         }
         return (int) Math.floor(Math.log10(number)) + 1;
     }
-    public static void main(String[] args) {
-        Integer digits = 4224;
-
-        CodeComponent codeCreator = new CodeComponent();
-        String code = codeCreator.getCode("loanRecallNotice","notice",digits, hearingId);
-
-        System.out.println("created code " + code);
-        System.out.println("created meta info"+codeCreator.getMetaDocInfo(code));
-
-    }
+//    public static void main(String[] args) {
+//        Integer digits = 4224;
+//
+//        CodeComponent codeCreator = new CodeComponent();
+//        String code = codeCreator.getCode("loanRecallNotice","notice",digits, hearingId);
+//
+//        System.out.println("created code " + code);
+//        System.out.println("created meta info"+codeCreator.getMetaDocInfo(code));
+//
+//    }
 
     public List<MetaDocInfo> getMetaDocsInfo(ArrayList<String> fileNamesList) {
         var list = new ArrayList<MetaDocInfo>();

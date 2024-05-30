@@ -67,7 +67,7 @@ public class MediaService {
 
         document.setDocumentMainTypeTitle(metaDocInfo.getMainType());
         document.setDocumentSubTypeTitle(metaDocInfo.getSubType());
-        document.setImageName(codeComponent.getCode(metaDocInfo.getMainType(),metaDocInfo.getSubType(),metaDocInfo.getCaseId(), hearingId));
+        document.setImageName(codeComponent.getCode(metaDocInfo.getMainType(),metaDocInfo.getSubType(),metaDocInfo.getCaseId(), 0));
         document.setFileExtension(metaDocInfo.getFileExtension());
         var caseOptional = caseRepository.findById(metaDocInfo.getCaseId());
 
