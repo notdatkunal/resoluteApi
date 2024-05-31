@@ -127,7 +127,7 @@ public class CodeComponent {
     }
     public String getSubTypeKeyByAbbr(String value) {
         for (Map.Entry<String, String> entry : MetaDocInfo.SUB_TYPE_MAP.entrySet()) {
-            if (entry.getValue().equals(value)) {
+            if (entry.getValue().equals(value)||value.startsWith("H")) {
                 return entry.getKey();
             }
         }
