@@ -19,6 +19,14 @@ public class AdminController {
 
     @Autowired
     private CaseService caseService;
+//
+//    @GetMapping("/orders")
+//    public List<Order>
+//    @GetMapping("/order/{orderId}")
+//    @PutMapping("/order/{orderId}")
+//    @DeleteMapping("/order/{orderId}")
+//    @PostMapping("/order")
+
 
     @PostMapping("/hearing/{caseId}")
     public void  createHearingByCaseId(@PathVariable Integer caseId, @RequestBody CaseHearingRequest caseHearingRequest){

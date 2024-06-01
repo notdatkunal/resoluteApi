@@ -64,13 +64,14 @@ public class MediaService {
     private CodeComponent codeComponent;
     @Autowired
     private CaseRepository caseRepository;
-    public void saveDocumentInDB(MetaDocInfo metaDocInfo) {
+    public ResponseEntity<?> saveDocumentInDB(MetaDocInfo metaDocInfo) {
         Document document = new Document();
 
         document.setDocumentMainTypeTitle(metaDocInfo.getMainType());
         document.setDocumentSubTypeTitle(metaDocInfo.getSubType());
         document.setCaseId(metaDocInfo.getCaseId());
-        document.setImageName(codeComponent.getCode(metaDocInfo.getMainType(),metaDocInfo.getSubType(),metaDocInfo.getCaseId(), 0));
+        String fileName = codeComponent.getCode(metaDocInfo.getMainType(),metaDocInfo.getSubType(),metaDocInfo.getCaseId(), 0);
+        document.setImageName(fileName);
         document.setFileExtension(metaDocInfo.getFileExtension());
         var caseOptional = caseRepository.findById(metaDocInfo.getCaseId());
 
@@ -81,11 +82,12 @@ public class MediaService {
             caseObj.setDocumentList(documentsList);
             caseRepository.save(caseObj);
         }else {
-            throw new RuntimeException("Case Does Not exist!!");
-
+             return ResponseEntity.notFound()
+                     .eTag("case id not found")
+                     .build();
         }
 
-
+        return ResponseEntity.ok(fileName+" saved in server ");
 
     }
 

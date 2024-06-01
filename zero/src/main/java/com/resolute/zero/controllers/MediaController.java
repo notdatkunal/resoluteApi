@@ -35,11 +35,20 @@ public class MediaController {
     }
 
     @PostMapping("/media")
-    public ResponseEntity<?> singleUploading(@RequestAttribute("file") MultipartFile file, @RequestParam String mainType, @RequestParam String subType, @RequestParam Integer caseId, @RequestParam(required = false) Integer hearingId) throws IOException {
+    public ResponseEntity<?> singleUploading(
+            @RequestAttribute("file") MultipartFile file
+            , @RequestParam String mainType
+            , @RequestParam String subType
+            , @RequestParam Integer caseId
+            , @RequestParam(required = false) Integer hearingId
+    ) throws IOException
+    {
         String code = codeComponent.getCode(mainType,subType,caseId,hearingId);
-        String fileName =  mediaService.uploadFile(code,file);
-        mediaService.saveDocumentInDB(codeComponent.getMetaDocInfo(code,file));
-        return ResponseEntity.ok(fileName +" file uploaded successfully");
+        mediaService.uploadFile(code,file);
+        return
+                mediaService.saveDocumentInDB(
+                                codeComponent.getMetaDocInfo(code,file)
+                        );
     }
 
     @PostMapping("/media/bulk")
