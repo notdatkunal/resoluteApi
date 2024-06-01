@@ -44,7 +44,7 @@
     "app.teamhub.trackedBranches": "2a2ro6/main",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/kunal/Downloads/quarkus-web-interface/resoluteApi/zero"
+    "last_opened_file_path": "D:/Projects/programming/backend/resoluteApi/zero"
   },
   "keyToStringList": {
     "GitStage.ChangesTree.GroupingKeys": [
@@ -90,24 +90,24 @@
     <MESSAGE value="created application.yml" />
     <option name="LAST_COMMIT_MESSAGE" value="created application.yml" />
   </component>
-  <component name="WfRunsListSearchHistory"><![CDATA[{
-  "history": [
+  <component name="WfRunsListSearchHistory">{
+  &quot;history&quot;: [
     {
-      "branch": "main",
-      "currentBranchFilter": true
+      &quot;branch&quot;: &quot;main&quot;,
+      &quot;currentBranchFilter&quot;: true
     },
     {
-      "branch": "main",
-      "currentBranchFilter": true
+      &quot;branch&quot;: &quot;main&quot;,
+      &quot;currentBranchFilter&quot;: true
     },
     {
-      "branch": "main",
-      "currentBranchFilter": true
+      &quot;branch&quot;: &quot;main&quot;,
+      &quot;currentBranchFilter&quot;: true
     }
   ],
-  "lastFilter": {
-    "branch": "main",
-    "currentBranchFilter": true
+  &quot;lastFilter&quot;: {
+    &quot;branch&quot;: &quot;main&quot;,
+    &quot;currentBranchFilter&quot;: true
   }
-}]]></component>
+}</component>
 </project>
