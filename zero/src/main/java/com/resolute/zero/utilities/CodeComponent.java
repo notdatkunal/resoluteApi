@@ -67,6 +67,13 @@ public class CodeComponent {
         String mainTypeCode = code.substring(0,3);
         String subTypeCode = code.substring(3,6);
         String caseCode = code.substring(6);
+        String extension = "";
+        if(caseCode.contains(".")) {
+            var caseArray =         caseCode.split("\\.");
+            caseCode = caseArray[0];
+            extension = caseArray[1];
+            System.out.println("removed extension");
+        }
         int index = 0;
         for(char character :caseCode.toCharArray()){
 
@@ -85,6 +92,7 @@ public class CodeComponent {
         return MetaDocInfo.builder()
                 .caseId(Integer.parseInt(caseCode))
                 .mainType(getMainTypeByAbbreviation(mainTypeCode))
+                .fileExtension(extension)
                 .subType(getSubTypeKeyByAbbr(subTypeCode))
                 .build();
 
