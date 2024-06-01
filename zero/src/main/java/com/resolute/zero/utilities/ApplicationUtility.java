@@ -3,14 +3,6 @@ import java.security.MessageDigest;
 
 public class ApplicationUtility {
 
-        private static String getOs(){
-            return System.getProperty("os.name");
-        }
-        public static boolean checkIfLinux(){
-            return getOs().equalsIgnoreCase("linux");
-        }
-
-
     public static String encryptPassword( String password ) {
         String encrypted = "";
         try {

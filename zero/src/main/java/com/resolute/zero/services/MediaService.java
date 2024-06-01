@@ -2,11 +2,10 @@ package com.resolute.zero.services;
 
 
 import com.resolute.zero.domains.Document;
-import com.resolute.zero.helpers.Helper;
 import com.resolute.zero.repositories.CaseRepository;
 import com.resolute.zero.repositories.DocumentRepository;
-import com.resolute.zero.utilities.ApplicationUtility;
 import com.resolute.zero.utilities.CodeComponent;
+import com.resolute.zero.utilities.MediaUtility;
 import com.resolute.zero.utilities.MetaDocInfo;
 import org.apache.commons.io.IOUtils;
 import org.apache.tika.Tika;
@@ -92,13 +91,7 @@ public class MediaService {
 
     public ResponseEntity<String> getFile(String fileName) throws IOException {
         // Path to the media folder (replace with your actual path)
-
-                String mediaPath="";
-                if(ApplicationUtility.checkIfLinux())
-                    mediaPath = "/media/" + fileName;
-                else
-                    mediaPath = "D:\\Projects\\programming\\backend\\resoluteApi\\zero\\media\\" + fileName;
-
+                String mediaPath= MediaUtility.getPath(fileName);
         // Read the file as bytes
         var fileInputStream = new FileInputStream(mediaPath);
         byte[] fileBytes = IOUtils.toByteArray(fileInputStream);
