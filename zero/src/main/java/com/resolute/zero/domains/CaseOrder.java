@@ -16,8 +16,12 @@ public class CaseOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(nullable = false)
     private Date date;
+    @Column(nullable = false)
     private String  fileName;
+    @Column(nullable = false)
     private String  sequence;
+    @Column(nullable = false)
     private String type;
 }
