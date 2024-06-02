@@ -31,6 +31,9 @@ public class CodeComponent {
         String main = getMainTypeAbbreviation(mainType);
         String subTypeMapping  = getSubTypeMapping(subType);
         String cId = formatNumberWithLeadingZeros(caseId);
+        String extension = Objects.requireNonNull(file.getOriginalFilename()).split("\\.")[1];
+
+        // for finalizing subtype
         var listOfHearingType = List.of("REC","MOM");
         if(listOfHearingType.contains(main)){
             var hearing = proceedingRepository.findById(hearingId);
@@ -38,8 +41,9 @@ public class CodeComponent {
             subTypeMapping = hearing.get().getOrderType();
         }
         String code = main+subTypeMapping+cId;
-        String extension = Objects.requireNonNull(file.getOriginalFilename()).split("\\.")[1];
-    return MetaDocInfo.builder()
+
+
+        return MetaDocInfo.builder()
             .caseId(caseId)
             .subType(subType)
             .mainType(mainType)
@@ -108,6 +112,8 @@ public class CodeComponent {
 
     public String getSubTypeMapping(String key) {
         String mappedValue = MetaDocInfo.SUB_TYPE_MAP.get(key);
+        if(key.startsWith("K")&&key.length()==3) //for mapping with order type sequence
+            return key;
         if (mappedValue == null) {
             throw new IllegalArgumentException("Invalid subType: " + key);
         }
@@ -115,7 +121,7 @@ public class CodeComponent {
     }
     public String getSubTypeKeyByAbbr(String value) {
         for (Map.Entry<String, String> entry : MetaDocInfo.SUB_TYPE_MAP.entrySet()) {
-            if (entry.getValue().equals(value)||value.startsWith("H")) {
+            if (entry.getValue().equals(value)||value.startsWith("H")||value.startsWith("K")) {
                 return entry.getKey();
             }
         }

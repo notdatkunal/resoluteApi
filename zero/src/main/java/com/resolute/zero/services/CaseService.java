@@ -1,7 +1,10 @@
 package com.resolute.zero.services;
 
 
-import com.resolute.zero.helpers.ResponseStructure;
+
+import com.resolute.zero.domains.CaseOrder;
+import com.resolute.zero.exceptions.AppException;
+import com.resolute.zero.repositories.CaseOrderRepository;
 import com.resolute.zero.requests.CaseHearingRequest;
 import com.resolute.zero.domains.Proceeding;
 import com.resolute.zero.repositories.ProceedingRepository;
@@ -9,6 +12,8 @@ import com.resolute.zero.requests.HearingResponse;
 import com.resolute.zero.responses.AdminOrderRequest;
 import com.resolute.zero.responses.CaseDocumentsResponse;
 import com.resolute.zero.responses.CommunicationResponse;
+import com.resolute.zero.utilities.CodeComponent;
+import com.resolute.zero.utilities.MetaDocInfo;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +28,11 @@ import com.resolute.zero.helpers.Helper;
 import com.resolute.zero.repositories.CaseRepository;
 import com.resolute.zero.responses.CaseHistoryResponse;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+
+
 
 @RequiredArgsConstructor
 @Service
@@ -35,6 +43,7 @@ public class CaseService {
 	private final CaseRepository caseRepository;
 	@Autowired
 	private final ProceedingRepository proceedingRepository;
+	private final CaseOrderRepository caseOrderRepository;
 
 	public CaseHistoryResponse getCaseHistoryByCaseId(Integer caseId) {
 		var obj = CaseService.extracted(caseRepository,caseId);
@@ -44,7 +53,9 @@ public class CaseService {
 	
 	private static BankCase extracted(CaseRepository repository,Integer caseId) {
 		var caseOptional = repository.findById(caseId);
-		if(caseOptional.isEmpty()) throw new RuntimeException("case Id does not exist");
+		if(caseOptional.isEmpty()) throw AppException.builder().data(ResponseEntity.of(ProblemDetail
+						.forStatusAndDetail(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE,"case id does not exist in database"))
+				.build()).build();
 		return caseOptional.get();
 	}
 
@@ -99,13 +110,30 @@ public class CaseService {
 		caseRepository.save(obj.get());
 		proceedingRepository.deleteById(hearingId);
 	}
+	@Autowired
+	private CodeComponent codeComponent;
+	@Autowired
+	private MediaService mediaService;
+	public ResponseEntity<?> createOrderByCaseId(AdminOrderRequest adminOrder) throws IOException {
 
-	public ResponseEntity<?> createOrderByCaseId(AdminOrderRequest adminOrder) {
-		 var caseObj = caseRepository.findById(adminOrder.getCaseId());
-		 if(caseObj.isEmpty())
-			 return ResponseEntity.of(ProblemDetail
-					 .forStatusAndDetail(HttpStatus.NOT_FOUND,"case id does not exist in database"))
-					 .build();
-		return null;
+		var obj = CaseService.extracted(caseRepository,adminOrder.getCaseId());
+		obj.setOrdersCount(obj.getOrdersCount()+1);
+
+		CaseOrder caseOrder = Helper.Creator.createCaseOrder(adminOrder);
+
+		{	//creating for order sequence
+			if (obj.getOrdersCount() < 10)
+				caseOrder.setSequence("K0" + obj.getHearingsCount());
+			else
+				caseOrder.setSequence("K" + obj.getHearingsCount());
+		}
+		MetaDocInfo metaDocInfo = codeComponent.getMetaCode("order", caseOrder.getSequence(), adminOrder.getCaseId(),0, adminOrder.getFile());
+		mediaService.uploadFile(metaDocInfo);
+		mediaService.saveDocumentInDB(metaDocInfo);
+		caseOrder.setFileName(metaDocInfo.getFileName());
+		obj.getOrders().add(caseOrder);
+		caseOrderRepository.save(caseOrder);
+		caseRepository.save(obj);
+		return ResponseEntity.ok("order created");
 	}
 }

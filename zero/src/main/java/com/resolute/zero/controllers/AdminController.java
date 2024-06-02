@@ -3,7 +3,6 @@ package com.resolute.zero.controllers;
 import com.resolute.zero.requests.*;
 import com.resolute.zero.responses.*;
 import com.resolute.zero.services.AdminService;
-import com.resolute.zero.services.CaseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminController {
 
-    @Autowired
-    private CaseService caseService;
 
-    @PostMapping("/admin/hearing/{caseId}")
-    public void  createHearingByCaseId(@PathVariable Integer caseId, @RequestBody CaseHearingRequest caseHearingRequest){
-        caseService.createHearingByCaseId(caseId,CaseHearingRequest.builder().hearingDate(caseHearingRequest.getHearingDate()).build());
-    }
-    @PutMapping("/admin/hearing/{hearingId}")
-    public void  createHearingByCaseId(@RequestHeader CaseHearingRequest date,@PathVariable Integer hearingId){
-        caseService.updateHearingByHearingId(hearingId,date.getHearingDate());
-    }
 
     @Autowired
     private final AdminService adminService;
@@ -67,16 +56,9 @@ public class AdminController {
 
 
 
-    @GetMapping("/admin/hearings/{caseId}")
-    public List<HearingResponse> getProceedings(@PathVariable Integer caseId){
-        return caseService.getHearingsByCaseId(caseId);
-    }
 
 
-    @DeleteMapping("/admin/hearing/{hearingId}")
-    public void  deleteHearingByCaseId(@PathVariable Integer hearingId){
-        caseService.deleteHearingById(hearingId);
-    }
+
 
     @PostMapping("/admin/bank")
     public void addBank(@RequestBody BankRequest request){

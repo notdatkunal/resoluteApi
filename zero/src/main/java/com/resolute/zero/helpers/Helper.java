@@ -263,6 +263,13 @@ public class Helper {
             proceeding.setHearingDate(caseHearingRequest.getHearingDate());
             return proceeding;
         }
+
+        public static CaseOrder createCaseOrder(AdminOrderRequest adminOrder) {
+            var order = new CaseOrder();
+            order.setDate(adminOrder.getDate());
+            order.setType(adminOrder.getType());
+            return order;
+        }
     }
 
 }

@@ -25,7 +25,10 @@ public class BankCase {
     @Column(nullable = false,unique = true)
     private String caseNo;
     private Date sec17OrderDate;
+    @Column(nullable = false)
     private Integer hearingsCount;
+    @Column(nullable = false)
+    private Integer ordersCount;
 
     @CreationTimestamp
     private Instant createdAt;
@@ -111,8 +114,5 @@ public class BankCase {
     public boolean contains(String searchParameter) {
         return caseNo.contains(searchParameter)||caseNo.contains(searchParameter.toUpperCase());
     }
-//    public boolean contains(String searchParameter) {
-//        return Stream.of(accountNumber, caseNo, customerName)
-//                .anyMatch(field -> field != null && field.equalsIgnoreCase(searchParameter));
-//    }
+
 }
