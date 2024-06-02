@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -21,9 +22,27 @@ public class OrderController {
         public List<AdminOrderResponse> getOrdersByCaseId(@PathVariable Integer caseId){
             return caseService.getCaseOrdersByCaseId(caseId);
         }
-//    @GetMapping("/order/{orderId}")
-//    @PutMapping("/order/{orderId}")
-//    @DeleteMapping("/order/{orderId}")
+    @GetMapping("/order/{orderId}")
+    public AdminOrderResponse getOrderById(@PathVariable Integer orderId){
+           return caseService.getOrderById(orderId);
+    }
+    @PutMapping("/orderDate/{orderId}")
+    public void updateOrderDateById(@PathVariable Integer orderId,@ModelAttribute Date date){
+            caseService.updateOrderDateById(orderId,date);
+    }
+    @PutMapping("/orderType/{orderId}")
+    public void updateOrderTypeById(@PathVariable Integer orderId,@ModelAttribute String type){
+                caseService.updateOrderTypeById(orderId,type);
+    }
+
+
+
+
+    @DeleteMapping("/order/{orderId}")
+    public void deleteOrderById(@PathVariable Integer orderId){
+
+            caseService.deleteOrderById(orderId);
+    }
     @Autowired
     private CaseService caseService;
     @PostMapping("/admin/order/{caseId}")

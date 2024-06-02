@@ -12,5 +12,8 @@ public interface CaseRepository extends JpaRepository<BankCase,Integer> {
 
     Optional<BankCase> findByProceeding_Id(Integer id);
 
+
     Optional<BankCase> findByProceeding(Proceeding proceeding);
+
+    Optional<BankCase> findByOrders_Id(Integer id);
 }

@@ -146,4 +146,61 @@ public class CaseService {
 					.build();
 		return Helper.Convert.convertHearingResponse(proceedingOpt.get());
     }
+
+	public AdminOrderResponse getOrderById(Integer orderId) {
+		var caseOrderOpt = caseOrderRepository.findById(orderId);
+		if(caseOrderOpt.isEmpty())
+			throw AppException.builder()
+					.data(ResponseEntity.of(ProblemDetail
+							.forStatusAndDetail(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE
+							,"order id does not exist"))
+							.build()
+					).build();
+		return Helper.Convert.convertOrderResponse(caseOrderOpt.get());
+	}
+
+	public void updateOrderTypeById(Integer orderId, String type) {
+		var caseOrderOpt = caseOrderRepository.findById(orderId);
+		if(caseOrderOpt.isEmpty())
+			throw AppException.builder()
+					.data(ResponseEntity.of(ProblemDetail
+									.forStatusAndDetail(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE
+											,"order id does not exist"))
+							.build()
+					).build();
+
+		var caseOrder = caseOrderOpt.get();
+		caseOrder.setType(type);
+		caseOrderRepository.save(caseOrder);
+	}
+
+	public void updateOrderDateById(Integer orderId, Date date) {
+		var caseOrderOpt = caseOrderRepository.findById(orderId);
+		if(caseOrderOpt.isEmpty())
+			throw AppException.builder()
+					.data(ResponseEntity.of(ProblemDetail
+									.forStatusAndDetail(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE
+											,"order id does not exist"))
+							.build()
+					).build();
+		var caseOrder = caseOrderOpt.get();
+		caseOrder.setDate(date);
+		caseOrderRepository.save(caseOrder);
+	}
+
+	public void deleteOrderById(Integer orderId) {
+		var caseOrderOpt = caseOrderRepository.findById(orderId);
+		if(caseOrderOpt.isEmpty())
+			throw AppException.builder()
+					.data(ResponseEntity.of(ProblemDetail
+									.forStatusAndDetail(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE
+											,"order id does not exist"))
+							.build()
+					).build();
+		var caseOrder = caseOrderOpt.get();
+		var caseObj = caseRepository.findByOrders_Id(orderId).get();
+		caseObj.getOrders().remove(caseOrder);
+		caseRepository.save(caseObj);
+		caseOrderRepository.delete(caseOrder);
+	}
 }
