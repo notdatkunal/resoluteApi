@@ -4,7 +4,6 @@ package com.resolute.zero.services;
 import com.resolute.zero.domains.Document;
 import com.resolute.zero.repositories.CaseRepository;
 import com.resolute.zero.repositories.DocumentRepository;
-import com.resolute.zero.utilities.CodeComponent;
 import com.resolute.zero.utilities.MediaUtility;
 import com.resolute.zero.utilities.MetaDocInfo;
 import org.apache.commons.io.IOUtils;
@@ -27,15 +26,14 @@ import java.util.List;
 
 @Service
 public class MediaService {
-    public String uploadFile(String code, MultipartFile file) throws IOException {
-        var name = file.getOriginalFilename();
+    public void uploadFile(MetaDocInfo metaDocInfo) throws IOException {
+        var name = metaDocInfo.getFile().getOriginalFilename();
         if (name == null) throw new AssertionError();
         String format = name.split("\\.")[1];
         Files.createDirectories(Path.of("media"));
-        Path uploadTo = Path.of(String.format("media/%s.%s", code,format));
-        file.transferTo(uploadTo);
-
-        return uploadTo.getFileName().toString();
+        Path uploadTo = Path.of(String.format("media/%s.%s", metaDocInfo.getCode(),format));
+        metaDocInfo.getFile().transferTo(uploadTo);
+        metaDocInfo.setFileName(uploadTo.getFileName().toString());
     }
     public ArrayList<String> uploadFiles(MultipartFile[] files) throws IOException {
         Files.createDirectories(Path.of("media"));
@@ -60,21 +58,18 @@ public class MediaService {
 
         }
     }
-    @Autowired
-    private CodeComponent codeComponent;
+
     @Autowired
     private CaseRepository caseRepository;
     public ResponseEntity<?> saveDocumentInDB(MetaDocInfo metaDocInfo) {
+        System.out.println(metaDocInfo);
         Document document = new Document();
-
         document.setDocumentMainTypeTitle(metaDocInfo.getMainType());
         document.setDocumentSubTypeTitle(metaDocInfo.getSubType());
         document.setCaseId(metaDocInfo.getCaseId());
-        String fileName = codeComponent.getCode(metaDocInfo.getMainType(),metaDocInfo.getSubType(),metaDocInfo.getCaseId(), 0);
-        document.setImageName(fileName);
+        document.setImageName(metaDocInfo.getFileName());
         document.setFileExtension(metaDocInfo.getFileExtension());
         var caseOptional = caseRepository.findById(metaDocInfo.getCaseId());
-
         if(caseOptional.isPresent()){
             var caseObj = caseOptional.get();
             var documentsList = caseObj.getDocumentList();
@@ -87,7 +82,7 @@ public class MediaService {
                      .build();
         }
 
-        return ResponseEntity.ok(fileName+" saved in server ");
+        return ResponseEntity.ok(metaDocInfo.getFileName()+" saved in server ");
 
     }
 
@@ -97,7 +92,7 @@ public class MediaService {
         // Read the file as bytes
         var fileInputStream = new FileInputStream(mediaPath);
         byte[] fileBytes = IOUtils.toByteArray(fileInputStream);
-        String mimeType = "";
+        String mimeType;
 //        String mimeType = "";
         Tika tika = new Tika();
         try {

@@ -10,10 +10,9 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/bank")
 @CrossOrigin("*")
 public class BankController {
-    @GetMapping("/cases/{bankId}")
+    @GetMapping("/bank/cases/{bankId}")
     public List<CaseResponse> getCases(@PathVariable Integer bankId){
 
         return List.of(
@@ -22,13 +21,13 @@ public class BankController {
                 CaseResponse.builder().registrationDate(Date.from(Instant.now())).fillingDate(Date.from(Instant.now())).caseType("xyz").registrationDate(Date.from(Instant.now())).build()
         );
     }
-    @GetMapping("/search/{bankId}")
+    @GetMapping("/bank/search/{bankId}")
     public List<CaseResponse> searchCase(@PathVariable Integer bankId,@RequestBody(required = false) SearchRequest searchRequest){
 
         if(searchRequest==null){
             return null;
         }
-        var list =  List.of(CaseResponse.builder()
+        return List.of(CaseResponse.builder()
                         .registrationDate(Date.from(Instant.now()))
                         .fillingDate(Date.from(Instant.now()))
                         .registrationDate(Date.from(Instant.now()))
@@ -43,6 +42,5 @@ public class BankController {
                         .registrationDate(Date.from(Instant.now()))
                         .build()
         );
-        return list;
     }
 }

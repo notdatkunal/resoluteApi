@@ -43,12 +43,9 @@ public class MediaController {
             , @RequestParam(required = false) Integer hearingId
     ) throws IOException
     {
-        String code = codeComponent.getCode(mainType,subType,caseId,hearingId);
-        mediaService.uploadFile(code,file);
-        return
-                mediaService.saveDocumentInDB(
-                                codeComponent.getMetaDocInfo(code,file)
-                        );
+        MetaDocInfo metaDocInfo = codeComponent.getMetaCode(mainType,subType,caseId,hearingId,file);
+        mediaService.uploadFile(metaDocInfo);
+        return mediaService.saveDocumentInDB(metaDocInfo);
     }
 
     @PostMapping("/media/bulk")

@@ -1,15 +1,20 @@
 package com.resolute.zero.services;
 
 
+import com.resolute.zero.helpers.ResponseStructure;
 import com.resolute.zero.requests.CaseHearingRequest;
 import com.resolute.zero.domains.Proceeding;
 import com.resolute.zero.repositories.ProceedingRepository;
 import com.resolute.zero.requests.HearingResponse;
+import com.resolute.zero.responses.AdminOrderRequest;
 import com.resolute.zero.responses.CaseDocumentsResponse;
 import com.resolute.zero.responses.CommunicationResponse;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.resolute.zero.domains.BankCase;
@@ -20,7 +25,6 @@ import com.resolute.zero.responses.CaseHistoryResponse;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -94,5 +98,14 @@ public class CaseService {
 		obj.get().getProceeding().remove(proceeding.get());
 		caseRepository.save(obj.get());
 		proceedingRepository.deleteById(hearingId);
+	}
+
+	public ResponseEntity<?> createOrderByCaseId(AdminOrderRequest adminOrder) {
+		 var caseObj = caseRepository.findById(adminOrder.getCaseId());
+		 if(caseObj.isEmpty())
+			 return ResponseEntity.of(ProblemDetail
+					 .forStatusAndDetail(HttpStatus.NOT_FOUND,"case id does not exist in database"))
+					 .build();
+		return null;
 	}
 }

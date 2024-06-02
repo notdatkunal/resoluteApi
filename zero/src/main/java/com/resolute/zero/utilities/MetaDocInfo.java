@@ -2,6 +2,7 @@ package com.resolute.zero.utilities;
 
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,19 +11,32 @@ import java.util.Map;
 @Builder
 public class MetaDocInfo {
     public static final Map<String, String> MAIN_TYPE_MAP = new HashMap<>() {{
+        // notice types
         put("loanRecallNotice", "LRN");
+
+        // letter types
         put("intentLetter", "ITL");
         put("referenceLetter", "RFL");
         put("contentLetter", "CNL");
         put("intimationLetter", "IML");
-        put("award", "AWD");
+
+        // media types
         put("communication", "COM");
         put("document", "DOC");
         put("hearing", "HER");
         put("bankDocument","BND");
         put("borrowerDocument","BRW");
+
+        // hearing types
         put("recording","REC");
         put("minutesOfMeeting","MOM");
+
+        //order types
+        put("section17", "SEC");
+        put("interim", "INT");
+        put("award", "AWD");
+        put("order", "ORD");
+
     }};
     public static final Map<String, String> SUB_TYPE_MAP = new HashMap<>() {{
         put("notice", "NOT");
@@ -32,14 +46,22 @@ public class MetaDocInfo {
         put("affidavit", "AFD");
         put("roznama", "ROZ");
         put("bankDocument", "BND");
-        put("section17", "SEC");
-        put("award", "AWD");
+//        put("section17", "SEC");
+//        put("interim", "INT");
+//        put("award", "AWD");
         put("other", "OTH");
     }};
 
     String mainType;
+    String mainTypeAbbr;
     String subType;
+    String subTypeAbbr;
+    String code;
+    MultipartFile file;
     Integer caseId;
     String fileExtension;
+    String fileName;
+    private static final CodeComponent codeComponent = new CodeComponent();
+
 
 }

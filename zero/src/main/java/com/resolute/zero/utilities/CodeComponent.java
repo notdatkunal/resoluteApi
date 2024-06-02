@@ -22,26 +22,35 @@ public class CodeComponent {
      * @param subType   (XYZ) - represents subtype of document
      * @param caseId    (6-digit number) - unique case number
      * @param hearingId (single digit) - this is an ID which creates a custom subType for teh document
+     * @param file (file that needs to be saved)
      * @return 12-character alphanumeric code
      * @author notdatkunal
      * @since 1.0
      */
-    public String getCode(String mainType, String subType, Integer caseId, Integer hearingId){
+    public MetaDocInfo getMetaCode(String mainType, String subType, Integer caseId, Integer hearingId, MultipartFile file){
         String main = getMainTypeAbbreviation(mainType);
-        String sub  = getSubTypeMapping(subType);
+        String subTypeMapping  = getSubTypeMapping(subType);
         String cId = formatNumberWithLeadingZeros(caseId);
         var listOfHearingType = List.of("REC","MOM");
         if(listOfHearingType.contains(main)){
             var hearing = proceedingRepository.findById(hearingId);
             if(hearing.isEmpty()) throw new RuntimeException("hearing object not fount");
-            sub = hearing.get().getOrderType();
+            subTypeMapping = hearing.get().getOrderType();
         }
-
-    return main+sub+cId;
-
-
-
+        String code = main+subTypeMapping+cId;
+        String extension = Objects.requireNonNull(file.getOriginalFilename()).split("\\.")[1];
+    return MetaDocInfo.builder()
+            .caseId(caseId)
+            .subType(subType)
+            .mainType(mainType)
+            .code(code)
+            .mainTypeAbbr(main)
+            .subTypeAbbr(subTypeMapping)
+            .fileExtension(extension)
+            .file(file)
+            .build();
     }
+
     @Autowired
     private ProceedingRepository proceedingRepository;
 
@@ -72,7 +81,6 @@ public class CodeComponent {
             var caseArray =         caseCode.split("\\.");
             caseCode = caseArray[0];
             extension = caseArray[1];
-            System.out.println("removed extension");
         }
         int index = 0;
         for(char character :caseCode.toCharArray()){
@@ -97,39 +105,11 @@ public class CodeComponent {
                 .build();
 
     }
-    public MetaDocInfo getMetaDocInfo(String code, MultipartFile file){
-        String mainTypeCode = code.substring(0,3);
-        String subTypeCode = code.substring(3,6);
-        String caseCode = code.substring(6);
-        String extension = Objects.requireNonNull(file.getOriginalFilename()).substring(file.getOriginalFilename().indexOf("."));
-        int index = 0;
-        for(char character :caseCode.toCharArray()){
 
-            if(character!='0')
-            {
-                index = caseCode.indexOf(character);
-                break;
-            }
-
-
-        }
-        if(index!=0){
-            caseCode = caseCode.substring(index);
-        }
-
-        return MetaDocInfo.builder()
-                .caseId(Integer.parseInt(caseCode))
-                .mainType(getMainTypeByAbbreviation(mainTypeCode))
-                .subType(getSubTypeKeyByAbbr(subTypeCode))
-                .fileExtension(extension)
-                .build();
-
-    }
-
-    public String getSubTypeMapping(String subType) {
-        String mappedValue = MetaDocInfo.SUB_TYPE_MAP.get(subType);
+    public String getSubTypeMapping(String key) {
+        String mappedValue = MetaDocInfo.SUB_TYPE_MAP.get(key);
         if (mappedValue == null) {
-            throw new IllegalArgumentException("Invalid subType: " + subType);
+            throw new IllegalArgumentException("Invalid subType: " + key);
         }
         return mappedValue;
     }
@@ -139,7 +119,7 @@ public class CodeComponent {
                 return entry.getKey();
             }
         }
-        throw new IllegalArgumentException(); // Indicate no key found for the value
+        throw new IllegalArgumentException("not a legal subtype "); // Indicate no key found for the value
     }
 
 
@@ -167,17 +147,6 @@ public class CodeComponent {
         }
         return (int) Math.floor(Math.log10(number)) + 1;
     }
-//    public static void main(String[] args) {
-//        Integer digits = 4224;
-//
-//        CodeComponent codeCreator = new CodeComponent();
-//        String code = codeCreator.getCode("loanRecallNotice","notice",digits, hearingId);
-//
-//        System.out.println("created code " + code);
-//        System.out.println("created meta info"+codeCreator.getMetaDocInfo(code));
-//
-//    }
-
     public List<MetaDocInfo> getMetaDocsInfo(ArrayList<String> fileNamesList) {
         var list = new ArrayList<MetaDocInfo>();
            for(String fileName :  fileNamesList){
