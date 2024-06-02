@@ -97,6 +97,7 @@ public class MediaService {
             } else {
                 proceeding.setMinutesOfMeetings(metaDocInfo.getFileName());
             }
+            proceedingRepository.save(proceeding);
         }
         return ResponseEntity.ok(metaDocInfo.getFileName()+" saved in server ");
 

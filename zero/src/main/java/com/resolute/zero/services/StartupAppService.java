@@ -35,7 +35,7 @@ public class StartupAppService {
 
     @Autowired
     private final DocSubTypeRepository docSubTypeRepository ;
-
+    private final CaseRepository caseRepository;
 
 
     public void loadDefaultUsers() {
@@ -52,7 +52,21 @@ public class StartupAppService {
             });
         }
 
-
+//        { //updating something not in state to write here
+//            caseRepository.findAll().forEach(caseObj->{
+//
+//                caseObj.getDocumentList().forEach(docs->{
+//
+//                        var name = docs.getImageName();
+//                        var main = docs.getDocumentMainTypeTitle();
+//                        var sub = docs.getDocumentSubTypeTitle();
+//                        if(main.equals("recording")){
+//                            var id = Integer.parseInt(""+name.charAt(6));
+//
+//                        }
+//                });
+//            });
+//        }
 
         if(docSubTypeRepository.count()==0){
 
