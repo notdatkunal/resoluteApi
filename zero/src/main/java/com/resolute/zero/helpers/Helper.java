@@ -4,7 +4,6 @@ package com.resolute.zero.helpers;
 import com.resolute.zero.responses.*;
 import com.resolute.zero.requests.*;
 import com.resolute.zero.domains.*;
-import com.resolute.zero.responses.*;
 import com.resolute.zero.services.JWTutil;
 
 import java.time.Instant;
@@ -190,6 +189,14 @@ public class Helper {
             return LoginRecordResponse.builder()
                     .loginTime(loginRecord.getLoginTime())
                     .username(loginRecord.getUser().getUsername())
+                    .build();
+        }
+
+        public static AdminOrderResponse convertOrderResponse(CaseOrder caseOrder) {
+            return AdminOrderResponse.builder()
+                    .type(caseOrder.getType())
+                    .filName(caseOrder.getFileName())
+                    .date(caseOrder.getDate())
                     .build();
         }
     }

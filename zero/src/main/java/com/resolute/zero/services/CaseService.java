@@ -9,9 +9,7 @@ import com.resolute.zero.requests.CaseHearingRequest;
 import com.resolute.zero.domains.Proceeding;
 import com.resolute.zero.repositories.ProceedingRepository;
 import com.resolute.zero.requests.HearingResponse;
-import com.resolute.zero.responses.AdminOrderRequest;
-import com.resolute.zero.responses.CaseDocumentsResponse;
-import com.resolute.zero.responses.CommunicationResponse;
+import com.resolute.zero.responses.*;
 import com.resolute.zero.utilities.CodeComponent;
 import com.resolute.zero.utilities.MetaDocInfo;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +24,6 @@ import com.resolute.zero.domains.BankCase;
 
 import com.resolute.zero.helpers.Helper;
 import com.resolute.zero.repositories.CaseRepository;
-import com.resolute.zero.responses.CaseHistoryResponse;
 
 import java.io.IOException;
 import java.util.Date;
@@ -134,5 +131,10 @@ public class CaseService {
 		caseOrderRepository.save(caseOrder);
 		caseRepository.save(obj);
 		return ResponseEntity.ok("order created");
+	}
+
+	public List<AdminOrderResponse> getCaseOrdersByCaseId(Integer caseId) {
+		var obj = extracted(caseRepository,caseId);
+		return obj.getOrders().stream().map(Helper.Convert::convertOrderResponse).toList();
 	}
 }
