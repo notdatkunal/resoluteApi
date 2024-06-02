@@ -60,14 +60,14 @@ public class CodeComponent {
 
 
     public String getMainTypeAbbreviation(String mainType) {
-        String abbreviation = MetaDocInfo.MAIN_TYPE_MAP.get(mainType);
+        String abbreviation = TypeMappingUtil.MAIN_TYPE_MAP.get(mainType);
         if (abbreviation == null) {
             throw new IllegalArgumentException("Invalid mainType: " + mainType);
         }
         return abbreviation;
     }
     public String getMainTypeByAbbreviation(String abbreviation) {
-        for (Map.Entry<String, String> entry : MetaDocInfo.MAIN_TYPE_MAP.entrySet()) {
+        for (Map.Entry<String, String> entry : TypeMappingUtil.MAIN_TYPE_MAP.entrySet()) {
             if (entry.getValue().equals(abbreviation)) {
                 return entry.getKey();
             }
@@ -111,7 +111,7 @@ public class CodeComponent {
     }
 
     public String getSubTypeMapping(String key) {
-        String mappedValue = MetaDocInfo.SUB_TYPE_MAP.get(key);
+        String mappedValue = TypeMappingUtil.SUB_TYPE_MAP.get(key);
         if(key.startsWith("K")&&key.length()==3) //for mapping with order type sequence
             return key;
         if (mappedValue == null) {
@@ -120,7 +120,7 @@ public class CodeComponent {
         return mappedValue;
     }
     public String getSubTypeKeyByAbbr(String value) {
-        for (Map.Entry<String, String> entry : MetaDocInfo.SUB_TYPE_MAP.entrySet()) {
+        for (Map.Entry<String, String> entry : TypeMappingUtil.SUB_TYPE_MAP.entrySet()) {
             if (entry.getValue().equals(value)||value.startsWith("H")||value.startsWith("K")) {
                 return entry.getKey();
             }

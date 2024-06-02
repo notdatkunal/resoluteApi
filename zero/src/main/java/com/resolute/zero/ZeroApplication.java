@@ -18,7 +18,7 @@ public class ZeroApplication {
 	public CommandLineRunner run(StartupAppService startupAppService){
 		return args -> {
 			startupAppService.loadDefaultUsers();
-			System.out.println("welcome to backend");
+			System.out.println("welcome to resolute");
 		};
 	}
 

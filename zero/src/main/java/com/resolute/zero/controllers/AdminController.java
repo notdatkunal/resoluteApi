@@ -14,52 +14,28 @@ import java.util.List;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 public class AdminController {
-
-
-
     @Autowired
     private final AdminService adminService;
-
-
     @PutMapping("/admin/case/{caseId}")
     public void addCase(@RequestBody AdminCaseRequest request,@PathVariable Integer caseId){
         adminService.updateCase(request,caseId);
     }
-
     @PostMapping("/admin/case")
     public void addCase(@RequestBody AdminCaseRequest request  ){
-
         adminService.saveCase(request);
     }
-
     @PostMapping("/admin/borrower")
-
     public void addBorrower(@RequestBody BorrowerRequest request){
-
-
         adminService.addBorrower(request);
     }
-
     @PutMapping("/admin/arbitrator/{arbitratorId}")
     public void updateArbitrator(@RequestBody ArbitratorRequest request,@PathVariable Integer arbitratorId){
-
         adminService.updateArbitrator(request,arbitratorId);
     }
-
     @PostMapping("/admin/arbitrator")
-
     public void addArbitrator(@RequestBody ArbitratorRequest request){
-
-
         adminService.addArbitrator(request);
     }
-
-
-
-
-
-
-
     @PostMapping("/admin/bank")
     public void addBank(@RequestBody BankRequest request){
         adminService.addBank(request);
@@ -112,16 +88,6 @@ public class AdminController {
         return adminService.getBorrwerList();
 
     }
-
-
-
-
-
-
-
-
-
-    
     @GetMapping("/admin/bank/{bankId}")
     public BankResponse getBankById(@PathVariable Integer bankId){
         return adminService.getBankById(bankId);
@@ -129,7 +95,5 @@ public class AdminController {
     @GetMapping("/admin/bank")
     public List<BankResponse> getAllBanks(){
         return adminService.getBanksList();
-
     }
-
 }

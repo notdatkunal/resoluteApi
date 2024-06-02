@@ -5,7 +5,7 @@ import com.resolute.zero.domains.DocSubType;
 import com.resolute.zero.domains.User;
 import com.resolute.zero.repositories.*;
 import com.resolute.zero.utilities.ApplicationUtility;
-import com.resolute.zero.utilities.MetaDocInfo;
+import com.resolute.zero.utilities.TypeMappingUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,7 +43,7 @@ public class StartupAppService {
 
         if(docMainTypeRepository.count()==0){
 
-            MetaDocInfo.MAIN_TYPE_MAP.forEach((key,value)->{
+            TypeMappingUtil.MAIN_TYPE_MAP.forEach((key, value)->{
                 var main = new DocMainType();
                 main.setMainType(key);
                 main.setCode(value);
@@ -56,7 +56,7 @@ public class StartupAppService {
 
         if(docSubTypeRepository.count()==0){
 
-            MetaDocInfo.SUB_TYPE_MAP.forEach((key,value)->{
+            TypeMappingUtil.SUB_TYPE_MAP.forEach((key, value)->{
                 var docSubType = new DocSubType();
                 docSubType.setSubType(key);
                 docSubType.setCode(value);

@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 
 
@@ -55,17 +54,6 @@ public class MediaController {
         return ResponseEntity.ok("file uploaded with names "+fileNamesList);
     }
 
-
-
-    @GetMapping("/list/mainTypes")
-    public Collection<String> getDocmentTypes()
-    {
-        return MetaDocInfo.MAIN_TYPE_MAP.keySet();
-    }
-    @GetMapping("/list/subTypes")
-    public Collection<String> getDocumentSubTypes(){
-        return MetaDocInfo.SUB_TYPE_MAP.keySet();
-    }
 
 
 }
