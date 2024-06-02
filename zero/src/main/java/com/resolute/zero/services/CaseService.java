@@ -137,4 +137,13 @@ public class CaseService {
 		var obj = extracted(caseRepository,caseId);
 		return obj.getOrders().stream().map(Helper.Convert::convertOrderResponse).toList();
 	}
+
+    public HearingResponse getHearingDateByHearingId(Integer hearingId) {
+		var proceedingOpt = proceedingRepository.findById(hearingId);
+		if(proceedingOpt.isEmpty())
+			throw AppException.builder()
+					.data(ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE,"hearing id does not exist in database")).build())
+					.build();
+		return Helper.Convert.convertHearingResponse(proceedingOpt.get());
+    }
 }

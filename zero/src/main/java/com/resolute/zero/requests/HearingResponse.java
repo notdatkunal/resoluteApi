@@ -12,6 +12,5 @@ public class HearingResponse {
     String minutesOfMeetings;
     Integer hearingId;
     String meetingRecordings;
-
     Boolean current;
 }
