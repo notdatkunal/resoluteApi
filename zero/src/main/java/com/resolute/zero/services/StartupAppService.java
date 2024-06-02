@@ -35,7 +35,7 @@ public class StartupAppService {
 
     @Autowired
     private final DocSubTypeRepository docSubTypeRepository ;
-    private final CaseRepository caseRepository;
+
 
 
     public void loadDefaultUsers() {
