@@ -15,6 +15,7 @@ public class MetaDocInfo {
     String code;
     MultipartFile file;
     Integer caseId;
+    Integer hearingId;
     String fileExtension;
     String fileName;
     private static final CodeComponent codeComponent = new CodeComponent();

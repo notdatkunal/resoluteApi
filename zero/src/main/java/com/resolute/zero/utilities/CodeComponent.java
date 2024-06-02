@@ -48,6 +48,7 @@ public class CodeComponent {
             .subType(subType)
             .mainType(mainType)
             .code(code)
+            .hearingId(hearingId)
             .mainTypeAbbr(main)
             .subTypeAbbr(subTypeMapping)
             .fileExtension(extension)

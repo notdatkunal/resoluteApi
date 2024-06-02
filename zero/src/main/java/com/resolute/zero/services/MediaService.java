@@ -2,14 +2,18 @@ package com.resolute.zero.services;
 
 
 import com.resolute.zero.domains.Document;
+import com.resolute.zero.exceptions.AppException;
 import com.resolute.zero.repositories.CaseRepository;
 import com.resolute.zero.repositories.DocumentRepository;
+import com.resolute.zero.repositories.ProceedingRepository;
 import com.resolute.zero.utilities.MediaUtility;
 import com.resolute.zero.utilities.MetaDocInfo;
 import org.apache.commons.io.IOUtils;
 import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -81,7 +85,19 @@ public class MediaService {
                      .eTag("case id not found")
                      .build();
         }
-
+        if(metaDocInfo.getHearingId() !=0){
+            var proceedingOpt = proceedingRepository.findById(metaDocInfo.getHearingId());
+            if(proceedingOpt.isEmpty())
+                throw AppException.builder()
+                    .data(ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE,"proceeding not found")).build())
+                    .build();
+            var proceeding = proceedingOpt.get();
+            if (metaDocInfo.getMainType().equals("recording")) {
+                proceeding.setMeetingRecordings(metaDocInfo.getFileName());
+            } else {
+                proceeding.setMinutesOfMeetings(metaDocInfo.getFileName());
+            }
+        }
         return ResponseEntity.ok(metaDocInfo.getFileName()+" saved in server ");
 
     }
@@ -117,6 +133,9 @@ public class MediaService {
 
     @Autowired
     private DocumentRepository documentRepository;
+    @Autowired
+    private ProceedingRepository proceedingRepository;
+
     public List<Document> getDocsByCaseId(Integer caseId) {
        return documentRepository.findByCaseId(caseId);
     }
