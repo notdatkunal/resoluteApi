@@ -120,12 +120,11 @@ public class CaseService {
 		obj.setOrdersCount(obj.getOrdersCount()+1);
 
 		CaseOrder caseOrder = Helper.Creator.createCaseOrder(adminOrder);
-
 		{	//creating for order sequence
 			if (obj.getOrdersCount() < 10)
-				caseOrder.setSequence("K0" + obj.getHearingsCount());
+				caseOrder.setSequence("K0" + obj.getOrdersCount());
 			else
-				caseOrder.setSequence("K" + obj.getHearingsCount());
+				caseOrder.setSequence("K" + obj.getOrdersCount());
 		}
 		MetaDocInfo metaDocInfo = codeComponent.getMetaCode("order", caseOrder.getSequence(), adminOrder.getCaseId(),0, adminOrder.getFile());
 		mediaService.uploadFile(metaDocInfo);
