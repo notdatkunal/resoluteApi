@@ -4,7 +4,7 @@ server:
     key-store-type: PKCS12
     key-store: keystore.jks
     key-store-password: changeit
-  port: 8080
+  port: 443
 management:
   endpoint:
     shutdown:

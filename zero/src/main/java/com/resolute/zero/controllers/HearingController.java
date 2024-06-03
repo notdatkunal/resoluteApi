@@ -25,7 +25,7 @@ public class HearingController {
     }
 
 
-    @GetMapping("/admin/hearings/{hearingId}")
+    @GetMapping("/admin/hearing/{hearingId}")
     public HearingResponse getHearingDateByHearingId(@PathVariable Integer hearingId){
         return caseService.getHearingDateByHearingId(hearingId);
     }
