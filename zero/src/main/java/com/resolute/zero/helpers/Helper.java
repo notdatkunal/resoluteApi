@@ -5,10 +5,8 @@ import com.resolute.zero.responses.*;
 import com.resolute.zero.requests.*;
 import com.resolute.zero.domains.*;
 import com.resolute.zero.services.JWTutil;
-
-import java.time.Instant;
 import java.util.Date;
-import java.util.List;
+
 
 public class Helper {
     public static class Convert {
@@ -126,50 +124,12 @@ public class Helper {
         }
 
 
-        public static CaseDocumentsResponse convertCaseDocumentResponse(BankCase bankCase) {
-            // to be continued
-            return CaseDocumentsResponse.builder()
-                    .loanRecallNotice(LoanRecallNoticeResponse.builder()
-                            .notice("LRNNOT000044")
-                            .RPAD("LRNNOT000044")
-                            .tracking("LRNNOT000044")
-                            .build())
-                    .intentLetter(IntentLetterResponse.builder()
-                            .notice("LRNNOT000044")
-                            .RPAD("LRNNOT000044")
-                            .tracking("LRNNOT000044")
-                            .build())
-                    .referenceLetter(ReferenceLetterResponse.builder()
-                            .notice("LRNNOT000044")
-                            .RPAD("LRNNOT000044")
-                            .tracking("LRNNOT000044")
-                            .build())
-                    .concentLetter(ConcentLetterResponse.builder()
-                            .notice("LRNNOT000044")
-                            .RPAD("LRNNOT000044")
-                            .tracking("LRNNOT000044")
-                            .statementOfClaim("LRNNOT000044")
-                            .build())
-                    .intimationLetter(IntimationLetterResponse.builder()
-                            .notice("LRNNOT000044")
-                            .RPAD("LRNNOT000044")
-                            .tracking("LRNNOT000044")
-                            .affidavit("LRNNOT000044")
-                            .build())
-                    .awardLetter(AwardLetterResponse.builder()
-                            .notice("LRNNOT000044")
-                            .RPAD("LRNNOT000044")
-                            .tracking("LRNNOT000044")
-                            .roznama("LRNNOT000044")
-                            .bankDocument("LRNNOT000044")
-                            .build())
-                    .build();
-        }
 
-        public static CommunicationResponse convertCommunicationResponse(BankCase obj) {
+        public static CommunicationResponse convertCommunicationResponse(Communication comm) {
             // to be completed
             return CommunicationResponse.builder()
-                    .dates(List.of(CommDateResponse.builder().date(Date.from(Instant.now())).emailComm("emailDoc").emailCommTitle("emailTitleLink").whatsAppComm("whatsappComm").whatsAppCommTitle("whatsappCommTitleLink").textComm("textComm").textCommTitle("textCommTitleLink").build(),CommDateResponse.builder().date(Date.from(Instant.now())).emailComm("emailDoc").emailCommTitle("emailTitleLink").whatsAppComm("whatsappComm").whatsAppCommTitle("whatsappCommTitleLink").textComm("textComm").textCommTitle("textCommTitleLink").build(),CommDateResponse.builder().date(Date.from(Instant.now())).emailComm("emailDoc").emailCommTitle("emailTitleLink").whatsAppComm("whatsappComm").whatsAppCommTitle("whatsappCommTitleLink").textComm("textComm").textCommTitle("textCommTitleLink").build()))
+                    .fileName(comm.getFileName())
+                    .date(comm.getDate())
                     .build();
 
 
@@ -276,6 +236,12 @@ public class Helper {
             order.setDate(adminOrder.getDate());
             order.setType(adminOrder.getType());
             return order;
+        }
+
+        public static Communication createCommunication(AdminCommRequest adminCommRequest) {
+            Communication communication = new Communication();
+            communication.setDate(adminCommRequest.getDate());
+            return communication;
         }
     }
 

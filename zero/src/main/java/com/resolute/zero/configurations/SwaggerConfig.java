@@ -1,5 +1,6 @@
 package com.resolute.zero.configurations;
 
+
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SwaggerConfig {
+
     @Bean
     public OpenAPI employeeManagementOpenAPI() {
 
@@ -16,9 +18,10 @@ public class SwaggerConfig {
         api.info(new Info().title("resolve")
                 .license(new License().name("resolve"))
         );
-        api.components(new Components());
 
+        api.components(new Components());
         return api;
     }
+
 }
 

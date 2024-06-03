@@ -2,11 +2,13 @@ package com.resolute.zero.responses;
 
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.List;
+import java.util.Date;
 
 @Data
 @Builder
 public class CommunicationResponse {
-    List<CommDateResponse> dates;
+    private String fileName;
+    private Date date;
+
+
 }

@@ -22,15 +22,15 @@ public class OrderController {
         public List<AdminOrderResponse> getOrdersByCaseId(@PathVariable Integer caseId){
             return caseService.getCaseOrdersByCaseId(caseId);
         }
-    @GetMapping("/order/{orderId}")
+    @GetMapping("/admin/order/{orderId}")
     public AdminOrderResponse getOrderById(@PathVariable Integer orderId){
            return caseService.getOrderById(orderId);
     }
-    @PutMapping("/orderDate/{orderId}")
+    @PutMapping("/admin/orderDate/{orderId}")
     public void updateOrderDateById(@PathVariable Integer orderId,@ModelAttribute Date date){
             caseService.updateOrderDateById(orderId,date);
     }
-    @PutMapping("/orderType/{orderId}")
+    @PutMapping("/admin/orderType/{orderId}")
     public void updateOrderTypeById(@PathVariable Integer orderId,@ModelAttribute String type){
                 caseService.updateOrderTypeById(orderId,type);
     }
@@ -38,7 +38,7 @@ public class OrderController {
 
 
 
-    @DeleteMapping("/order/{orderId}")
+    @DeleteMapping("/admin/order/{orderId}")
     public void deleteOrderById(@PathVariable Integer orderId){
 
             caseService.deleteOrderById(orderId);

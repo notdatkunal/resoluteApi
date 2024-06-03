@@ -2,11 +2,12 @@ package com.resolute.zero.services;
 
 
 
-import com.resolute.zero.domains.CaseOrder;
+import com.resolute.zero.domains.*;
+import com.resolute.zero.repositories.CommunicationRepository;
+import com.resolute.zero.responses.AdminCommRequest;
 import com.resolute.zero.exceptions.AppException;
 import com.resolute.zero.repositories.CaseOrderRepository;
 import com.resolute.zero.requests.CaseHearingRequest;
-import com.resolute.zero.domains.Proceeding;
 import com.resolute.zero.repositories.ProceedingRepository;
 import com.resolute.zero.requests.HearingResponse;
 import com.resolute.zero.responses.*;
@@ -20,15 +21,12 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.resolute.zero.domains.BankCase;
-
 import com.resolute.zero.helpers.Helper;
 import com.resolute.zero.repositories.CaseRepository;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-
 
 
 @RequiredArgsConstructor
@@ -56,15 +54,13 @@ public class CaseService {
 		return caseOptional.get();
 	}
 
-	public CaseDocumentsResponse getCaseDocuments(Integer caseId) {
-		var obj = CaseService.extracted(caseRepository,caseId);
-		return Helper.Convert.convertCaseDocumentResponse(obj);
-	}
-
-	public CommunicationResponse getCommunicationByCaseId(Integer id) {
-		var obj = CaseService.extracted(caseRepository,id);
-		return Helper.Convert.convertCommunicationResponse(obj);
-
+	public List<CommunicationResponse> getCommunicationByCaseId(Integer id) {
+		return CaseService
+				.extracted(caseRepository,id)
+				.getCommunications()
+				.stream()
+				.map(Helper.Convert::convertCommunicationResponse)
+				.toList();
 	}
 
 	public void createHearingByCaseId(Integer caseId, CaseHearingRequest caseHearingRequest) {
@@ -111,7 +107,9 @@ public class CaseService {
 	private CodeComponent codeComponent;
 	@Autowired
 	private MediaService mediaService;
-	public ResponseEntity<?> createOrderByCaseId(AdminOrderRequest adminOrder) throws IOException {
+    private final CommunicationRepository communicationRepository;
+
+    public ResponseEntity<?> createOrderByCaseId(AdminOrderRequest adminOrder) throws IOException {
 
 		var obj = CaseService.extracted(caseRepository,adminOrder.getCaseId());
 		obj.setOrdersCount(obj.getOrdersCount()+1);
@@ -202,5 +200,30 @@ public class CaseService {
 		caseObj.getOrders().remove(caseOrder);
 		caseRepository.save(caseObj);
 		caseOrderRepository.delete(caseOrder);
+	}
+
+	public ResponseEntity<?> createComm(AdminCommRequest adminCommRequest) throws IOException {
+		var obj = CaseService.extracted(caseRepository,adminCommRequest.getCaseId());
+		obj.setCommunicationCount(obj.getCommunicationCount()+1);
+		Communication communication = Helper.Creator.createCommunication(adminCommRequest);
+		{	//creating comm sequence
+			if (obj.getCommunicationCount() < 10)
+				communication.setSequence("C0" + obj.getCommunicationCount());
+			else
+				communication.setSequence("C" + obj.getCommunicationCount());
+		}
+
+		MetaDocInfo metaDocInfo = codeComponent.getMetaCode("communication", communication.getSequence(), adminCommRequest.getCaseId(), 0, adminCommRequest.getFile());
+		mediaService.uploadFile(metaDocInfo);
+		mediaService.saveDocumentInDB(metaDocInfo);
+		communication.setFileName(metaDocInfo.getFileName());
+		communicationRepository.save(communication);
+		obj.getCommunications().add(communication);
+		caseRepository.save(obj);
+		return ResponseEntity
+				.of(ProblemDetail
+				.forStatus(HttpStatus.CREATED))
+				.eTag("communication created successfully")
+				.build();
 	}
 }

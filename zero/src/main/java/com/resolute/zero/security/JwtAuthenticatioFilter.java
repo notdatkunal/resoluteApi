@@ -16,7 +16,7 @@ import java.util.List;
 
 public class JwtAuthenticatioFilter extends OncePerRequestFilter {
 
-    public static final List<String> EXCLUDED_URLS = List.of("/login");
+    public static final List<String> EXCLUDED_URLS = List.of("/login","/swagger-ui","/swagger-ui/index.html","/swagger-ui.html","/swagger-ui/","/swagger-ui/*");
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String requestURI = request.getRequestURI();
@@ -24,6 +24,10 @@ public class JwtAuthenticatioFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
+        if(requestURI.contains("/swagger-ui")||requestURI.startsWith("/favicon.ico"))
+                return;
+        System.out.println(requestURI);
+
         String authHeader = request.getHeader("Authorization");
         String token = null;
         if(authHeader!=null&&authHeader.startsWith("Bearer ")){
@@ -34,6 +38,12 @@ public class JwtAuthenticatioFilter extends OncePerRequestFilter {
             Authentication authentication = new UsernamePasswordAuthenticationToken(username,null, Collections.emptyList());
             SecurityContextHolder.getContext().setAuthentication(authentication);
             filterChain.doFilter(request,response);
+            return;
         }
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        response.sendError(HttpServletResponse.SC_FORBIDDEN, "Unauthorized Access");
+
+
+
     }
 }

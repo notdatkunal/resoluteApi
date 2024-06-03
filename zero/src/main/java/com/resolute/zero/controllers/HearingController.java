@@ -29,7 +29,7 @@ public class HearingController {
     public HearingResponse getHearingDateByHearingId(@PathVariable Integer hearingId){
         return caseService.getHearingDateByHearingId(hearingId);
     }
-    @GetMapping("/admin/hearings/{caseId}")
+    @GetMapping({"/admin/hearings/{caseId}","/case/hearings/{caseId}"})
     public List<HearingResponse> getProceedings(@PathVariable Integer caseId){
         return caseService.getHearingsByCaseId(caseId);
     }

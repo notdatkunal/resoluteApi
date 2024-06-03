@@ -23,9 +23,13 @@ public class SecurityConfig {
         return httpSecurity
                 .addFilterBefore(jwtAuthenticatioFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth->{
-                    String[] excludedUrlsArray =  JwtAuthenticatioFilter.EXCLUDED_URLS.toArray(new String[0]);
-                    auth.requestMatchers(excludedUrlsArray).permitAll();
-                    auth.anyRequest().authenticated();
+//                    String[] excludedUrlsArray =  JwtAuthenticatioFilter.EXCLUDED_URLS.toArray(new String[0]);
+//                    auth.requestMatchers(excludedUrlsArray).permitAll();
+//                    auth.requestMatchers(HttpMethod.GET).permitAll();
+//                    auth.anyRequest().authenticated();
+                    auth.requestMatchers("/admin/**","/case/**","/bank/**").authenticated();
+                    auth.anyRequest().permitAll();
+
         })
                 .csrf(AbstractHttpConfigurer::disable)
                 .build();

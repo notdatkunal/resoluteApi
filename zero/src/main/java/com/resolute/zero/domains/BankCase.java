@@ -13,7 +13,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString
+//@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -30,11 +30,13 @@ public class BankCase {
     @Column(nullable = false)
     private Integer ordersCount;
 
+    @Column(nullable = false)
+    private Integer communicationCount;
+
     @CreationTimestamp
     private Instant createdAt;
     @UpdateTimestamp
     private Instant updatedAt;
-
 
     private String caseType;
 
@@ -53,6 +55,9 @@ public class BankCase {
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Proceeding> proceeding = new ArrayList<>();
 
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<Communication> communications = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,targetEntity = CaseOrder.class)
     private List<CaseOrder> orders = new ArrayList<>();
@@ -102,8 +107,6 @@ public class BankCase {
     private String courtName;
 
     private String place;
-
-
 
     private String lawyerName;
 

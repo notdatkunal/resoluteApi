@@ -24,10 +24,10 @@ public class AdminController {
     public void addCase(@RequestBody AdminCaseRequest request  ){
         adminService.saveCase(request);
     }
-    @PostMapping("/admin/borrower")
-    public void addBorrower(@RequestBody BorrowerRequest request){
-        adminService.addBorrower(request);
-    }
+//    @PostMapping("/admin/borrower")
+//    public void addBorrower(@RequestBody BorrowerRequest request){
+//        adminService.addBorrower(request);
+//    }
     @PutMapping("/admin/arbitrator/{arbitratorId}")
     public void updateArbitrator(@RequestBody ArbitratorRequest request,@PathVariable Integer arbitratorId){
         adminService.updateArbitrator(request,arbitratorId);

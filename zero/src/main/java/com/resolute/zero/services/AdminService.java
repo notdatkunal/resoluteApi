@@ -10,7 +10,6 @@ import com.resolute.zero.repositories.CaseRepository;
 import com.resolute.zero.requests.AdminCaseRequest;
 import com.resolute.zero.requests.ArbitratorRequest;
 import com.resolute.zero.requests.BankRequest;
-import com.resolute.zero.requests.BorrowerRequest;
 import com.resolute.zero.responses.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,11 +44,10 @@ public class AdminService {
         caseObj.setBank(bank.get());
         caseObj.setHearingsCount(0);
         caseObj.setOrdersCount(0);
+        caseObj.setCommunicationCount(0);
         caseRepository.save(caseObj);
     }
-    public void addBorrower(BorrowerRequest request) {
-        throw new RuntimeException();
-    }
+
     public void addArbitrator(ArbitratorRequest request) {
             var arbitratorObj = Helper.Creator.createArbitrator(request);
             arbitratorRepository.save(arbitratorObj);

@@ -1,7 +1,11 @@
 package com.resolute.zero.utilities;
 
+import com.resolute.zero.exceptions.AppException;
 import com.resolute.zero.repositories.ProceedingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,7 +41,15 @@ public class CodeComponent {
         var listOfHearingType = List.of("REC","MOM");
         if(listOfHearingType.contains(main)){
             var hearing = proceedingRepository.findById(hearingId);
-            if(hearing.isEmpty()) throw new RuntimeException("hearing object not fount");
+            if(hearing.isEmpty())
+                throw AppException
+                    .builder()
+                    .data(ResponseEntity
+                            .of(ProblemDetail
+                                    .forStatusAndDetail(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE
+                                            ,"hearing object not fount"))
+                            .build())
+                    .build();
             subTypeMapping = hearing.get().getOrderType();
         }
         String code = main+subTypeMapping+cId;
@@ -114,6 +126,8 @@ public class CodeComponent {
     public String getSubTypeMapping(String key) {
         String mappedValue = TypeMappingUtil.SUB_TYPE_MAP.get(key);
         if(key.startsWith("K")&&key.length()==3) //for mapping with order type sequence
+            return key;
+        if(key.startsWith("C")&&key.length()==3) //for mapping with order type sequence
             return key;
         if (mappedValue == null) {
             throw new IllegalArgumentException("Invalid subType: " + key);
