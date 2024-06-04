@@ -40,7 +40,7 @@ public class HearingController {
         caseService.createHearingByCaseId(caseId,CaseHearingRequest.builder().hearingDate(caseHearingRequest.getHearingDate()).build());
     }
     @PutMapping("/admin/hearing/{hearingId}")
-    public void  updateHearingByCaseId(@RequestHeader String date, @PathVariable Integer hearingId) throws ParseException {
+    public void  updateHearingByCaseId(@RequestParam String date, @PathVariable Integer hearingId) throws ParseException {
         System.out.println("date");
         System.out.println(date);
         caseService.updateHearingByHearingId(hearingId, DateParser.parseDate(date));
