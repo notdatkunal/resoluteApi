@@ -226,4 +226,12 @@ public class CaseService {
 				.eTag("communication created successfully")
 				.build();
 	}
+
+    public List<AdminCaseResponse> getCasesByArbitratorId(Integer arbitratorId) {
+		return caseRepository.findByArbitrator_Id(arbitratorId).stream().map(Helper.Convert::convertAdminCaseResponse).toList();
+    }
+
+	public List<AdminCaseResponse> getCasesByBankId(Integer bankId) {
+		return caseRepository.findByBank_Id(bankId).stream().map(Helper.Convert::convertAdminCaseResponse).toList();
+	}
 }
