@@ -38,7 +38,7 @@ public class HearingController {
         caseService.createHearingByCaseId(caseId,CaseHearingRequest.builder().hearingDate(caseHearingRequest.getHearingDate()).build());
     }
     @PutMapping("/admin/hearing/{hearingId}")
-    public void  updateHearingByCaseId(@RequestHeader CaseHearingRequest date, @PathVariable Integer hearingId){
+    public void  updateHearingByCaseId(@ModelAttribute CaseHearingRequest date, @PathVariable Integer hearingId){
         caseService.updateHearingByHearingId(hearingId,date.getHearingDate());
     }
 }
