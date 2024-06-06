@@ -1,25 +1,26 @@
 package com.resolute.zero.services;
 
 
+import com.resolute.zero.controllers.EmailDetails;
+import com.resolute.zero.controllers.EmailService;
 import com.resolute.zero.domains.BankCase;
+import com.resolute.zero.domains.User;
 import com.resolute.zero.helpers.Helper;
-import com.resolute.zero.repositories.ArbitratorRepository;
-import com.resolute.zero.repositories.BankRepository;
-import com.resolute.zero.repositories.BorrowerRepository;
-import com.resolute.zero.repositories.CaseRepository;
+import com.resolute.zero.repositories.*;
 import com.resolute.zero.requests.AdminCaseRequest;
 import com.resolute.zero.requests.ArbitratorRequest;
 import com.resolute.zero.requests.BankRequest;
 import com.resolute.zero.responses.*;
+import com.resolute.zero.utilities.ApplicationUtility;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class AdminService {
@@ -32,7 +33,9 @@ public class AdminService {
     private ArbitratorRepository arbitratorRepository;
     @Autowired
     private BorrowerRepository borrowerRepository;
-    
+    @Autowired
+    private UserRepository userRepository;
+
 
     public void saveCase(AdminCaseRequest request) {
         var caseObj =  Helper.Creator.createCase(request);
@@ -56,8 +59,34 @@ public class AdminService {
         var bank = Helper.Creator.createBank(request);
         bankRepository.save(bank);
 
-    }
+        var password = request.getUsername()+"atResolute"+new Random().nextInt(1000000);
+        var bankUser = new User();
+                bankUser.setUserName(request.getUsername());
+                bankUser.setPassword(ApplicationUtility.encryptPassword(password));
+                bankUser.setRole("bank");
+        userService.createUser(bankUser);
+        var email = EmailDetails.builder()
+                .to(request.getEmail())
+                .subject("congratulations for connecting with resolute")
+                .body(String.format("""
+                        congratulations on signing up on with jmswift.com
+                        your username is : %s
+                        your password is : %s
+                        please change your password from the website as soon as you receive the email
+                        """,request.getUsername(),password)
+                )
+                .build();
 
+        try {
+            emailService.sendEmail(email);
+        } catch (Exception e) {
+            log.warn("email not sent for username "+request.getUsername());
+        }
+    }
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private EmailService emailService;
 
     /**
      * this method will return list of all documents on server according to the structured model
