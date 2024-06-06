@@ -33,8 +33,7 @@ public class AdminService {
     private ArbitratorRepository arbitratorRepository;
     @Autowired
     private BorrowerRepository borrowerRepository;
-    @Autowired
-    private UserRepository userRepository;
+
 
 
     public void saveCase(AdminCaseRequest request) {
