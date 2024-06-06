@@ -1,3 +1,7 @@
+email:
+  id : jmswiftapp@gmail.com
+  password : ${RESOLUTE_EMAIL_PASS}
+
 server:
   ssl:
     enabled: true
@@ -19,6 +23,17 @@ logging:
     sql: debug
     web: debug
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: jmswiftapp@gmail.com
+    password: grvv ugpm nubf wayy
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
   application:
     name: resolute
   jpa:

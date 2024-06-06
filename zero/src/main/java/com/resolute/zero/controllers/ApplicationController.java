@@ -30,4 +30,5 @@ public class ApplicationController {
     public List<AdminCaseResponse> casesByBankId(@PathVariable Integer bankId){
         return caseService.getCasesByBankId(bankId);
     }
+    // search by bank id or arbitrator id
 }

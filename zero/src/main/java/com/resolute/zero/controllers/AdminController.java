@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @CrossOrigin("*")
 @RequiredArgsConstructor
+//search case by bank id
 public class AdminController {
     @Autowired
     private final AdminService adminService;
