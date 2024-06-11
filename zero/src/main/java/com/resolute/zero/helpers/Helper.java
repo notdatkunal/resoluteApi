@@ -159,6 +159,18 @@ public class Helper {
                     .date(caseOrder.getDate())
                     .build();
         }
+
+        public static DocumentResponse convertDocumentResponse(Document document) {
+            return DocumentResponse.builder()
+                    .uploadDate(Date.from(document.getCreatedAt()))
+                    .subType(document.getDocumentSubTypeTitle())
+                    .mainType(document.getDocumentMainTypeTitle())
+                    .caseId(document.getCaseId())
+                    .documentId(document.getId())
+                    .documentTitle(document.getImageName())
+
+                    .build();
+        }
     }
     public static class Creator {
 

@@ -64,4 +64,12 @@ public class MediaController {
     public List<DocumentResponse> listDocuments(){
         return adminService.getDocumentList();
     }
+
+    @DeleteMapping("/admin/deleteDocument/{documentId}")
+    public ResponseEntity<?> deleteDocument(@PathVariable Integer documentId){
+       return mediaService.deleteDocument(documentId);
+    }
+
+
+
 }

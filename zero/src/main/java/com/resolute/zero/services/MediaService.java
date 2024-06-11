@@ -6,6 +6,7 @@ import com.resolute.zero.exceptions.AppException;
 import com.resolute.zero.repositories.CaseRepository;
 import com.resolute.zero.repositories.DocumentRepository;
 import com.resolute.zero.repositories.ProceedingRepository;
+import com.resolute.zero.utilities.ApplicationUtility;
 import com.resolute.zero.utilities.MediaUtility;
 import com.resolute.zero.utilities.MetaDocInfo;
 import org.apache.commons.io.IOUtils;
@@ -139,5 +140,27 @@ public class MediaService {
 
     public List<Document> getDocsByCaseId(Integer caseId) {
        return documentRepository.findByCaseId(caseId);
+    }
+
+    public ResponseEntity<?> deleteDocument(Integer documentId) {
+        try {
+            var document = documentRepository.findById(documentId).get();
+            var caseObj = caseRepository.findById(document.getCaseId()).get();
+            caseObj.getDocumentList().remove(document);
+            String path = MediaUtility.getPath(document.getImageName());
+            File fileToDelete = new File(path);
+            fileToDelete.delete();
+            caseRepository.save(caseObj);
+            documentRepository.deleteById(documentId);
+            return ResponseEntity.ok(ProblemDetail.forStatus(HttpStatus.FOUND));
+        }
+        catch (Exception e){
+            return ResponseEntity
+                    .of(ProblemDetail
+                            .forStatusAndDetail(HttpStatus
+                                    .REQUESTED_RANGE_NOT_SATISFIABLE,
+                                    e.toString()))
+                    .build();
+        }
     }
 }

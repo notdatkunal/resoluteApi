@@ -86,11 +86,14 @@ public class AdminService {
     @Autowired
     private EmailService emailService;
 
+
+    @Autowired
+    private DocumentRepository documentRepository;
     /**
      * this method will return list of all documents on server according to the structured model
      * */
     public List<DocumentResponse> getDocumentList() {
-        throw new RuntimeException("method not implemented");
+       return documentRepository.findAll().stream().map(Helper.Convert::convertDocumentResponse).toList();
     }
 
     public ArbitratorResponse getArbitratorById(Integer arbitratorId) {
