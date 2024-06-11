@@ -46,14 +46,7 @@ public class AdminController {
     	adminService.updateBank(request,bankId);
     }
 
-    /**
-     * please read the service documentation before using this
-     * */
-    @GetMapping("/admin/documents")
-    public List<DocumentResponse> listDocuments(){
-        return adminService.getDocumentList();
 
-    }
 
     @GetMapping("/admin/arbitrator/{arbitratorId}")
     public ArbitratorResponse getArbitratorById(@PathVariable Integer arbitratorId){

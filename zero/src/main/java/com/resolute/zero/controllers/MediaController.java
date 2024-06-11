@@ -1,6 +1,8 @@
 package com.resolute.zero.controllers;
 
 import com.resolute.zero.domains.Document;
+import com.resolute.zero.responses.DocumentResponse;
+import com.resolute.zero.services.AdminService;
 import com.resolute.zero.services.MediaService;
 import com.resolute.zero.utilities.CodeComponent;
 import com.resolute.zero.utilities.MetaDocInfo;
@@ -53,9 +55,13 @@ public class MediaController {
         mediaService.saveDocumentsInDB(codeComponent.getMetaDocsInfo(fileNamesList));
         return ResponseEntity.ok("file uploaded with names "+fileNamesList);
     }
-
-    @PostMapping("/checking")
-    public Integer check(@RequestParam(required = false,defaultValue = "0") Integer hearingId){
-        return hearingId;
+    @Autowired
+    private AdminService adminService;
+    /**
+     * please read the service documentation before using this
+     * */
+    @GetMapping("/admin/documents")
+    public List<DocumentResponse> listDocuments(){
+        return adminService.getDocumentList();
     }
 }
