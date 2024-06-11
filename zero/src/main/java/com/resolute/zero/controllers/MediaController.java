@@ -39,7 +39,7 @@ public class MediaController {
             , @RequestParam String mainType
             , @RequestParam String subType
             , @RequestParam Integer caseId
-            , @RequestParam(required = false) Integer hearingId
+            , @RequestParam(required = false,defaultValue = "0") Integer hearingId
     ) throws IOException
     {
         MetaDocInfo metaDocInfo = codeComponent.getMetaCode(mainType,subType,caseId,hearingId,file);
@@ -54,5 +54,8 @@ public class MediaController {
         return ResponseEntity.ok("file uploaded with names "+fileNamesList);
     }
 
-
+    @PostMapping("/checking")
+    public Integer check(@RequestParam(required = false,defaultValue = "0") Integer hearingId){
+        return hearingId;
+    }
 }

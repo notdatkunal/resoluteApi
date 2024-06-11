@@ -2,7 +2,7 @@ package com.resolute.zero.controllers;
 
 import com.resolute.zero.requests.*;
 import com.resolute.zero.services.CaseService;
-import com.resolute.zero.utilities.DateParser;
+import com.resolute.zero.utilities.ApplicationUtility;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +41,7 @@ public class HearingController {
     }
     @PutMapping("/admin/hearing/{hearingId}")
     public void  updateHearingByCaseId(@RequestParam String date, @PathVariable Integer hearingId) throws ParseException {
-        System.out.println("date");
-        System.out.println(date);
-        caseService.updateHearingByHearingId(hearingId, DateParser.parseDate(date));
+        caseService.updateHearingByHearingId(hearingId, ApplicationUtility.parseDate(date));
     }
 
 }

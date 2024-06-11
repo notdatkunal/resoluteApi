@@ -1,8 +1,7 @@
 package com.resolute.zero.services;
 
 
-import com.resolute.zero.controllers.EmailDetails;
-import com.resolute.zero.controllers.EmailService;
+import com.resolute.zero.domains.EmailDetails;
 import com.resolute.zero.domains.BankCase;
 import com.resolute.zero.domains.User;
 import com.resolute.zero.helpers.Helper;
@@ -129,6 +128,7 @@ public class AdminService {
         caseResponseList = caseList.stream().map(Helper.Convert::convertCaseResponse).collect(Collectors.toList());
         return caseResponseList;
     }
+
 	public List<BankResponse> getBanksList() {
 		// TODO Auto-generated method stub
 		var banks = bankRepository.findAll();
@@ -199,5 +199,43 @@ public class AdminService {
         caseObj.setCreatedAt(caseOptional.get().getCreatedAt());
         caseRepository.save(caseObj);
 
+    }
+
+    public List<CaseResponse> getSearchResponseArbitratorId(String searchParameter, Date date, Integer arbitratorId) {
+        if(date==null&&searchParameter==null) throw new RuntimeException("no search parameters provided");
+        List<BankCase> cases = caseRepository.findByArbitrator_Id(arbitratorId);
+        List<BankCase> caseList = new LinkedList<>();
+        List<CaseResponse> caseResponseList;
+        if(searchParameter!=null){
+            cases.forEach(item->{
+                if(item.contains(searchParameter)) caseList.add(item);
+            });
+        }
+        if(date!=null){
+            cases.forEach(item->{
+                if(item.getSocFillingDate().equals(date)) caseList.add(item);
+            });
+        }
+        caseResponseList = caseList.stream().map(Helper.Convert::convertCaseResponse).collect(Collectors.toList());
+        return caseResponseList;
+    }
+
+    public List<CaseResponse> getSearchResponseBankId(String searchParameter, Date date, Integer bankId) {
+        if(date==null&&searchParameter==null) throw new RuntimeException("no search parameters provided");
+        List<BankCase> cases = caseRepository.findByBank_Id(bankId);
+        List<BankCase> caseList = new LinkedList<>();
+        List<CaseResponse> caseResponseList;
+        if(searchParameter!=null){
+            cases.forEach(item->{
+                if(item.contains(searchParameter)) caseList.add(item);
+            });
+        }
+        if(date!=null){
+            cases.forEach(item->{
+                if(item.getSocFillingDate().equals(date)) caseList.add(item);
+            });
+        }
+        caseResponseList = caseList.stream().map(Helper.Convert::convertCaseResponse).collect(Collectors.toList());
+        return caseResponseList;
     }
 }

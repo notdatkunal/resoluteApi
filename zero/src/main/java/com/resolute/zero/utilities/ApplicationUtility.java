@@ -1,5 +1,8 @@
 package com.resolute.zero.utilities;
 import java.security.MessageDigest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ApplicationUtility {
 
@@ -26,5 +29,10 @@ public class ApplicationUtility {
 
         }
         return encrypted;
+    }
+
+    public static Date parseDate(String dateString) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        return format.parse(dateString);
     }
 }

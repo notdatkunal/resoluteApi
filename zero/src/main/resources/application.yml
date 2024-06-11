@@ -27,7 +27,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: jmswiftapp@gmail.com
-    password: grvv ugpm nubf wayy
+    password: ${RESOLUTE_EMAIL_PASS}
     properties:
       mail:
         smtp:

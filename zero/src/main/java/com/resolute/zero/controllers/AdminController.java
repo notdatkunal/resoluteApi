@@ -69,11 +69,10 @@ public class AdminController {
         return adminService.getCaseById(caseId);
     }
 
-    @GetMapping("/admin/search/case")
-    public List<CaseResponse> searchCase(@RequestParam(value = "parameter",required = false) String searchParameter,@RequestParam(value = "date",required = false) Date date) {
-        System.out.println("the date is :"+date);
-            return adminService.getSearchResponse(searchParameter,date);
-    }
+
+
+
+
     @GetMapping("/admin/case")
     public List<CaseResponse> getAllCases(){
         return   adminService.getCaseList();
