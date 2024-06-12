@@ -1,6 +1,6 @@
 package com.resolute.zero.controllers;
 
-import com.resolute.zero.responses.AdminOrderRequest;
+import com.resolute.zero.requests.AdminOrderRequest;
 import com.resolute.zero.responses.AdminOrderResponse;
 import com.resolute.zero.services.CaseService;
 import lombok.RequiredArgsConstructor;

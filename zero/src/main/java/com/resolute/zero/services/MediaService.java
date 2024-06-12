@@ -6,10 +6,14 @@ import com.resolute.zero.exceptions.AppException;
 import com.resolute.zero.repositories.CaseRepository;
 import com.resolute.zero.repositories.DocumentRepository;
 import com.resolute.zero.repositories.ProceedingRepository;
-import com.resolute.zero.utilities.ApplicationUtility;
 import com.resolute.zero.utilities.MediaUtility;
 import com.resolute.zero.utilities.MetaDocInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,10 +22,10 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -29,6 +33,7 @@ import java.util.Base64;
 import java.util.List;
 
 
+@Slf4j
 @Service
 public class MediaService {
     public void uploadFile(MetaDocInfo metaDocInfo) throws IOException {
@@ -162,5 +167,34 @@ public class MediaService {
                                     e.toString()))
                     .build();
         }
+    }
+
+    public String saveCases(MultipartFile sheet) {
+
+        try (InputStream inputStream = sheet.getInputStream()) {
+            List<String> headers = new ArrayList<>();
+            // Use the InputStream to read the Excel file
+            XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+            log.info(workbook.getSheetName(0));
+            // Process the workbook here using the steps mentioned previously
+            XSSFSheet sh = workbook.getSheetAt(0);
+            XSSFRow headerRow = sh.getRow(0);
+            if(headerRow!=null) {
+                for (int cellIndex = 0; cellIndex < headerRow.getLastCellNum(); cellIndex++) {
+                    XSSFCell cell = headerRow.getCell(cellIndex);
+
+                    // Check if cell exists and extract value
+                    if (cell != null) {
+                        String headerValue = cell.getStringCellValue();
+                        headers.add(headerValue);
+                    }
+                }
+            }
+            log.info(headers.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle potential IO exceptions
+        }
+        return sheet.getOriginalFilename();
     }
 }

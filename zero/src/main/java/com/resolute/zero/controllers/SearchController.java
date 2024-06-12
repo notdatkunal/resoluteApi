@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -21,8 +23,9 @@ public class SearchController {
 
     @GetMapping("/admin/search/case")
     public List<CaseResponse> searchCase(@RequestParam(value = "parameter",required = false) String searchParameter, @RequestParam(value = "date",required = false) String date) throws ParseException {
-        log.info("the date is : {} ", date.toString());
-        return adminService.getSearchResponse(searchParameter, ApplicationUtility.parseDate(date));
+        Date dateRequest = null;
+        if(date!=null) dateRequest = ApplicationUtility.parseDate(date);
+        return adminService.getSearchResponse(searchParameter, dateRequest);
     }
 
     @GetMapping("/admin/search/caseByArbitrator/{arbitratorId}")

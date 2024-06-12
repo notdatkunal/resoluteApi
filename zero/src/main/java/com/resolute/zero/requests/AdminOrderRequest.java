@@ -1,10 +1,9 @@
-package com.resolute.zero.responses;
+package com.resolute.zero.requests;
 
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.Date;
 
 @Data

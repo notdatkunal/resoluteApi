@@ -125,7 +125,10 @@ public class AdminService {
         }
         if(date!=null){
             cases.forEach(item->{
-                if(item.getSocFillingDate().equals(date)) caseList.add(item);
+
+
+                if(item.getCreatedAt().equals(date.toInstant())) caseList.add(item);
+                if(item.getSocFillingDate()!=null&&date.equals(item.getSocFillingDate()))  caseList.add(item);
             });
         }
         caseResponseList = caseList.stream().map(Helper.Convert::convertCaseResponse).collect(Collectors.toList());

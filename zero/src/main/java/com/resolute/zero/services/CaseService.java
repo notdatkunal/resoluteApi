@@ -4,9 +4,10 @@ package com.resolute.zero.services;
 
 import com.resolute.zero.domains.*;
 import com.resolute.zero.repositories.CommunicationRepository;
-import com.resolute.zero.responses.AdminCommRequest;
+import com.resolute.zero.requests.AdminCommRequest;
 import com.resolute.zero.exceptions.AppException;
 import com.resolute.zero.repositories.CaseOrderRepository;
+import com.resolute.zero.requests.AdminOrderRequest;
 import com.resolute.zero.requests.CaseHearingRequest;
 import com.resolute.zero.repositories.ProceedingRepository;
 import com.resolute.zero.requests.HearingResponse;

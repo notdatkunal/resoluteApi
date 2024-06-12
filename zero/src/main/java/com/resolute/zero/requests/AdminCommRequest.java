@@ -1,4 +1,4 @@
-package com.resolute.zero.responses;
+package com.resolute.zero.requests;
 
 import lombok.Builder;
 import lombok.Data;

@@ -1,6 +1,6 @@
 package com.resolute.zero.controllers;
 
-import com.resolute.zero.responses.AdminCommRequest;
+import com.resolute.zero.requests.AdminCommRequest;
 import com.resolute.zero.responses.CommunicationResponse;
 import com.resolute.zero.services.CaseService;
 import lombok.RequiredArgsConstructor;
