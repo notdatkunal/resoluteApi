@@ -229,7 +229,7 @@ public class MediaService {
                                     builder.customerId(Objects.requireNonNull(ApplicationUtility.getIntValue(cell)).toString());
                                     break;
                                 case 8:
-                                    builder.accountNumber(ApplicationUtility.getStringValue(cell));
+                                    builder.accountNumber(Objects.requireNonNull(ApplicationUtility.getIntValue(cell)).toString());
                                     break;
                                 case 9:
                                     builder.creditCardNumber(ApplicationUtility.getStringValue(cell));
