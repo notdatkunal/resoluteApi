@@ -324,6 +324,7 @@ public class MediaService {
                             }
                         }
                     }
+                    builder.rowNum(rowIndex+1);
                     caseSheetRequests.add(builder.build());
                 }
             }
@@ -341,8 +342,15 @@ public class MediaService {
         }
 
         caseSheetRequests.forEach(caseRequest->{
-            adminService.saveCase(caseRequest);
+            try {
+                adminService.saveCase(caseRequest);
+            }catch (Exception e){
+                throw AppException.builder()
+                        .data(ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT,"problem in row number "+caseRequest.getRowNum())).build())
+                        .build();
+            }
         });
+
 //        return sheet.getOriginalFilename();
         return caseSheetRequests;
     }

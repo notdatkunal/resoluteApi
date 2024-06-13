@@ -7,6 +7,7 @@ import java.util.Date;
 @Builder
 @Data
 public class AdminCaseRequest {
+    Integer rowNum;
     Integer bankId;
     Integer arbitratorId;
     String state;
