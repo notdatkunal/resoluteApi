@@ -1,8 +1,6 @@
 package com.resolute.zero.services;
 
-import com.resolute.zero.domains.DocMainType;
-import com.resolute.zero.domains.DocSubType;
-import com.resolute.zero.domains.User;
+import com.resolute.zero.domains.*;
 import com.resolute.zero.repositories.*;
 import com.resolute.zero.utilities.ApplicationUtility;
 import com.resolute.zero.utilities.TypeMappingUtil;
@@ -35,7 +33,8 @@ public class StartupAppService {
 
     @Autowired
     private final DocSubTypeRepository docSubTypeRepository ;
-
+    private final CaseTypeRepository caseTypeRepository;
+    private final CaseRepository caseRepository;
 
 
     public void loadDefaultUsers() {
@@ -68,6 +67,14 @@ public class StartupAppService {
 //            });
 //        }
 
+        System.out.println(caseRepository.countByCaseType("Notice"));
+        if(caseTypeRepository.count()==0){
+            TypeMappingUtil.CASE_TYPES.forEach(caseType->{
+                CaseType type = new CaseType();
+                type.setType(caseType);
+                caseTypeRepository.save(type);
+            });
+        }
         if(docSubTypeRepository.count()==0){
 
             TypeMappingUtil.SUB_TYPE_MAP.forEach((key, value)->{

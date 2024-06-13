@@ -1,9 +1,7 @@
 package com.resolute.zero.services;
 
 
-import com.resolute.zero.domains.EmailDetails;
-import com.resolute.zero.domains.BankCase;
-import com.resolute.zero.domains.User;
+import com.resolute.zero.domains.*;
 import com.resolute.zero.helpers.Helper;
 import com.resolute.zero.repositories.*;
 import com.resolute.zero.requests.AdminCaseRequest;
@@ -23,6 +21,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class AdminService {
+    @Autowired
+    private CaseTypeRepository caseTypeRepository;
 
     @Autowired
     private CaseRepository caseRepository;
@@ -243,5 +243,25 @@ public class AdminService {
         }
         caseResponseList = caseList.stream().map(Helper.Convert::convertCaseResponse).collect(Collectors.toList());
         return caseResponseList;
+    }
+
+    public List<AdminCaseResponse> getCasesByBankIdAndType(Integer bankId, String type) {
+        var caseListByBankId = caseRepository.findByBank_IdAndCaseType(bankId,type);
+        return caseListByBankId.stream().map(Helper.Convert::convertAdminCaseResponse).toList();
+    }
+
+    public Map<String, Long> getTypeCountsByBankId(Integer bankId) {
+        Map<String, Long> caseTypeCount = new HashMap<>();
+        caseTypeRepository.findAll().forEach(caseType -> {
+
+            caseTypeCount.put(caseType.getType(),caseRepository.countByCaseType(caseType.getType()));
+        });
+        return caseTypeCount;
+    }
+
+    public void createType(String type) {
+        CaseType caseType = new CaseType();
+        caseType.setType(type);
+        caseTypeRepository.save(caseType);
     }
 }

@@ -3,6 +3,7 @@ package com.resolute.zero.repositories;
 import com.resolute.zero.domains.BankCase;
 import com.resolute.zero.domains.Proceeding;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,4 +23,9 @@ public interface CaseRepository extends JpaRepository<BankCase,Integer> {
     List<BankCase> findByArbitrator_Id(Integer id);
 
     List<BankCase> findByBank_Id(Integer id);
+
+    List<BankCase> findByBank_IdAndCaseType(Integer id, String caseType);
+
+    @Query("select count(b) from BankCase b where b.caseType = ?1")
+    long countByCaseType(String caseType);
 }

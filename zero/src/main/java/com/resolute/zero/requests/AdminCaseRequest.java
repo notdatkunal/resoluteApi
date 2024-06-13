@@ -11,7 +11,7 @@ public class AdminCaseRequest {
     Integer arbitratorId;
     String state;
     String caseNo;
-    String type;
+    String caseType;
     String zone;
     String branchName;
     String customerId;

@@ -81,10 +81,7 @@ public class AdminController {
         return adminService.getBorrwerList();
 
     }
-    @GetMapping("/admin/bank/{bankId}")
-    public BankResponse getBankById(@PathVariable Integer bankId){
-        return adminService.getBankById(bankId);
-    }
+
     @GetMapping("/admin/bank")
     public List<BankResponse> getAllBanks(){
         return adminService.getBanksList();

@@ -12,6 +12,7 @@ public class AdminCaseResponse {
     Date sec17OrderDate;
     Integer arbitratorId;
     String state;
+    String caseType;
     String caseNo;
     String zone;
     String branchName;

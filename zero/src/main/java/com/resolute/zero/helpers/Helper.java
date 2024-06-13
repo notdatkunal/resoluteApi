@@ -83,6 +83,7 @@ public class Helper {
 
         public static AdminCaseResponse convertAdminCaseResponse(BankCase bankCase) {
             return AdminCaseResponse.builder()
+            .caseType(bankCase.getCaseType())
             .bankId(bankCase.getBank().getId())
             .arbitratorId(bankCase.getArbitrator().getId())
             .caseNo(bankCase.getCaseNo())
@@ -199,6 +200,7 @@ public class Helper {
         public static BankCase createCase(AdminCaseRequest req){
             var caseObj = new BankCase();
             caseObj.setCaseNo(req.getCaseNo());
+            caseObj.setCaseType(req.getCaseType());
             caseObj.setState(req.getState());
             caseObj.setZone(req.getZone());
             caseObj.setSec17OrderDate(req.getSec17OrderDate());
