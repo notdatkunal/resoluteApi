@@ -30,13 +30,15 @@ public class SearchController {
 
     @GetMapping("/admin/search/caseByArbitrator/{arbitratorId}")
     public List<CaseResponse> searchCaseByArbitrator(@PathVariable Integer arbitratorId, @RequestParam(value = "parameter",required = false) String searchParameter, @RequestParam(value = "date",required = false) String date) throws ParseException {
-        log.info("the date is {} ", date.toString());
-        return  adminService.getSearchResponseArbitratorId(searchParameter,ApplicationUtility.parseDate(date),arbitratorId);
+        Date dateRequest = null;
+        if(date!=null) dateRequest = ApplicationUtility.parseDate(date);
+        return  adminService.getSearchResponseArbitratorId(searchParameter,dateRequest,arbitratorId);
     }
     @GetMapping("/admin/search/caseByBank/{bankId}")
     public List<CaseResponse> searchCaseByBank(@PathVariable Integer bankId, @RequestParam(value = "parameter",required = false) String searchParameter, @RequestParam(value = "date",required = false) String date) throws ParseException {
-        log.info("the date is {} ", date.toString());
-        return  adminService.getSearchResponseBankId(searchParameter,ApplicationUtility.parseDate(date),bankId);
+        Date dateRequest = null;
+        if(date!=null) dateRequest = ApplicationUtility.parseDate(date);
+        return  adminService.getSearchResponseBankId(searchParameter,dateRequest,bankId);
     }
 
 }

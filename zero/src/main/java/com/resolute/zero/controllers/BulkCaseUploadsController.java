@@ -1,6 +1,7 @@
 package com.resolute.zero.controllers;
 
 import com.resolute.zero.exceptions.AppException;
+import com.resolute.zero.requests.AdminCaseRequest;
 import com.resolute.zero.services.MediaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -27,7 +29,7 @@ public class BulkCaseUploadsController {
     private MediaService mediaService;
 
     @PostMapping("/admin/case/bulk")
-    public String bulkCaseUploads(@ModelAttribute MultipartFile sheet){
+    public List<AdminCaseRequest> bulkCaseUploads(@ModelAttribute MultipartFile sheet){
         if(!Objects.requireNonNull(sheet.getOriginalFilename()).contains("xlsx"))
             throw AppException.builder()
                     .data(ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN,"this file format not allowed")).build())

@@ -28,4 +28,7 @@ public interface CaseRepository extends JpaRepository<BankCase,Integer> {
 
     @Query("select count(b) from BankCase b where b.caseType = ?1")
     long countByCaseType(String caseType);
+
+    @Query("select b from BankCase b where b.bank.id = ?1 and b.caseType = ?2 and b.caseStatus = ?3")
+    List<BankCase> findByBank_IdAndCaseTypeAndCaseStatus(Integer id, String caseType, String caseStatus);
 }

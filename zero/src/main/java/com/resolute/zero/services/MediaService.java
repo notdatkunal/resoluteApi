@@ -6,6 +6,8 @@ import com.resolute.zero.exceptions.AppException;
 import com.resolute.zero.repositories.CaseRepository;
 import com.resolute.zero.repositories.DocumentRepository;
 import com.resolute.zero.repositories.ProceedingRepository;
+import com.resolute.zero.requests.AdminCaseRequest;
+import com.resolute.zero.utilities.ApplicationUtility;
 import com.resolute.zero.utilities.MediaUtility;
 import com.resolute.zero.utilities.MetaDocInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +33,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 @Slf4j
@@ -169,8 +173,8 @@ public class MediaService {
         }
     }
 
-    public String saveCases(MultipartFile sheet) {
-
+    public List<AdminCaseRequest> saveCases(MultipartFile sheet) {
+        List<AdminCaseRequest> caseSheetRequests = new ArrayList<>();
         try (InputStream inputStream = sheet.getInputStream()) {
             List<String> headers = new ArrayList<>();
             // Use the InputStream to read the Excel file
@@ -190,11 +194,158 @@ public class MediaService {
                     }
                 }
             }
-            log.info(headers.toString());
+
+            int startingRow = 1;
+            for (int rowIndex = startingRow; rowIndex <= sh.getLastRowNum(); rowIndex++) {
+                XSSFRow dataRow = sh.getRow(rowIndex);
+                if (dataRow != null) {
+                    var builder = AdminCaseRequest.builder();
+                    for (int cellIndex = 0; cellIndex < dataRow.getLastCellNum(); cellIndex++) {
+                        XSSFCell cell = dataRow.getCell(cellIndex);
+                        if (cell != null) {
+                            switch (cellIndex) {
+                                case 0:
+                                    builder.bankId(ApplicationUtility.getIntValue(cell)); // Assuming this column contains integer values
+                                    break;
+                                case 1:
+                                    builder.arbitratorId(ApplicationUtility.getIntValue(cell));
+                                    break;
+                                case 2:
+                                    builder.state(ApplicationUtility.getStringValue(cell));
+                                    break;
+                                case 3:
+                                    builder.caseNo(ApplicationUtility.getStringValue(cell)); // Assuming this column contains integer values
+                                    break;
+                                case 4:
+                                    builder.caseType(ApplicationUtility.getStringValue(cell));
+                                    break;
+                                case 5:
+                                    builder.zone(ApplicationUtility.getStringValue(cell));
+                                    break;
+                                case 6:
+                                    builder.branchName(ApplicationUtility.getStringValue(cell));
+                                    break;
+                                case 7:
+                                    builder.customerId(Objects.requireNonNull(ApplicationUtility.getIntValue(cell)).toString());
+                                    break;
+                                case 8:
+                                    builder.accountNumber(ApplicationUtility.getStringValue(cell));
+                                    break;
+                                case 9:
+                                    builder.creditCardNumber(ApplicationUtility.getStringValue(cell));
+                                    break;
+                                case 10:
+                                    builder.customerName(ApplicationUtility.getStringValue(cell));
+                                    break;
+                                case 11:
+                                    builder.actualProduct(ApplicationUtility.getStringValue(cell));
+                                    break;
+                                case 12:
+                                    builder.flagProductGroup(ApplicationUtility.getStringValue(cell));
+                                    break;
+                                case 13:
+                                    builder.natureOfLegalAction(ApplicationUtility.getStringValue(cell));
+                                    break;
+                                case 14:
+                                    builder.totalTos(Double.parseDouble(Objects.requireNonNull(ApplicationUtility.getStringValue(cell))));
+                                    break;
+                                case 15:
+                                    builder.totalTosInCr(Double.parseDouble(Objects.requireNonNull(ApplicationUtility.getStringValue(cell))));
+                                    break;
+                                case 16:
+                                    builder.noticeDate(ApplicationUtility.parseDate(ApplicationUtility.getStringValue(cell)));
+                                    break;
+                                case 17:
+                                    builder.refLetter(ApplicationUtility.parseDate(ApplicationUtility.getStringValue(cell)));
+                                    break;
+                                case 18:
+                                    builder.socFillingDate(ApplicationUtility.parseDate(ApplicationUtility.getStringValue(cell)));
+                                    break;
+                                case 19:
+                                    builder.claimAmountInSOC(Double.parseDouble(Objects.requireNonNull(ApplicationUtility.getStringValue(cell))));
+                                    break;
+                                case 20:
+                                    builder.firstHearingDate(ApplicationUtility.parseDate(ApplicationUtility.getStringValue(cell)));
+                                    break;
+                                case 21:
+                                    builder.lastHearingDate(ApplicationUtility.parseDate(ApplicationUtility.getStringValue(cell)));
+                                    break;
+                                case 22:
+                                    builder.nextHearingDate(ApplicationUtility.parseDate(ApplicationUtility.getStringValue(cell)));
+                                    break;
+                                case 23:
+                                    builder.stagesOfLastHearingDate(ApplicationUtility.getStringValue(cell));
+                                    break;
+                                case 24:
+                                    builder.stagesOfNextHearingDate(ApplicationUtility.getStringValue(cell));
+                                    break;
+                                case 25:
+                                    builder.caseStatus(ApplicationUtility.getStringValue(cell));
+                                    break;
+                                case 26:
+                                    builder.flagForContested(ApplicationUtility.getStringValue(cell));
+                                    break;
+                                case 27:
+                                    builder.detailsRemark(ApplicationUtility.getStringValue(cell));
+                                    break;
+                                case 28:
+                                    builder.awardDate(ApplicationUtility.parseDate(ApplicationUtility.getStringValue(cell)));
+                                    break;
+                                case 29:
+                                    builder.awardAmount(ApplicationUtility.getStringValue(cell));
+                                    break;
+                                case 30:
+                                    builder.sec17AppFillingDate(ApplicationUtility.parseDate(ApplicationUtility.getStringValue(cell)));
+                                    break;
+                                case 31:
+                                    builder.sec17OrderDate(ApplicationUtility.parseDate(ApplicationUtility.getStringValue(cell)));
+                                    break;
+                                case 32:
+                                    builder.sec17AppStatus(ApplicationUtility.getStringValue(cell));
+                                    break;
+                                case 33:
+                                    builder.courtName(ApplicationUtility.getStringValue(cell));
+                                    break;
+                                case 34:
+                                    builder.place(ApplicationUtility.getStringValue(cell));
+                                    break;
+                                case 35:
+                                    builder.arbitrator(ApplicationUtility.getStringValue(cell));
+                                    break;
+                                case 36:
+                                    builder.lawyerName(ApplicationUtility.getStringValue(cell));
+                                    break;
+                                case 37:
+                                    builder.lmName(ApplicationUtility.getStringValue(cell));
+                                    break;
+                                default:
+                                    // Handle unexpected columns (optional)
+                                    log.warn("Unmapped column index: {}", cellIndex);
+                            }
+                        }
+                    }
+                    caseSheetRequests.add(builder.build());
+                }
+            }
+                log.info(headers.toString());
         } catch (Exception e) {
             e.printStackTrace();
             // Handle potential IO exceptions
         }
-        return sheet.getOriginalFilename();
+        AtomicBoolean check = new AtomicBoolean(true);
+        caseSheetRequests.forEach(request->{
+             check.set(ApplicationUtility.checkCase(request));
+        });
+        if(!check.get()){
+            return new ArrayList<>();
+        }
+
+        caseSheetRequests.forEach(caseRequest->{
+            adminService.saveCase(caseRequest);
+        });
+//        return sheet.getOriginalFilename();
+        return caseSheetRequests;
     }
+    @Autowired
+    private AdminService adminService;
 }

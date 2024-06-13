@@ -27,9 +27,14 @@ public class AdminCaseController {
         return adminService.getBankById(bankId);
     }
     @GetMapping("/admin/caseByBankIdAndType/{bankId}")
-    public List<AdminCaseResponse> getCasesByBankIdAndType(@PathVariable Integer bankId,@RequestParam String type){
+    public List<AdminCaseResponse> getCasesByBankIdAndType(@PathVariable Integer bankId,@RequestParam String type,@RequestParam(required = false) String status){
+        System.out.println("this is status"+status);
+        if(status!=null)
+            return adminService.getCasesByBankIdAndTypeAndStatus(bankId,type,status);
         return adminService.getCasesByBankIdAndType(bankId,type);
     }
+
+
 
     @GetMapping("/admin/caseTypeCount/{bankId}")
     public Map<String,Long> getTypeCountsByBankId(@PathVariable Integer bankId){

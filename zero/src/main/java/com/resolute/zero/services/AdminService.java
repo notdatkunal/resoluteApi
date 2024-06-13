@@ -37,16 +37,17 @@ public class AdminService {
 
     public void saveCase(AdminCaseRequest request) {
         var caseObj =  Helper.Creator.createCase(request);
-        var arbitrator = arbitratorRepository.findById(request.getArbitratorId());
+        Arbitrator arbitrator = null;
+        if(request.getArbitratorId()!=null) arbitrator = arbitratorRepository.findById(request.getArbitratorId()).get();
         var bank = bankRepository.findById(request.getBankId());
-        if(arbitrator.isEmpty()) throw new RuntimeException("arbitrator id does not exist");
+        caseObj.setArbitrator(arbitrator);
         if(bank.isEmpty()) throw new RuntimeException("bank id does not exist");
-        caseObj.setArbitrator(arbitrator.get());
         caseObj.setBank(bank.get());
         caseObj.setHearingsCount(0);
         caseObj.setOrdersCount(0);
         caseObj.setCommunicationCount(0);
         caseRepository.save(caseObj);
+
     }
 
     public void addArbitrator(ArbitratorRequest request) {
@@ -202,6 +203,9 @@ public class AdminService {
         caseObj.setArbitrator(arbitrator.get());
         caseObj.setBank(bank.get());
         caseObj.setId(caseId);
+        caseObj.setCommunicationCount(caseOptional.get().getCommunicationCount());
+        caseObj.setOrdersCount(caseOptional.get().getOrdersCount());
+        caseObj.setHearingsCount(caseOptional.get().getHearingsCount());
         caseObj.setCreatedAt(caseOptional.get().getCreatedAt());
         caseRepository.save(caseObj);
 
@@ -263,5 +267,9 @@ public class AdminService {
         CaseType caseType = new CaseType();
         caseType.setType(type);
         caseTypeRepository.save(caseType);
+    }
+
+    public List<AdminCaseResponse> getCasesByBankIdAndTypeAndStatus(Integer bankId, String type, String status) {
+        return caseRepository.findByBank_IdAndCaseTypeAndCaseStatus(bankId,type,status).stream().map(Helper.Convert::convertAdminCaseResponse).toList();
     }
 }
