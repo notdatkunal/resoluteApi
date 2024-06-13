@@ -33,8 +33,10 @@ public class AdminCaseController {
             return adminService.getCasesByBankIdAndTypeAndStatus(bankId,type,status);
         return adminService.getCasesByBankIdAndType(bankId,type);
     }
-
-
+    @GetMapping("/admin/caseCountByTypeAndStatus/{bankId}")
+    public Long getCountOfCaseByBankIdAndTypeAndStatus(@PathVariable Integer bankId,@RequestParam String type,@RequestParam String status){
+        return adminService.getCountOfCaseByBankIdAndTypeAndStatus(bankId,type,status);
+    }
 
     @GetMapping("/admin/caseTypeCount/{bankId}")
     public Map<String,Long> getTypeCountsByBankId(@PathVariable Integer bankId){

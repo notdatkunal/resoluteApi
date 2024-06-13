@@ -272,4 +272,8 @@ public class AdminService {
     public List<AdminCaseResponse> getCasesByBankIdAndTypeAndStatus(Integer bankId, String type, String status) {
         return caseRepository.findByBank_IdAndCaseTypeAndCaseStatus(bankId,type,status).stream().map(Helper.Convert::convertAdminCaseResponse).toList();
     }
+
+    public Long getCountOfCaseByBankIdAndTypeAndStatus(Integer bankId, String type, String status) {
+    return caseRepository.countByBank_IdAndCaseTypeAndCaseStatus(bankId,type,status);
+    }
 }
