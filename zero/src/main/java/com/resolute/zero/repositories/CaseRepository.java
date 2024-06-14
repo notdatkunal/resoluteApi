@@ -33,4 +33,6 @@ public interface CaseRepository extends JpaRepository<BankCase,Integer> {
     List<BankCase> findByBank_IdAndCaseTypeAndCaseStatus(Integer id, String caseType, String caseStatus);
 
     long countByBank_IdAndCaseTypeAndCaseStatus(Integer id, String caseType, String caseStatus);
+
+    long countByBank_IdAndCaseType(Integer id, String caseType);
 }
