@@ -38,7 +38,10 @@ public class ApplicationUtility {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         return format.parse(dateString);
     }
-
+    public static String formatDate(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        return formatter.format(date);
+    }
     // Helper methods to extract cell values
     public static Integer getIntValue(XSSFCell cell) {
         if (cell.getCellType() == CellType.NUMERIC) {

@@ -82,10 +82,11 @@ public class Helper {
 		}
 
         public static AdminCaseResponse convertAdminCaseResponse(BankCase bankCase) {
-            return AdminCaseResponse.builder()
+            var response =  AdminCaseResponse.builder()
             .caseType(bankCase.getCaseType())
+            .registrationDate(Date.from(bankCase.getCreatedAt()))
+            .id(bankCase.getId())
             .bankId(bankCase.getBank().getId())
-            .arbitratorId(bankCase.getArbitrator().getId())
             .caseNo(bankCase.getCaseNo())
             .state(bankCase.getState())
             .sec17OrderDate(bankCase.getSec17OrderDate())
@@ -108,7 +109,6 @@ public class Helper {
             .lastHearingDate(bankCase.getLastHearingDate())
             .lmName(bankCase.getLmName())
             .lawyerName(bankCase.getLawyerName())
-            .arbitrator(bankCase.getArbitrator().getArbitratorName())
             .place(bankCase.getPlace())
             .courtName(bankCase.getCourtName())
             .sec17AppStatus(bankCase.getSec17AppStatus())
@@ -122,6 +122,11 @@ public class Helper {
             .nextHearingDate(bankCase.getNextHearingDate())
             .stagesOfNextHearingDate(bankCase.getStagesOfNextHearingDate())
             .build();
+            if(bankCase.getArbitrator()!=null){
+                response.setArbitratorId(bankCase.getArbitrator().getId());
+                response.setArbitrator(bankCase.getArbitrator().getArbitratorName());
+            }
+            return response;
         }
 
 

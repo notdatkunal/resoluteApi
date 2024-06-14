@@ -33,23 +33,14 @@ public class StartupAppService {
 
     @Autowired
     private final DocSubTypeRepository docSubTypeRepository ;
+
     private final CaseTypeRepository caseTypeRepository;
-    private final CaseRepository caseRepository;
+//    private final CaseRepository caseRepository;
 
 
     public void loadDefaultUsers() {
 
 
-        if(docMainTypeRepository.count()==0){
-
-            TypeMappingUtil.MAIN_TYPE_MAP.forEach((key, value)->{
-                var main = new DocMainType();
-                main.setMainType(key);
-                main.setCode(value);
-                docMainTypeRepository.save(main);
-
-            });
-        }
 
 //        { //updating something not in state to write here
 //            caseRepository.findAll().forEach(caseObj->{
@@ -67,14 +58,13 @@ public class StartupAppService {
 //            });
 //        }
 
-        System.out.println(caseRepository.countByCaseType("Notice"));
-        if(caseTypeRepository.count()==0){
-            TypeMappingUtil.CASE_TYPES.forEach(caseType->{
-                CaseType type = new CaseType();
-                type.setType(caseType);
-                caseTypeRepository.save(type);
-            });
-        }
+        createCaseTypes();
+        createDocMainTypes();
+        createDocSubTypes();
+        createDefaultAdmin();
+    }
+
+    private void createDocSubTypes() {
         if(docSubTypeRepository.count()==0){
 
             TypeMappingUtil.SUB_TYPE_MAP.forEach((key, value)->{
@@ -85,7 +75,32 @@ public class StartupAppService {
 
             });
         }
+    }
 
+    private void createCaseTypes() {
+        if(caseTypeRepository.count()==0){
+            TypeMappingUtil.CASE_TYPES.forEach(caseType->{
+                CaseType type = new CaseType();
+                type.setType(caseType);
+                caseTypeRepository.save(type);
+            });
+        }
+    }
+
+    private void createDocMainTypes() {
+        if(docMainTypeRepository.count()==0){
+
+            TypeMappingUtil.MAIN_TYPE_MAP.forEach((key, value)->{
+                var main = new DocMainType();
+                main.setMainType(key);
+                main.setCode(value);
+                docMainTypeRepository.save(main);
+
+            });
+        }
+    }
+
+    private void createDefaultAdmin() {
         if(userRepository.count()==0L){
             User user = new User();
             user.setUserName("userAdmin");

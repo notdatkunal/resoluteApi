@@ -119,24 +119,32 @@ public class AdminService {
         List<BankCase> cases = caseRepository.findAll();
         List<BankCase> caseList = new LinkedList<>();
         List<CaseResponse> caseResponseList;
-        if(searchParameter!=null){
-            cases.forEach(item->{
-                if(item.contains(searchParameter)) caseList.add(item);
-            });
-        }
-        if(date!=null){
-            cases.forEach(item->{
-
-
-                if(item.getCreatedAt().equals(date.toInstant())) caseList.add(item);
-                if(item.getSocFillingDate()!=null&&date.equals(item.getSocFillingDate()))  caseList.add(item);
-            });
-        }
+        addCaseListByCaseNo(searchParameter, cases, caseList);
+        addCaseListItemsByDate(date, cases, caseList);
         caseResponseList = caseList.stream().map(Helper.Convert::convertCaseResponse).collect(Collectors.toList());
         return caseResponseList;
     }
 
-	public List<BankResponse> getBanksList() {
+    private static void addCaseListByCaseNo(String searchParameter, List<BankCase> cases, List<BankCase> caseList) {
+        if(searchParameter !=null){
+            cases.forEach(item->{
+                if(item.contains(searchParameter)) caseList.add(item);
+            });
+        }
+    }
+
+    private static void addCaseListItemsByDate(Date date, List<BankCase> cases, List<BankCase> caseList) {
+        if(date !=null){
+            cases.forEach(item->{
+                    String createdAt = ApplicationUtility.formatDate(Date.from(item.getCreatedAt()));
+                    String searchDate = ApplicationUtility.formatDate(date);
+                    if(createdAt.equals(searchDate)) caseList.add(item);
+                    if(item.getSocFillingDate()!=null&&searchDate.equals(ApplicationUtility.formatDate(item.getSocFillingDate()))) caseList.add(item);
+            });
+        }
+    }
+
+    public List<BankResponse> getBanksList() {
 		// TODO Auto-generated method stub
 		var banks = bankRepository.findAll();
 		LinkedList<BankResponse> bankResponses = new LinkedList<>();
@@ -216,16 +224,8 @@ public class AdminService {
         List<BankCase> cases = caseRepository.findByArbitrator_Id(arbitratorId);
         List<BankCase> caseList = new LinkedList<>();
         List<CaseResponse> caseResponseList;
-        if(searchParameter!=null){
-            cases.forEach(item->{
-                if(item.contains(searchParameter)) caseList.add(item);
-            });
-        }
-        if(date!=null){
-            cases.forEach(item->{
-                if(item.getSocFillingDate().equals(date)) caseList.add(item);
-            });
-        }
+        addCaseListByCaseNo(searchParameter, cases, caseList);
+        addCaseListItemsByDate(date, cases, caseList);
         caseResponseList = caseList.stream().map(Helper.Convert::convertCaseResponse).collect(Collectors.toList());
         return caseResponseList;
     }
@@ -235,16 +235,8 @@ public class AdminService {
         List<BankCase> cases = caseRepository.findByBank_Id(bankId);
         List<BankCase> caseList = new LinkedList<>();
         List<CaseResponse> caseResponseList;
-        if(searchParameter!=null){
-            cases.forEach(item->{
-                if(item.contains(searchParameter)) caseList.add(item);
-            });
-        }
-        if(date!=null){
-            cases.forEach(item->{
-                if(item.getSocFillingDate().equals(date)) caseList.add(item);
-            });
-        }
+        addCaseListByCaseNo(searchParameter, cases, caseList);
+        addCaseListItemsByDate(date, cases, caseList);
         caseResponseList = caseList.stream().map(Helper.Convert::convertCaseResponse).collect(Collectors.toList());
         return caseResponseList;
     }

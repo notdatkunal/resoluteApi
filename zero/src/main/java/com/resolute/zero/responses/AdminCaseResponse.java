@@ -8,6 +8,7 @@ import java.util.Date;
 @Builder
 @Data
 public class AdminCaseResponse {
+    Integer id;
     Integer bankId;
     Date sec17OrderDate;
     Integer arbitratorId;
@@ -46,4 +47,5 @@ public class AdminCaseResponse {
     String arbitrator;
     String lawyerName;
     String lmName;
+    Date registrationDate;
 }
