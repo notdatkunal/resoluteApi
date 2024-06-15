@@ -110,7 +110,7 @@ public class AdminService {
         try {
             emailService.sendEmail(email);
         } catch (Exception e) {
-            log.warn("email not sent for username " + request);
+            log.warn("email not sent for username " + request+"because of "+e.getMessage());
         }
     }
 
@@ -323,7 +323,7 @@ public class AdminService {
         userRepository.save(userObj);
         var emailRequest = EmailDetails.builder()
                 .to(userEmail)
-                .subject("arbitrator credentials")
+                .subject("user credentials")
                 .body(String.format("""
                         credentials for jmswift.in account are
                         your username is : %s
@@ -344,6 +344,7 @@ public class AdminService {
                 .build();
         var userObj = user.get();
         userObj.setPassword(ApplicationUtility.encryptPassword(request.getNewPassword()));
+        userObj.setOtp(0);
         userRepository.save(userObj);
     }
 }

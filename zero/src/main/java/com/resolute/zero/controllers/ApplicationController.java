@@ -30,6 +30,7 @@ public class ApplicationController {
 
     @Autowired
     private AdminService adminService;
+
     @PostMapping("/enquiry")
     public void enquiry(@RequestBody EnquiryRequest enquiry){
         adminService.createEntry(enquiry);
