@@ -31,6 +31,8 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
+    private String email;
 
     @Column(nullable = false)
     private String role;
@@ -40,6 +42,8 @@ public class User implements UserDetails {
     private Instant createdAt;
     @UpdateTimestamp
     private Instant updatedAt;
+
+    private Integer otp;
 
 
     @Override

@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.Date;
 import java.util.List;
 @Slf4j
 @RestController
@@ -63,9 +62,6 @@ public class AdminController {
     }
 
 
-
-
-
     @GetMapping("/admin/case")
     public List<CaseResponse> getAllCases(){
         return   adminService.getCaseList();
@@ -79,7 +75,6 @@ public class AdminController {
     @GetMapping("/admin/borrower")
     public List<BorrowerResponse> getAllBorrowers(){
         return adminService.getBorrwerList();
-
     }
 
     @GetMapping("/admin/bank")

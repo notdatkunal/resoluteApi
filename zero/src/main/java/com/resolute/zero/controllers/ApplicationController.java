@@ -1,6 +1,7 @@
 package com.resolute.zero.controllers;
 
 import com.resolute.zero.requests.EnquiryRequest;
+import com.resolute.zero.requests.ResetPasswordRequest;
 import com.resolute.zero.responses.AdminCaseResponse;
 import com.resolute.zero.services.AdminService;
 import com.resolute.zero.services.CaseService;
@@ -36,6 +37,16 @@ public class ApplicationController {
     @GetMapping("/list/enquiries")
     public List<EnquiryRequest> enquiryRequestList(){
         return adminService.getEnquiries();
+    }
+
+    @PostMapping("/forget")
+    public void forgetPassword(@RequestBody String email){
+        adminService.forgetPassword(email);
+    }
+
+    @PostMapping("/reset")
+    public void resetPassword(@RequestBody ResetPasswordRequest request){
+            adminService.resetPassword(request);
     }
 
     // search by bank id or arbitrator id
