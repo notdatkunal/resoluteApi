@@ -4,9 +4,7 @@ package com.resolute.zero.services;
 import com.resolute.zero.domains.*;
 import com.resolute.zero.helpers.Helper;
 import com.resolute.zero.repositories.*;
-import com.resolute.zero.requests.AdminCaseRequest;
-import com.resolute.zero.requests.ArbitratorRequest;
-import com.resolute.zero.requests.BankRequest;
+import com.resolute.zero.requests.*;
 import com.resolute.zero.responses.*;
 import com.resolute.zero.utilities.ApplicationUtility;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +19,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class AdminService {
+    @Autowired
+    private EnquiryRequestRepository enquiryRequestRepository;
     @Autowired
     private CaseTypeRepository caseTypeRepository;
 
@@ -267,5 +267,13 @@ public class AdminService {
 
     public Long getCountOfCaseByBankIdAndTypeAndStatus(Integer bankId, String type, String status) {
     return caseRepository.countByBank_IdAndCaseTypeAndCaseStatus(bankId,type,status);
+    }
+
+    public void createEntry(EnquiryRequest enquiry) {
+        enquiryRequestRepository.save(enquiry);
+    }
+
+    public List<EnquiryRequest> getEnquiries() {
+        return enquiryRequestRepository.findAll();
     }
 }

@@ -1,17 +1,13 @@
 package com.resolute.zero.controllers;
 
-
+import com.resolute.zero.requests.EnquiryRequest;
 import com.resolute.zero.responses.AdminCaseResponse;
-import com.resolute.zero.responses.CaseResponse;
+import com.resolute.zero.services.AdminService;
 import com.resolute.zero.services.CaseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Slf4j
@@ -30,5 +26,17 @@ public class ApplicationController {
     public List<AdminCaseResponse> casesByBankId(@PathVariable Integer bankId){
         return caseService.getCasesByBankId(bankId);
     }
+
+    @Autowired
+    private AdminService adminService;
+    @PostMapping("/enquiry")
+    public void enquiry(@RequestBody EnquiryRequest enquiry){
+        adminService.createEntry(enquiry);
+    }
+    @GetMapping("/list/enquiries")
+    public List<EnquiryRequest> enquiryRequestList(){
+        return adminService.getEnquiries();
+    }
+
     // search by bank id or arbitrator id
 }
