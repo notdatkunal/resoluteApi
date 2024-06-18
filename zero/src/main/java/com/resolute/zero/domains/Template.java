@@ -1,9 +1,8 @@
 package com.resolute.zero.domains;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.resolute.zero.helpers.TemplateType;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -15,7 +14,9 @@ import lombok.*;
 public class Template {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Integer id;
     private String template;
-    private String type;
+    @Column(unique = true)
+    private TemplateType type;
 }

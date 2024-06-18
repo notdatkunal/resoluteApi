@@ -1,12 +1,16 @@
 package com.resolute.zero.services;
 
 import com.resolute.zero.domains.*;
+import com.resolute.zero.helpers.TemplateType;
 import com.resolute.zero.repositories.*;
 import com.resolute.zero.utilities.ApplicationUtility;
 import com.resolute.zero.utilities.TypeMappingUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -35,6 +39,7 @@ public class StartupAppService {
     private final DocSubTypeRepository docSubTypeRepository ;
 
     private final CaseTypeRepository caseTypeRepository;
+    private final TemplateRepository templateRepository;
 //    private final CaseRepository caseRepository;
 
 
@@ -62,6 +67,20 @@ public class StartupAppService {
         createDocMainTypes();
         createDocSubTypes();
         createDefaultAdmin();
+
+        if(templateRepository.count()==0){
+            List<Template> templateList = new ArrayList<>();
+            var emailTemp = new Template();
+            emailTemp.setType(TemplateType.EMAIL);
+            emailTemp.setTemplate("sample email");
+            var whatsappTemplate = new Template();
+            whatsappTemplate.setType(TemplateType.WHATSAPP);
+            whatsappTemplate.setTemplate("sample whatsapp text");
+            templateList.add(emailTemp);
+            templateList.add(whatsappTemplate);
+            templateRepository.saveAll(templateList);
+        }
+
     }
 
     private void createDocSubTypes() {
