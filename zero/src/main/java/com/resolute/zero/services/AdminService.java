@@ -16,6 +16,7 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -320,6 +321,7 @@ public class AdminService {
         var userEmail = userObj.getEmail();
         Integer otp = new Random().nextInt(10000 - 1000) + 1000;
         userObj.setOtp(otp);
+        userObj.setOtpCreatedAt(Instant.now());
         userRepository.save(userObj);
         var emailRequest = EmailDetails.builder()
                 .to(userEmail)
@@ -336,15 +338,23 @@ public class AdminService {
 
     public void resetPassword(ResetPasswordRequest request) {
         var user = userRepository.findByEmail(request.getEmail());
+        var current = Instant.now();
         if(user.isEmpty()) throw AppException.builder()
                 .data(ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE,"email does not exist")).build())
                 .build();
         if(!request.getOtp().equals(user.get().getOtp())) throw AppException.builder()
                 .data(ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.NOT_ACCEPTABLE,"wrong otp")).build())
                 .build();
+        if(isOtpExpired(user.get().getOtpCreatedAt(), current))throw AppException.builder()
+                .data(ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.NOT_ACCEPTABLE,"otp expired")).build())
+                .build();
         var userObj = user.get();
         userObj.setPassword(ApplicationUtility.encryptPassword(request.getNewPassword()));
         userObj.setOtp(0);
         userRepository.save(userObj);
+    }
+
+    private static boolean isOtpExpired(Instant otpUpdated, Instant current) {
+        return ApplicationUtility.getDifferenceInMinutes(otpUpdated, current) > 10;
     }
 }

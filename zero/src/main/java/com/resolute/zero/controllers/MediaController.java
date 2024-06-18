@@ -4,6 +4,7 @@ import com.resolute.zero.domains.Document;
 import com.resolute.zero.responses.DocumentResponse;
 import com.resolute.zero.services.AdminService;
 import com.resolute.zero.services.MediaService;
+import com.resolute.zero.utilities.ApplicationUtility;
 import com.resolute.zero.utilities.CodeComponent;
 import com.resolute.zero.utilities.MetaDocInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -71,5 +72,28 @@ public class MediaController {
     }
 
 
+    @PostMapping("/emails")
+    public String handleDocuments(@RequestAttribute("wordFile") MultipartFile wordFile,
+                                  @RequestAttribute("sheetFile") MultipartFile sheetFile
+                                  ,@RequestAttribute String username
+    ) throws IOException {
+        if (wordFile.isEmpty() || sheetFile.isEmpty()) {
+            return "Please upload both Word and Sheet files";
+        }
+        System.out.println(username);
+        // Process Word document
+        String wordContent = ApplicationUtility.processWordFile(wordFile);
+
+        // Process Excel sheet (assuming first sheet)
+        String sheetContent = ApplicationUtility.processSheetFile(sheetFile);
+
+        // Print content to console (replace with your desired output logic)
+        System.out.println("Word Document Content:");
+        System.out.println(wordContent);
+        System.out.println("\nSpreadsheet Sheet1 Content:");
+        System.out.println(sheetContent);
+
+        return "Documents processed successfully";
+    }
 
 }

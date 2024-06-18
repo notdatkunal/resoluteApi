@@ -28,14 +28,13 @@ public class LoginController {
 
 
     @GetMapping("/login")
-    public ResponseEntity<UserModel> login(HttpSession session, @ModelAttribute("username") String username, @ModelAttribute("password") String password) {
+    public ResponseEntity<UserModel> login(@ModelAttribute("username") String username, @ModelAttribute("password") String password,@ModelAttribute("ip")String ip,@ModelAttribute("country")String country) {
         System.out.println("hello from login");
         User login = new User(username,password);
-        boolean userExists = userService.login(login);
+        boolean userExists = userService.login(login,ip,country);
         if(userExists) {
             var user = userService.findByUserName(username);
             System.out.println("userObject"+user);
-
         return  ResponseEntity.ok(Helper.Convert.convertUserModel(user));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND)

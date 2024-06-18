@@ -154,6 +154,8 @@ public class Helper {
         public static LoginRecordResponse convertLoginRecord(LoginRecord loginRecord) {
             return LoginRecordResponse.builder()
                     .loginTime(loginRecord.getLoginTime())
+                    .country(loginRecord.getCountry())
+                    .ip(loginRecord.getIp())
                     .username(loginRecord.getUser().getUsername())
                     .build();
         }

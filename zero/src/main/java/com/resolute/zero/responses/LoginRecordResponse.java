@@ -9,5 +9,7 @@ import java.time.Instant;
 @Builder
 public class LoginRecordResponse {
     String username;
+    String ip;
+    String country;
     Instant loginTime;
 }

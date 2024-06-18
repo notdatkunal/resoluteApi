@@ -25,7 +25,7 @@ public  class UserService implements UserDetailsService {
     private final LoginStatusService loginStatusService;
     @Autowired
     private final LoginRecordRepository loginRecordRepository;
-    public boolean login(User user){
+    public boolean login(User user, String ip, String country){
 
          var userOptional = userRepository.findUserByUserName(user.getUsername());
          if(userOptional.isEmpty())
@@ -34,7 +34,7 @@ public  class UserService implements UserDetailsService {
          User systemUser = userOptional.get();
          user.setPassword(ApplicationUtility.encryptPassword(user.getPassword()));
          var loginStatus =  systemUser.getPassword().equals(user.getPassword());
-         if(loginStatus) loginStatusService.register(systemUser);
+         if(loginStatus) loginStatusService.register(systemUser,ip,country);
          return loginStatus;
     }
     public User findByUserName(String username){

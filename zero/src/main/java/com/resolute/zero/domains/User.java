@@ -44,6 +44,7 @@ public class User implements UserDetails {
     private Instant updatedAt;
 
     private Integer otp;
+    private Instant otpCreatedAt;
 
 
     @Override

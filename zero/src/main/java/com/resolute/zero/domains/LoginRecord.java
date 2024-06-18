@@ -24,6 +24,7 @@ public class LoginRecord {
     @CreationTimestamp
     private Instant loginTime;
 
-
+    private String ip;
+    private String country;
 
 }

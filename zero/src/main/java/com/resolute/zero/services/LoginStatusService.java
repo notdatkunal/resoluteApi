@@ -13,9 +13,11 @@ public class LoginStatusService {
 
     @Autowired
     private final LoginRecordRepository loginRecordRepository;
-    public void register(User systemUser){
+    public void register(User systemUser, String ip, String country){
         LoginRecord loginRecord = new LoginRecord();
         loginRecord.setUser(systemUser);
+        loginRecord.setIp(ip);
+        loginRecord.setCountry(country);
         loginRecordRepository.save(loginRecord);
     }
 }
