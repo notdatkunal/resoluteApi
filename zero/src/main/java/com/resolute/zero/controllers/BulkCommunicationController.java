@@ -45,7 +45,13 @@ public class BulkCommunicationController {
     }
 
     @PostMapping("/bulk/whatsapp")
-    public void sendBulkWhatsapp(){}
+    public void sendBulkWhatsapp(@ModelAttribute MultipartFile sheet){
+        if(!Objects.requireNonNull(sheet.getOriginalFilename()).contains("xlsx"))
+            throw AppException.builder()
+                    .data(ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN,"this file format not allowed")).build())
+                    .build();
+        emailService.sendBulkWhatsapp(sheet);
+    }
 
     @PostMapping("/bulk/email")
     public void sendBulkEmail(@ModelAttribute MultipartFile sheet){

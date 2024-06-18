@@ -56,24 +56,7 @@ public class EmailService {
         List<EmailDetails> emailDetailsList = new ArrayList<>();
         var template = templateRepository.findByType(TemplateType.EMAIL).get().getTemplate();
         try (InputStream inputStream = sheet.getInputStream()) {
-            List<String> headers = new ArrayList<>();
-            // Use the InputStream to read the Excel file
-            XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
-            log.info(workbook.getSheetName(0));
-            // Process the workbook here using the steps mentioned previously
-            XSSFSheet sh = workbook.getSheetAt(0);
-            XSSFRow headerRow = sh.getRow(0);
-            if(headerRow!=null) {
-                for (int cellIndex = 0; cellIndex < headerRow.getLastCellNum(); cellIndex++) {
-                    XSSFCell cell = headerRow.getCell(cellIndex);
-
-                    // Check if cell exists and extract value
-                    if (cell != null) {
-                        String headerValue = cell.getStringCellValue();
-                        headers.add(headerValue);
-                    }
-                }
-            }
+            XSSFSheet sh = getRows(inputStream);
 
             int startingRow = 1;
             for (int rowIndex = startingRow; rowIndex <= sh.getLastRowNum(); rowIndex++) {
@@ -84,17 +67,9 @@ public class EmailService {
                     builder.body(template);
                     for (int cellIndex = 0; cellIndex < dataRow.getLastCellNum(); cellIndex++) {
                         XSSFCell cell = dataRow.getCell(cellIndex);
-                        if (cell != null) {
-                                    switch (cellIndex){
-                                        case 0 -> builder.to(ApplicationUtility.getStringValue(cell));
-                                        case 1 -> builder.cc(ApplicationUtility.getStringValue(cell));
-                                        case 2 -> builder.bcc(ApplicationUtility.getStringValue(cell));
-                                        case 3 -> builder.subject(ApplicationUtility.getStringValue(cell));
-                                        default ->  log.warn("Unmapped column index: {}", cellIndex);
-                                    }
-                                }
-                            }
-                    emailDetailsList.add(builder.build());
+                        emailBuilder(cell, cellIndex, builder);
+                    }
+                        emailDetailsList.add(builder.build());
                         }
                     }
                 } catch (IOException e) {
@@ -107,5 +82,43 @@ public class EmailService {
                     log.warn("exception occured during sending {}", email.getTo());
                 }
             });
+    }
+
+    private static void emailBuilder(XSSFCell cell, int cellIndex, EmailDetails.EmailDetailsBuilder builder) {
+        if (cell != null) {
+                    switch (cellIndex){
+                        case 0 -> builder.to(ApplicationUtility.getStringValue(cell));
+                        case 1 -> builder.cc(ApplicationUtility.getStringValue(cell));
+                        case 2 -> builder.bcc(ApplicationUtility.getStringValue(cell));
+                        case 3 -> builder.subject(ApplicationUtility.getStringValue(cell));
+                        default ->  log.warn("Unmapped column index: {}", cellIndex);
+                    }
+                }
+    }
+
+    public static XSSFSheet getRows(InputStream inputStream) throws IOException {
+        List<String> headers = new ArrayList<>();
+        // Use the InputStream to read the Excel file
+        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+        log.info(workbook.getSheetName(0));
+        // Process the workbook here using the steps mentioned previously
+        XSSFSheet sh = workbook.getSheetAt(0);
+        XSSFRow headerRow = sh.getRow(0);
+        if(headerRow!=null) {
+            for (int cellIndex = 0; cellIndex < headerRow.getLastCellNum(); cellIndex++) {
+                XSSFCell cell = headerRow.getCell(cellIndex);
+
+                // Check if cell exists and extract value
+                if (cell != null) {
+                    String headerValue = cell.getStringCellValue();
+                    headers.add(headerValue);
+                }
+            }
+        }
+        return sh;
+    }
+
+    public void sendBulkWhatsapp(MultipartFile sheet) {
+
     }
 }
