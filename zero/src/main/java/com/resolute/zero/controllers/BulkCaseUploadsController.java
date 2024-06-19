@@ -36,7 +36,13 @@ public class BulkCaseUploadsController {
                     .build();
 
 
-        return mediaService.saveCases(sheet);
+        var list =   mediaService.saveCases(sheet);
+        if(list.isEmpty()){
+            throw AppException.builder()
+                    .data(ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT,"problem in sheet or sheet is empty")).build())
+                    .build();
+        }
+        return  list;
     }
 
 }

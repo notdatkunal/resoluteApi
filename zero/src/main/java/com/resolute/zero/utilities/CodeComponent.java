@@ -171,7 +171,9 @@ public class CodeComponent {
     public List<MetaDocInfo> getMetaDocsInfo(ArrayList<String> fileNamesList) {
         var list = new ArrayList<MetaDocInfo>();
            for(String fileName :  fileNamesList){
-                list.add(this.getMetaDocInfo(fileName));
+               var metaDoc = this.getMetaDocInfo(fileName);
+               metaDoc.setFileName(fileName);
+                list.add(metaDoc);
            }
         return list;
     }

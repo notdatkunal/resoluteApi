@@ -96,7 +96,7 @@ public class MediaService {
                      .eTag("case id not found")
                      .build();
         }
-        if(metaDocInfo.getHearingId() !=0){
+        if(metaDocInfo.getHearingId()!=null && metaDocInfo.getHearingId() !=0){
             var proceedingOpt = proceedingRepository.findById(metaDocInfo.getHearingId());
             if(proceedingOpt.isEmpty())
                 throw AppException.builder()
@@ -222,121 +222,123 @@ public class MediaService {
     }
 
     private static void adminBuilder(XSSFCell cell, int cellIndex, AdminCaseRequest.AdminCaseRequestBuilder builder) throws ParseException {
-        if (cell != null) {
+        if (cell != null&&cell.getRawValue()!=null) {
+
             switch (cellIndex) {
                 case 0:
-                    builder.bankId(ApplicationUtility.getIntValue(cell)); // Assuming this column contains integer values
+                    builder.bankId((int)cell.getNumericCellValue()); // Assuming this column contains integer values
                     break;
                 case 1:
-                    builder.arbitratorId(ApplicationUtility.getIntValue(cell));
+                    builder.arbitratorId((int)cell.getNumericCellValue());
                     break;
                 case 2:
-                    builder.state(ApplicationUtility.getStringValue(cell));
+                    builder.state(cell.getStringCellValue());
                     break;
                 case 3:
-                    builder.caseNo(ApplicationUtility.getStringValue(cell)); // Assuming this column contains integer values
+                    builder.caseNo(cell.getStringCellValue()); // Assuming this column contains integer values
                     break;
                 case 4:
-                    builder.caseType(ApplicationUtility.getStringValue(cell));
+                    builder.caseType(cell.getStringCellValue());
                     break;
                 case 5:
-                    builder.zone(ApplicationUtility.getStringValue(cell));
+                    builder.zone(cell.getStringCellValue());
                     break;
                 case 6:
-                    builder.branchName(ApplicationUtility.getStringValue(cell));
+                    builder.branchName(cell.getStringCellValue());
                     break;
                 case 7:
-                    builder.customerId(Objects.requireNonNull(ApplicationUtility.getIntValue(cell)).toString());
+                    builder.customerId(cell.getRawValue());
                     break;
                 case 8:
-                    builder.accountNumber(Objects.requireNonNull(ApplicationUtility.getIntValue(cell)).toString());
+//                    builder.accountNumber(Objects.requireNonNull(ApplicationUtility.getIntValue(cell)).toString());
+                    builder.accountNumber(cell.getStringCellValue());
                     break;
                 case 9:
-                    builder.creditCardNumber(ApplicationUtility.getStringValue(cell));
+                    builder.creditCardNumber(cell.getStringCellValue());
                     break;
                 case 10:
-                    builder.customerName(ApplicationUtility.getStringValue(cell));
+                    builder.customerName(cell.getStringCellValue());
                     break;
                 case 11:
-                    builder.actualProduct(ApplicationUtility.getStringValue(cell));
+                    builder.actualProduct(cell.getStringCellValue());
                     break;
                 case 12:
-                    builder.flagProductGroup(ApplicationUtility.getStringValue(cell));
+                    builder.flagProductGroup(cell.getStringCellValue());
                     break;
                 case 13:
-                    builder.natureOfLegalAction(ApplicationUtility.getStringValue(cell));
+                    builder.natureOfLegalAction(cell.getStringCellValue());
                     break;
                 case 14:
-                    builder.totalTos(Double.parseDouble(Objects.requireNonNull(ApplicationUtility.getStringValue(cell))));
+                    builder.totalTos(Double.parseDouble(cell.getRawValue()));
                     break;
                 case 15:
-                    builder.totalTosInCr(Double.parseDouble(Objects.requireNonNull(ApplicationUtility.getStringValue(cell))));
+                    builder.totalTosInCr(Double.parseDouble(cell.getRawValue()));
                     break;
                 case 16:
-                    builder.noticeDate(ApplicationUtility.parseDate(ApplicationUtility.getStringValue(cell)));
+                    builder.noticeDate(ApplicationUtility.parseDate(cell.getStringCellValue()));
                     break;
                 case 17:
-                    builder.refLetter(ApplicationUtility.parseDate(ApplicationUtility.getStringValue(cell)));
+                    builder.refLetter(ApplicationUtility.parseDate(cell.getStringCellValue()));
                     break;
                 case 18:
-                    builder.socFillingDate(ApplicationUtility.parseDate(ApplicationUtility.getStringValue(cell)));
+                    builder.socFillingDate(ApplicationUtility.parseDate(cell.getStringCellValue()));
                     break;
                 case 19:
-                    builder.claimAmountInSOC(Double.parseDouble(Objects.requireNonNull(ApplicationUtility.getStringValue(cell))));
+                    builder.claimAmountInSOC(Double.parseDouble(cell.getRawValue()));
                     break;
                 case 20:
-                    builder.firstHearingDate(ApplicationUtility.parseDate(ApplicationUtility.getStringValue(cell)));
+                    builder.firstHearingDate(ApplicationUtility.parseDate(cell.getStringCellValue()));
                     break;
                 case 21:
-                    builder.lastHearingDate(ApplicationUtility.parseDate(ApplicationUtility.getStringValue(cell)));
+                    builder.lastHearingDate(ApplicationUtility.parseDate(cell.getStringCellValue()));
                     break;
                 case 22:
-                    builder.nextHearingDate(ApplicationUtility.parseDate(ApplicationUtility.getStringValue(cell)));
+                    builder.nextHearingDate(ApplicationUtility.parseDate(cell.getStringCellValue()));
                     break;
                 case 23:
-                    builder.stagesOfLastHearingDate(ApplicationUtility.getStringValue(cell));
+                    builder.stagesOfLastHearingDate(cell.getStringCellValue());
                     break;
                 case 24:
-                    builder.stagesOfNextHearingDate(ApplicationUtility.getStringValue(cell));
+                    builder.stagesOfNextHearingDate(cell.getStringCellValue());
                     break;
                 case 25:
-                    builder.caseStatus(ApplicationUtility.getStringValue(cell));
+                    builder.caseStatus(cell.getStringCellValue());
                     break;
                 case 26:
-                    builder.flagForContested(ApplicationUtility.getStringValue(cell));
+                    builder.flagForContested(cell.getStringCellValue());
                     break;
                 case 27:
-                    builder.detailsRemark(ApplicationUtility.getStringValue(cell));
+                    builder.detailsRemark(cell.getStringCellValue());
                     break;
                 case 28:
-                    builder.awardDate(ApplicationUtility.parseDate(ApplicationUtility.getStringValue(cell)));
+                    builder.awardDate(cell.getDateCellValue());
                     break;
                 case 29:
-                    builder.awardAmount(ApplicationUtility.getStringValue(cell));
+                    builder.awardAmount(cell.getStringCellValue());
                     break;
                 case 30:
-                    builder.sec17AppFillingDate(ApplicationUtility.parseDate(ApplicationUtility.getStringValue(cell)));
+                    builder.sec17AppFillingDate(cell.getDateCellValue());
                     break;
                 case 31:
-                    builder.sec17OrderDate(ApplicationUtility.parseDate(ApplicationUtility.getStringValue(cell)));
+                    builder.sec17OrderDate(ApplicationUtility.parseDate(cell.getStringCellValue()));
                     break;
                 case 32:
-                    builder.sec17AppStatus(ApplicationUtility.getStringValue(cell));
+                    builder.sec17AppStatus(cell.getStringCellValue());
                     break;
                 case 33:
-                    builder.courtName(ApplicationUtility.getStringValue(cell));
+                    builder.courtName(cell.getStringCellValue());
                     break;
                 case 34:
-                    builder.place(ApplicationUtility.getStringValue(cell));
+                    builder.place(cell.getStringCellValue());
                     break;
                 case 35:
-                    builder.arbitrator(ApplicationUtility.getStringValue(cell));
+                    builder.arbitrator(cell.getStringCellValue());
                     break;
                 case 36:
-                    builder.lawyerName(ApplicationUtility.getStringValue(cell));
+                    builder.lawyerName(cell.getStringCellValue());
                     break;
                 case 37:
-                    builder.lmName(ApplicationUtility.getStringValue(cell));
+                    builder.lmName(cell.getStringCellValue());
                     break;
                 default:
                     // Handle unexpected columns (optional)

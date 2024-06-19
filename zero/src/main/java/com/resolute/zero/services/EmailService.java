@@ -51,7 +51,10 @@ public class EmailService {
         System.out.println("Mail Send...");
     }
 
-    @SneakyThrows
+    public void sendBulkWhatsapp(MultipartFile sheet) {
+
+    }
+
     public void sendBulkEmail(MultipartFile sheet) {
         List<EmailDetails> emailDetailsList = new ArrayList<>();
         var template = templateRepository.findByType(TemplateType.EMAIL).get().getTemplate();
@@ -118,7 +121,5 @@ public class EmailService {
         return sh;
     }
 
-    public void sendBulkWhatsapp(MultipartFile sheet) {
 
-    }
 }

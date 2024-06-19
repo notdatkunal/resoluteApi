@@ -65,7 +65,7 @@ public class Helper {
 		}
 
 		public static CaseHistoryResponse convertCaseHistoryResponse(BankCase bankCase) {
-			return CaseHistoryResponse.builder()
+			var caseHistory =  CaseHistoryResponse.builder()
 					.caseDetails(CaseDetailsResponse.builder()
 							.caseType(bankCase.getCaseType())
                             .registrationDate(bankCase.getAwardDate())
@@ -76,9 +76,11 @@ public class Helper {
                             .caseStage(bankCase.getCaseStatus())
                             .NextHearingDate(bankCase.getNextHearingDate())
                             .firstHearingDate(bankCase.getFirstHearingDate())
-                            .arbitratorName(bankCase.getArbitrator().getArbitratorName())
 							.build())
 					.build();
+            if(bankCase.getArbitrator()!=null) caseHistory.getCaseStatus().setArbitratorName(bankCase.getArbitrator().getArbitratorName());
+
+            return caseHistory;
 		}
 
         public static AdminCaseResponse convertAdminCaseResponse(BankCase bankCase) {
