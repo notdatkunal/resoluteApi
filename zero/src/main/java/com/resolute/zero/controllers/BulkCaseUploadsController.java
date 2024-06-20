@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,13 +34,13 @@ public class BulkCaseUploadsController {
                     .build();
 
 
-        var list =   mediaService.saveCases(sheet);
+        var list = mediaService.saveCases(sheet);
         if(list.isEmpty()){
             throw AppException.builder()
                     .data(ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT,"problem in sheet or sheet is empty")).build())
                     .build();
         }
-        return  list;
+        return list;
     }
 
 }
