@@ -17,7 +17,20 @@
 	<properties>
 		<java.version>17</java.version>
 	</properties>
+	<!--	whatsapp api repository -->
+	<repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+	</repositories>
 	<dependencies>
+		<!--	whatsapp api dependency	-->
+		<dependency>
+			<groupId>com.github.Bindambc</groupId>
+			<artifactId>whatsapp-business-java-api</artifactId>
+			<version>v0.4.1</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jdbc</artifactId>

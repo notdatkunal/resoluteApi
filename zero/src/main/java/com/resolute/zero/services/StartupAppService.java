@@ -5,6 +5,16 @@ import com.resolute.zero.helpers.TemplateType;
 import com.resolute.zero.repositories.*;
 import com.resolute.zero.utilities.ApplicationUtility;
 import com.resolute.zero.utilities.TypeMappingUtil;
+import com.resolute.zero.whatsapp.WhConstants;
+import com.resolute.zero.whatsapp.WhService;
+import com.whatsapp.api.WhatsappApiFactory;
+import com.whatsapp.api.domain.messages.Language;
+import com.whatsapp.api.domain.messages.Message;
+import com.whatsapp.api.domain.messages.TemplateMessage;
+import com.whatsapp.api.domain.messages.TextMessage;
+import com.whatsapp.api.domain.templates.type.LanguageType;
+import com.whatsapp.api.impl.WhatsappBusinessCloudApi;
+import com.whatsapp.api.utils.Formatter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,7 +77,9 @@ public class StartupAppService {
         createDocMainTypes();
         createDocSubTypes();
         createDefaultAdmin();
-
+//        sendCustomWhMessage();
+//        sendTemplateWhMessageOnStart();
+        loadDefaultEndpoints();
         if(templateRepository.count()==0){
             List<Template> templateList = new ArrayList<>();
             var emailTemp = new Template();
@@ -81,6 +93,35 @@ public class StartupAppService {
             templateRepository.saveAll(templateList);
         }
 
+    }
+
+    private void loadDefaultEndpoints() {
+
+    }
+
+    @Autowired
+    private WhService whService;
+
+    private void sendTemplateWhMessageOnStart() {
+
+        whService.sendHelloWorldMessage(WhConstants.DEFAULT_NO);
+    }
+
+    private void sendCustomWhMessage() {
+
+        WhatsappApiFactory factory = WhatsappApiFactory.newInstance("EAAO71pGUO6MBOz93I22gU7WF3MZAhV4CRTXFkUlhnEwrvZCi4ZAjjZB78gNhsXhy0XwdimNc7ojFMZBV71ncx6fLBvRfSBlg8KVzaLGXw6myZCjUUyOyYUC05Xt4imIBZA0OlqJVRqPRRBUgcs4VjBRGlPQ4nDLC0kZB11Pgm0jZAqkXTfZAG8VaceKSNeI79CitfXVbNubLT0EaJAKaxWdPqnYFuqKkZAZA");
+
+        WhatsappBusinessCloudApi whatsappBusinessCloudApi = factory.newBusinessCloudApi();
+
+        var message = Message.MessageBuilder.builder()//
+                .setTo("919284282003")//
+                .buildTextMessage(new TextMessage()//
+                        .setBody(Formatter.bold("Hello world!") + "\nSome code here: \n" + Formatter.code("hello world code here"))//
+                        .setPreviewUrl(false));
+
+
+        whatsappBusinessCloudApi.sendMessage("337633212771832", message);
+        System.out.println("sent wh");
     }
 
     private void createDocSubTypes() {
@@ -125,6 +166,7 @@ public class StartupAppService {
             user.setUserName("userAdmin");
             user.setPassword(ApplicationUtility.encryptPassword("root1234"));
             user.setRole("admin");
+            user.setEmail("jmswiftapp@gmail.com");
             userRepository.save(user);
         }
     }

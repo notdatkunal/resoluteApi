@@ -1,3 +1,5 @@
+whatsapp:
+  key: ${WH_KEY}
 email:
   id : jmswiftapp@gmail.com
   password : ${RESOLUTE_EMAIL_PASS}

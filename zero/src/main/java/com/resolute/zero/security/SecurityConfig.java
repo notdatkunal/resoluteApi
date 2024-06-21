@@ -1,5 +1,7 @@
 package com.resolute.zero.security;
 
+import com.resolute.zero.repositories.EndpointRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -39,6 +41,17 @@ public class SecurityConfig {
     @Bean
     public JwtAuthenticatioFilter jwtAuthenticatioFilter(){
         return new JwtAuthenticatioFilter();
+    }
+
+    @Autowired
+    private EndpointRepository endpointRepository;
+
+    @Bean
+    public EndPointsMapping endPointsMapping(){
+        var list = endpointRepository.findAll();
+        return EndPointsMapping.builder()
+                .endpointList(list)
+                .build();
     }
 
 }

@@ -17,7 +17,7 @@ import java.util.List;
 
 public class JwtAuthenticatioFilter extends OncePerRequestFilter {
 
-    public static final List<String> EXCLUDED_URLS = List.of("/login","/swagger-ui","/swagger-ui/index.html","/swagger-ui.html","/swagger-ui/","/swagger-ui/*","/favicon.ico","/","/src","/enquiry","/forget","/reset");
+    public static final List<String> EXCLUDED_URLS = List.of("/login","/getsheet/1","/swagger-ui","/swagger-ui/index.html","/swagger-ui.html","/swagger-ui/","/swagger-ui/*","/favicon.ico","/","/src","/enquiry","/forget","/reset");
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String requestURI = request.getRequestURI();

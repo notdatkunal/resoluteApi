@@ -1,11 +1,9 @@
 package com.resolute.zero.services;
 
-import com.resolute.zero.domains.EmailDetails;
+import com.resolute.zero.requests.EmailDetails;
 import com.resolute.zero.domains.TemplateRepository;
 import com.resolute.zero.helpers.TemplateType;
-import com.resolute.zero.requests.AdminCaseRequest;
 import com.resolute.zero.utilities.ApplicationUtility;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
