@@ -3,8 +3,6 @@ package com.resolute.zero.services;
 
 
 import com.resolute.zero.domains.*;
-import com.resolute.zero.repositories.CommunicationRepository;
-import com.resolute.zero.requests.AdminCommRequest;
 import com.resolute.zero.exceptions.AppException;
 import com.resolute.zero.repositories.CaseOrderRepository;
 import com.resolute.zero.requests.AdminOrderRequest;
@@ -101,7 +99,7 @@ public class CaseService {
 	private CodeComponent codeComponent;
 	@Autowired
 	private MediaService mediaService;
-    private final CommunicationRepository communicationRepository;
+
 
     public ResponseEntity<?> createOrderByCaseId(AdminOrderRequest adminOrder) throws IOException {
 

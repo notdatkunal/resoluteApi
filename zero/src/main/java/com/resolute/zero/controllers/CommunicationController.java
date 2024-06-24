@@ -3,7 +3,6 @@ package com.resolute.zero.controllers;
 import com.resolute.zero.requests.AdminCommRequest;
 import com.resolute.zero.requests.CommunicationRequest;
 import com.resolute.zero.responses.CommunicationResponse;
-import com.resolute.zero.services.CaseService;
 import com.resolute.zero.services.CommunicationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +20,6 @@ import java.util.List;
 public class CommunicationController {
 
 
-    @Autowired
-    private final CaseService caseService;
     @Autowired
     private final CommunicationService service;
 
