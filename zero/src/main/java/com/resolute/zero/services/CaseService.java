@@ -47,7 +47,7 @@ public class CaseService {
 	}
 
 	
-	private static BankCase extracted(CaseRepository repository,Integer caseId) {
+	public static BankCase extracted(CaseRepository repository,Integer caseId) {
 		var caseOptional = repository.findById(caseId);
 		if(caseOptional.isEmpty()) throw AppException.builder().data(ResponseEntity.of(ProblemDetail
 						.forStatusAndDetail(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE,"case id does not exist in database"))
@@ -55,14 +55,7 @@ public class CaseService {
 		return caseOptional.get();
 	}
 
-	public List<CommunicationResponse> getCommunicationByCaseId(Integer id) {
-		return CaseService
-				.extracted(caseRepository,id)
-				.getCommunications()
-				.stream()
-				.map(Helper.Convert::convertCommunicationResponse)
-				.toList();
-	}
+
 
 	public void createHearingByCaseId(Integer caseId, CaseHearingRequest caseHearingRequest) {
 		var obj = CaseService.extracted(caseRepository,caseId);
@@ -203,30 +196,7 @@ public class CaseService {
 		caseOrderRepository.delete(caseOrder);
 	}
 
-	public ResponseEntity<?> createComm(AdminCommRequest adminCommRequest) throws IOException {
-		var obj = CaseService.extracted(caseRepository,adminCommRequest.getCaseId());
-		obj.setCommunicationCount(obj.getCommunicationCount()+1);
-		Communication communication = Helper.Creator.createCommunication(adminCommRequest);
-		{	//creating comm sequence
-			if (obj.getCommunicationCount() < 10)
-				communication.setSequence("C0" + obj.getCommunicationCount());
-			else
-				communication.setSequence("C" + obj.getCommunicationCount());
-		}
 
-		MetaDocInfo metaDocInfo = codeComponent.getMetaCode("communication", communication.getSequence(), adminCommRequest.getCaseId(), 0, adminCommRequest.getFile());
-		mediaService.uploadFile(metaDocInfo);
-		mediaService.saveDocumentInDB(metaDocInfo);
-		communication.setFileName(metaDocInfo.getFileName());
-		communicationRepository.save(communication);
-		obj.getCommunications().add(communication);
-		caseRepository.save(obj);
-		return ResponseEntity
-				.of(ProblemDetail
-				.forStatus(HttpStatus.CREATED))
-				.eTag("communication created successfully")
-				.build();
-	}
 
     public List<AdminCaseResponse> getCasesByArbitratorId(Integer arbitratorId) {
 		return caseRepository.findByArbitrator_Id(arbitratorId).stream().map(Helper.Convert::convertAdminCaseResponse).toList();

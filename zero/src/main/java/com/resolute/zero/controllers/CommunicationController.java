@@ -1,8 +1,10 @@
 package com.resolute.zero.controllers;
 
 import com.resolute.zero.requests.AdminCommRequest;
+import com.resolute.zero.requests.CommunicationRequest;
 import com.resolute.zero.responses.CommunicationResponse;
 import com.resolute.zero.services.CaseService;
+import com.resolute.zero.services.CommunicationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +19,25 @@ import java.util.List;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 public class CommunicationController {
+
+
     @Autowired
     private final CaseService caseService;
+    @Autowired
+    private final CommunicationService service;
+
     @PostMapping("/admin/comm")
     public ResponseEntity<?> createComm(@ModelAttribute AdminCommRequest adminCommRequest) throws IOException {
-        return caseService.createComm(adminCommRequest);
+        return service.createComm(adminCommRequest);
     }
 
     @GetMapping({"/admin/comm/{caseId}","/case/communication/{caseId}"})
     public List<CommunicationResponse> getCommunicationByCaseId(@PathVariable Integer caseId){
-        return caseService.getCommunicationByCaseId(caseId);
+        return service.getCommunicationByCaseId(caseId);
+    }
+
+    @PostMapping("/admin/send")
+    public void sendAPIResolute(CommunicationRequest communicationRequest){
+        service.sendAPIResolute(communicationRequest);
     }
 }

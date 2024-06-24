@@ -4,9 +4,11 @@ package com.resolute.zero.services;
 import com.resolute.zero.repositories.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class DeleteService {
 
 
@@ -17,6 +19,7 @@ public class DeleteService {
     private final ProceedingRepository proceedingRepository;
     private final CaseOrderRepository caseOrderRepository;
     private final UserRepository userRepository;
+
 
     public void deleteCase(Integer caseId) {
         var caseOpt = caseRepository.findById(caseId);
@@ -35,6 +38,11 @@ public class DeleteService {
         bankRepository.save(bank);
         proceedingRepository.deleteAll(caseOpt.get().getProceeding());
         caseOrderRepository.deleteAll(caseOpt.get().getOrders());
+        caseOpt.get().setProceeding(null);
+        caseOpt.get().setOrders(null);
+        caseOpt.get().setDocumentList(null);
+        caseRepository.save(caseOpt.get());
+        caseRepository.delete(caseOpt.get());
     }
 
     public void deleteBank(Integer bankId) {
