@@ -68,7 +68,7 @@ public class Helper {
 			var caseHistory =  CaseHistoryResponse.builder()
 					.caseDetails(CaseDetailsResponse.builder()
 							.caseType(bankCase.getCaseType())
-                            .registrationDate(bankCase.getAwardDate())
+                            .registrationDate(Date.from(bankCase.getCreatedAt()))
                             .caseNumber(bankCase.getCaseNo())
                             .fillingDate(bankCase.getSocFillingDate())
 							.build())

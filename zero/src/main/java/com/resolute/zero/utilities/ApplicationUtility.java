@@ -113,12 +113,6 @@ public class ApplicationUtility {
     }
 
     public static boolean checkCase(AdminCaseRequest request) {
-        System.out.println(request.getBankId()!=null);
-        System.out.println(request.getCaseNo()!=null);
-        System.out.println(request.getCaseType()!=null);
-        System.out.println(request.getCustomerId()!=null);
-        System.out.println(request.getCustomerId());
-        System.out.println(request.getCustomerName()!=null);
         return request.getBankId()!=null&&request.getCaseNo()!=null&&request.getCaseType()!=null&&request.getCustomerId()!=null&&request.getCustomerName()!=null;
     }
 }

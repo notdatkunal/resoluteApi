@@ -15,7 +15,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,7 +33,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
@@ -159,7 +157,8 @@ public class MediaService {
             caseObj.getDocumentList().remove(document);
             String path = MediaUtility.getPath(document.getImageName());
             File fileToDelete = new File(path);
-            fileToDelete.delete();
+            var resultFileDeleted = fileToDelete.delete();
+            log.info("result as follows for deletion {} ",resultFileDeleted);
             caseRepository.save(caseObj);
             documentRepository.deleteById(documentId);
             return ResponseEntity.ok(ProblemDetail.forStatus(HttpStatus.FOUND));
@@ -173,7 +172,50 @@ public class MediaService {
                     .build();
         }
     }
+    public List<AdminCaseRequest> updateCases(MultipartFile sheet) {
+        List<AdminCaseRequest> caseSheetRequests = new ArrayList<>();
+        try (InputStream inputStream = sheet.getInputStream()) {
 
+            // Process the workbook here using the steps mentioned previously
+            XSSFSheet sh = EmailService.getRows(inputStream);
+
+            int startingRow = 1;
+            for (int rowIndex = startingRow; rowIndex <= sh.getLastRowNum(); rowIndex++) {
+                XSSFRow dataRow = sh.getRow(rowIndex);
+                if (dataRow != null) {
+                    var builder = AdminCaseRequest.builder();
+                    for (int cellIndex = 0; cellIndex < dataRow.getLastCellNum(); cellIndex++) {
+                        XSSFCell cell = dataRow.getCell(cellIndex);
+                        adminBuilder(cell, cellIndex, builder);
+                    }
+                    builder.rowNum(rowIndex+1);
+                    caseSheetRequests.add(builder.build());
+                }
+            }
+            log.info(sh.getHeader().toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle potential IO exceptions
+        }
+        AtomicBoolean check = new AtomicBoolean(true);
+        caseSheetRequests.forEach(request->
+            check.set(ApplicationUtility.checkCase(request))
+        );
+        if(!check.get()){
+            return new ArrayList<>();
+        }
+        caseSheetRequests.forEach(caseRequest->{
+            try {
+                adminService.updateCase(caseRequest,caseRepository.findByCaseNo(caseRequest.getCaseNo()).getId());
+            }catch (Exception e){
+                throw AppException.builder()
+                        .data(ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT,"problem in row number "+caseRequest.getRowNum())).build())
+                        .build();
+            }
+        });
+
+        return caseSheetRequests;
+    }
     public List<AdminCaseRequest> saveCases(MultipartFile sheet) {
         List<AdminCaseRequest> caseSheetRequests = new ArrayList<>();
         try (InputStream inputStream = sheet.getInputStream()) {
@@ -200,9 +242,9 @@ public class MediaService {
             // Handle potential IO exceptions
         }
         AtomicBoolean check = new AtomicBoolean(true);
-        caseSheetRequests.forEach(request->{
-             check.set(ApplicationUtility.checkCase(request));
-        });
+        caseSheetRequests.forEach(request->
+             check.set(ApplicationUtility.checkCase(request))
+        );
         if(!check.get()){
             return new ArrayList<>();
         }
@@ -349,4 +391,6 @@ public class MediaService {
 
     @Autowired
     private AdminService adminService;
+
+
 }

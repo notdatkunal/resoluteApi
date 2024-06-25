@@ -25,6 +25,22 @@ public class BulkCaseController {
 
     @Autowired
     private MediaService mediaService;
+    @PutMapping("/admin/case/bulk")
+    public List<AdminCaseRequest> bulkCaseUpdate(@ModelAttribute MultipartFile sheet){
+        if(!Objects.requireNonNull(sheet.getOriginalFilename()).contains("xlsx"))
+            throw AppException.builder()
+                    .data(ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN,"this file format not allowed")).build())
+                    .build();
+
+
+        List<AdminCaseRequest> list = mediaService.updateCases(sheet);
+        if(list.isEmpty()){
+            throw AppException.builder()
+                    .data(ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT,"problem in sheet or sheet is empty")).build())
+                    .build();
+        }
+        return list;
+    }
 
     @PostMapping("/admin/case/bulk")
     public List<AdminCaseRequest> bulkCaseUploads(@ModelAttribute MultipartFile sheet){
