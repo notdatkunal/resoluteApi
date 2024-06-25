@@ -298,8 +298,8 @@ public class AdminService {
         return caseRepository.findByBank_IdAndCaseTypeAndCaseStatus(bankId,type,status,pageable).stream().map(Helper.Convert::convertAdminCaseResponse).toList();
     }
 
-    public Long getCountOfCaseByBankIdAndTypeAndStatus(Integer bankId, String type, String status, Pageable pageable) {
-    return caseRepository.countByBank_IdAndCaseTypeAndCaseStatus(bankId,type,status,pageable);
+    public Long getCountOfCaseByBankIdAndTypeAndStatus(Integer bankId, String type, String status) {
+    return caseRepository.countByBank_IdAndCaseTypeAndCaseStatus(bankId,type,status);
     }
 
     public void createEntry(EnquiryRequest enquiry) {

@@ -1,8 +1,6 @@
 package com.resolute.zero.controllers;
 
-import com.resolute.zero.requests.AdminCaseRequest;
-import com.resolute.zero.requests.ArbitratorRequest;
-import com.resolute.zero.requests.BankRequest;
+
 import com.resolute.zero.responses.*;
 import com.resolute.zero.services.AdminService;
 import lombok.RequiredArgsConstructor;
@@ -44,13 +42,9 @@ public class AdminCaseController {
     }
     @GetMapping("/admin/caseCountByTypeAndStatus/{bankId}")
     public Long getCountOfCaseByBankIdAndTypeAndStatus(
-            @RequestParam(required = false) Integer pageNumber
-            , @PageableDefault(size = 10,page=0,sort = "id") Pageable pageable,
             @PathVariable Integer bankId,@RequestParam String type,@RequestParam String status){
-        if (pageNumber != null) {
-            pageable = PageRequest.of(pageNumber, pageable.getPageSize(), pageable.getSort());
-        }
-        return adminService.getCountOfCaseByBankIdAndTypeAndStatus(bankId,type,status,pageable);
+
+        return adminService.getCountOfCaseByBankIdAndTypeAndStatus(bankId,type,status);
     }
 
     @GetMapping("/admin/caseTypeCount/{bankId}")
