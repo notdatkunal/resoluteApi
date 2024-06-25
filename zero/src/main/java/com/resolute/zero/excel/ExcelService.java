@@ -8,6 +8,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -64,7 +66,7 @@ public class ExcelService {
    ,registrationDate};
     public ByteArrayInputStream getExcelDataByBankId(Integer bankId) throws IOException {
         var rowIndex = 0;
-        var cases = caseService.getCasesByBankId(bankId);
+        var cases = caseService.getCasesByBankId(bankId, Pageable.unpaged());
         var bank = adminService.getBankById(bankId);
         var workbook = new XSSFWorkbook();
         var out = new ByteArrayOutputStream();

@@ -8,6 +8,10 @@ import com.resolute.zero.services.CaseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -18,18 +22,32 @@ import java.util.List;
 public class ApplicationController {
     @Autowired
     private CaseService caseService;
+    @Autowired
+    private AdminService adminService;
+
     @GetMapping("/list/casesByArbitratorId/{arbitratorId}")
-    public List<AdminCaseResponse> adminCaseResponseList(@PathVariable Integer arbitratorId){
-        return caseService.getCasesByArbitratorId(arbitratorId);
+    public List<AdminCaseResponse> adminCaseResponseList(@PathVariable Integer arbitratorId
+            , @RequestParam(required = false) Integer pageNumber
+            , @PageableDefault(size = 10,page=0,sort = "id") Pageable pageable){
+        if (pageNumber != null) {
+            pageable = PageRequest.of(pageNumber, pageable.getPageSize(), pageable.getSort());
+        }
+
+        return caseService.getCasesByArbitratorId(arbitratorId,pageable);
     }
 
     @GetMapping("/list/casesByBankId/{bankId}")
-    public List<AdminCaseResponse> casesByBankId(@PathVariable Integer bankId){
-        return caseService.getCasesByBankId(bankId);
+    public List<AdminCaseResponse> casesByBankId(@PathVariable Integer bankId
+            , @RequestParam(required = false) Integer pageNumber
+            , @PageableDefault(size = 10,page=0,sort = "id") Pageable pageable
+    ){
+        if (pageNumber != null) {
+            pageable = PageRequest.of(pageNumber, pageable.getPageSize(), pageable.getSort());
+        }
+        return caseService.getCasesByBankId(bankId,pageable);
     }
 
-    @Autowired
-    private AdminService adminService;
+
 
     @PostMapping("/enquiry")
     public void enquiry(@RequestBody EnquiryRequest enquiry){

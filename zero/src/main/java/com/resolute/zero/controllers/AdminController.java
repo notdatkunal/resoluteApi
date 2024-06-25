@@ -6,13 +6,15 @@ import com.resolute.zero.services.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @Slf4j
 @RestController
 @CrossOrigin("*")
 @RequiredArgsConstructor
-//search case by bank id
 public class AdminController {
     @Autowired
     private final AdminService adminService;
@@ -52,8 +54,12 @@ public class AdminController {
         return adminService.getArbitratorById(arbitratorId);
     }
     @GetMapping("/admin/arbitrator")
-    public List<ArbitratorResponse> getAllArbitrators(){
-        return adminService.getArbitratorList();
+    public List<ArbitratorResponse> getAllArbitrators(@RequestParam(required = false) Integer pageNumber
+            , @PageableDefault(size = 10,page=0,sort = "id") Pageable pageable){
+        if (pageNumber != null) {
+            pageable = PageRequest.of(pageNumber, pageable.getPageSize(), pageable.getSort());
+        }
+        return adminService.getArbitratorList(pageable);
 
     }
     @GetMapping("/admin/case/{caseId}")
@@ -63,8 +69,12 @@ public class AdminController {
 
 
     @GetMapping("/admin/case")
-    public List<CaseResponse> getAllCases(){
-        return   adminService.getCaseList();
+    public List<CaseResponse> getAllCases(@RequestParam(required = false) Integer pageNumber
+            , @PageableDefault(size = 10,page=0,sort = "id") Pageable pageable){
+        if (pageNumber != null) {
+            pageable = PageRequest.of(pageNumber, pageable.getPageSize(), pageable.getSort());
+        }
+        return   adminService.getCaseList(pageable);
     }
 
 
@@ -78,7 +88,11 @@ public class AdminController {
     }
 
     @GetMapping("/admin/bank")
-    public List<BankResponse> getAllBanks(){
-        return adminService.getBanksList();
+    public List<BankResponse> getAllBanks(@RequestParam(required = false) Integer pageNumber
+            , @PageableDefault(size = 10,page=0,sort = "id") Pageable pageable){
+        if (pageNumber != null) {
+            pageable = PageRequest.of(pageNumber, pageable.getPageSize(), pageable.getSort());
+        }
+        return adminService.getBanksList(pageable);
     }
 }

@@ -8,6 +8,9 @@ import com.resolute.zero.services.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,15 +30,27 @@ public class AdminCaseController {
         return adminService.getBankById(bankId);
     }
     @GetMapping("/admin/caseByBankIdAndType/{bankId}")
-    public List<AdminCaseResponse> getCasesByBankIdAndType(@PathVariable Integer bankId,@RequestParam String type,@RequestParam(required = false) String status){
+    public List<AdminCaseResponse> getCasesByBankIdAndType(@PathVariable Integer bankId
+            , @RequestParam(required = false) Integer pageNumber
+            , @PageableDefault(size = 10,page=0,sort = "id") Pageable pageable
+            ,@RequestParam String type,@RequestParam(required = false) String status){
+        if (pageNumber != null) {
+            pageable = PageRequest.of(pageNumber, pageable.getPageSize(), pageable.getSort());
+        }
         System.out.println("this is status"+status);
         if(status!=null)
-            return adminService.getCasesByBankIdAndTypeAndStatus(bankId,type,status);
-        return adminService.getCasesByBankIdAndType(bankId,type);
+            return adminService.getCasesByBankIdAndTypeAndStatus(bankId,type,status,pageable);
+        return adminService.getCasesByBankIdAndType(bankId,type,pageable);
     }
     @GetMapping("/admin/caseCountByTypeAndStatus/{bankId}")
-    public Long getCountOfCaseByBankIdAndTypeAndStatus(@PathVariable Integer bankId,@RequestParam String type,@RequestParam String status){
-        return adminService.getCountOfCaseByBankIdAndTypeAndStatus(bankId,type,status);
+    public Long getCountOfCaseByBankIdAndTypeAndStatus(
+            @RequestParam(required = false) Integer pageNumber
+            , @PageableDefault(size = 10,page=0,sort = "id") Pageable pageable,
+            @PathVariable Integer bankId,@RequestParam String type,@RequestParam String status){
+        if (pageNumber != null) {
+            pageable = PageRequest.of(pageNumber, pageable.getPageSize(), pageable.getSort());
+        }
+        return adminService.getCountOfCaseByBankIdAndTypeAndStatus(bankId,type,status,pageable);
     }
 
     @GetMapping("/admin/caseTypeCount/{bankId}")

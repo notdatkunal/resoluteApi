@@ -15,6 +15,7 @@ import com.resolute.zero.utilities.MetaDocInfo;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -196,11 +197,11 @@ public class CaseService {
 
 
 
-    public List<AdminCaseResponse> getCasesByArbitratorId(Integer arbitratorId) {
-		return caseRepository.findByArbitrator_Id(arbitratorId).stream().map(Helper.Convert::convertAdminCaseResponse).toList();
+    public List<AdminCaseResponse> getCasesByArbitratorId(Integer arbitratorId, Pageable pageable) {
+		return caseRepository.findByArbitrator_Id(arbitratorId,pageable).stream().map(Helper.Convert::convertAdminCaseResponse).toList();
     }
 
-	public List<AdminCaseResponse> getCasesByBankId(Integer bankId) {
-		return caseRepository.findByBank_Id(bankId).stream().map(Helper.Convert::convertAdminCaseResponse).toList();
+	public List<AdminCaseResponse> getCasesByBankId(Integer bankId, Pageable pageable) {
+		return caseRepository.findByBank_Id(bankId,pageable).stream().map(Helper.Convert::convertAdminCaseResponse).toList();
 	}
 }

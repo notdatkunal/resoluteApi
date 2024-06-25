@@ -11,6 +11,7 @@ import com.resolute.zero.utilities.ApplicationUtility;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -136,8 +137,8 @@ public class AdminService {
         return Helper.Convert.convertArbitratorResponse(arbOptional.get());
     }
 
-    public List<ArbitratorResponse> getArbitratorList() {
-        var arbitratorList = arbitratorRepository.findAll();
+    public List<ArbitratorResponse> getArbitratorList(Pageable pageable) {
+        var arbitratorList = arbitratorRepository.findAll(pageable);
         return arbitratorList.stream().map(Helper.Convert::convertArbitratorResponse).collect(Collectors.toList());
     }
 
@@ -178,9 +179,8 @@ public class AdminService {
         }
     }
 
-    public List<BankResponse> getBanksList() {
-		// TODO Auto-generated method stub
-		var banks = bankRepository.findAll();
+    public List<BankResponse> getBanksList(Pageable pageable) {
+		var banks = bankRepository.findAll(pageable);
 		LinkedList<BankResponse> bankResponses = new LinkedList<>();
 		banks.forEach(item->{
 			bankResponses.add(Helper.Convert.convertBankResponse(item));
@@ -188,9 +188,8 @@ public class AdminService {
 		});
 		return bankResponses;
 	}
-	public List<CaseResponse> getCaseList() {
-		// TODO Auto-generated method stub
-		var cases = caseRepository.findAll();
+	public List<CaseResponse> getCaseList(Pageable pageable) {
+		var cases = caseRepository.findAll(pageable);
         return cases.stream().map(Helper.Convert::convertCaseResponse).collect(Collectors.toCollection(LinkedList::new));
 	}
 	
@@ -275,8 +274,8 @@ public class AdminService {
         return caseResponseList;
     }
 
-    public List<AdminCaseResponse> getCasesByBankIdAndType(Integer bankId, String type) {
-        var caseListByBankId = caseRepository.findByBank_IdAndCaseType(bankId,type);
+    public List<AdminCaseResponse> getCasesByBankIdAndType(Integer bankId, String type, Pageable pageable) {
+        var caseListByBankId = caseRepository.findByBank_IdAndCaseType(bankId,type,pageable);
         return caseListByBankId.stream().map(Helper.Convert::convertAdminCaseResponse).toList();
     }
 
@@ -295,12 +294,12 @@ public class AdminService {
         caseTypeRepository.save(caseType);
     }
 
-    public List<AdminCaseResponse> getCasesByBankIdAndTypeAndStatus(Integer bankId, String type, String status) {
-        return caseRepository.findByBank_IdAndCaseTypeAndCaseStatus(bankId,type,status).stream().map(Helper.Convert::convertAdminCaseResponse).toList();
+    public List<AdminCaseResponse> getCasesByBankIdAndTypeAndStatus(Integer bankId, String type, String status, Pageable pageable) {
+        return caseRepository.findByBank_IdAndCaseTypeAndCaseStatus(bankId,type,status,pageable).stream().map(Helper.Convert::convertAdminCaseResponse).toList();
     }
 
-    public Long getCountOfCaseByBankIdAndTypeAndStatus(Integer bankId, String type, String status) {
-    return caseRepository.countByBank_IdAndCaseTypeAndCaseStatus(bankId,type,status);
+    public Long getCountOfCaseByBankIdAndTypeAndStatus(Integer bankId, String type, String status, Pageable pageable) {
+    return caseRepository.countByBank_IdAndCaseTypeAndCaseStatus(bankId,type,status,pageable);
     }
 
     public void createEntry(EnquiryRequest enquiry) {
