@@ -21,10 +21,4 @@ public class CaseController {
     }
 
 
-
-
-//    @GetMapping("/case/communication/{id}")
-//    public CommunicationResponse getComm(@PathVariable Integer id){
-//        return  caseService.getCommunicationByCaseId(id);
-//    }
 }
