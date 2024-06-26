@@ -281,10 +281,10 @@ public class AdminService {
 
     public Map<String, Long> getTypeCountsByBankId(Integer bankId) {
         Map<String, Long> caseTypeCount = new HashMap<>();
-        caseTypeRepository.findAll().forEach(caseType -> {
+        caseTypeRepository.findAll().forEach(caseType ->
 
-            caseTypeCount.put(caseType.getType(),caseRepository.countByBank_IdAndCaseType(bankId,caseType.getType()));
-        });
+            caseTypeCount.put(caseType.getType(),caseRepository.countByBank_IdAndCaseType(bankId,caseType.getType()))
+        );
         return caseTypeCount;
     }
 
