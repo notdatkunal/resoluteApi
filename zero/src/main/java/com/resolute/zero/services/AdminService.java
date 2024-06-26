@@ -356,4 +356,12 @@ public class AdminService {
     private static boolean isOtpExpired(Instant otpUpdated, Instant current) {
         return ApplicationUtility.getDifferenceInMinutes(otpUpdated, current) > 10;
     }
+
+    public Long getCaseCountByBankId(Integer bankId) {
+        return caseRepository.countByBank_Id(bankId);
+    }
+
+    public Long getTotalCaseCount() {
+        return caseRepository.count();
+    }
 }

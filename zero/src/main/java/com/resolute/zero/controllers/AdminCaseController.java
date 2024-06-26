@@ -23,6 +23,8 @@ public class AdminCaseController {
     @Autowired
     private final AdminService adminService;
 
+
+
     @GetMapping("/admin/bank/{bankId}")
     public BankResponse getBankById(@PathVariable Integer bankId){
         return adminService.getBankById(bankId);
@@ -46,7 +48,14 @@ public class AdminCaseController {
 
         return adminService.getCountOfCaseByBankIdAndTypeAndStatus(bankId,type,status);
     }
-
+    @GetMapping("/admin/caseCount/{bankId}")
+    public Long getCaseCountByBankId(@PathVariable Integer bankId){
+        return adminService.getCaseCountByBankId(bankId);
+    }
+    @GetMapping("/admin/caseCount")
+    public Long getTotalCaseCount(){
+        return adminService.getTotalCaseCount();
+    }
     @GetMapping("/admin/caseTypeCount/{bankId}")
     public Map<String,Long> getTypeCountsByBankId(@PathVariable Integer bankId){
         return adminService.getTypeCountsByBankId(bankId);
