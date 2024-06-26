@@ -364,4 +364,12 @@ public class AdminService {
     public Long getTotalCaseCount() {
         return caseRepository.count();
     }
+
+    public Long getArbitratorCount() {
+        return arbitratorRepository.count();
+    }
+
+    public Long getBankCount() {
+        return bankRepository.count();
+    }
 }

@@ -47,8 +47,6 @@ public class AdminController {
     	adminService.updateBank(request,bankId);
     }
 
-
-
     @GetMapping("/admin/arbitrator/{arbitratorId}")
     public ArbitratorResponse getArbitratorById(@PathVariable Integer arbitratorId){
         return adminService.getArbitratorById(arbitratorId);

@@ -56,6 +56,12 @@ public class AdminCaseController {
     public Long getTotalCaseCount(){
         return adminService.getTotalCaseCount();
     }
+    @GetMapping("/admin/arbitratorCount")
+    public Long getArbitratorCount(){
+        return adminService.getArbitratorCount();
+    }
+    @GetMapping("/admin/bankCount")
+    public Long getBankCount(){return adminService.getBankCount();}
     @GetMapping("/admin/caseTypeCount/{bankId}")
     public Map<String,Long> getTypeCountsByBankId(@PathVariable Integer bankId){
         return adminService.getTypeCountsByBankId(bankId);
