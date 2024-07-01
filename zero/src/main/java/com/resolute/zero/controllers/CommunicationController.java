@@ -1,7 +1,6 @@
 package com.resolute.zero.controllers;
 
 import com.resolute.zero.requests.AdminCommRequest;
-import com.resolute.zero.requests.CommunicationRequest;
 import com.resolute.zero.responses.CommunicationResponse;
 import com.resolute.zero.services.CommunicationService;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +32,5 @@ public class CommunicationController {
         return service.getCommunicationByCaseId(caseId);
     }
 
-    @PostMapping("/admin/send")
-    public void sendAPIResolute(CommunicationRequest communicationRequest){
-        service.sendAPIResolute(communicationRequest);
-    }
+
 }

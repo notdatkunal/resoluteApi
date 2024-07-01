@@ -5,7 +5,6 @@ import com.resolute.zero.helpers.Helper;
 import com.resolute.zero.repositories.CaseRepository;
 import com.resolute.zero.repositories.CommunicationRepository;
 import com.resolute.zero.requests.AdminCommRequest;
-import com.resolute.zero.requests.CommunicationRequest;
 import com.resolute.zero.responses.CommunicationResponse;
 import com.resolute.zero.utilities.CodeComponent;
 import com.resolute.zero.utilities.MetaDocInfo;
@@ -62,7 +61,5 @@ public class CommunicationService {
                 .build();
     }
 
-    public void sendAPIResolute(CommunicationRequest communicationRequest) {
 
-    }
 }

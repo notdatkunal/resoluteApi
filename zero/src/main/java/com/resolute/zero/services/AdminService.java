@@ -306,8 +306,8 @@ public class AdminService {
         enquiryRequestRepository.save(enquiry);
     }
 
-    public List<EnquiryRequest> getEnquiries() {
-        return enquiryRequestRepository.findAll();
+    public List<EnquiryRequest> getEnquiries(Pageable pageable) {
+        return enquiryRequestRepository.findAll(pageable).stream().toList();
     }
 
     public void forgetPassword(String email) {
@@ -371,5 +371,9 @@ public class AdminService {
 
     public Long getBankCount() {
         return bankRepository.count();
+    }
+
+    public Long enquiryCount() {
+        return enquiryRequestRepository.count();
     }
 }

@@ -1,8 +1,7 @@
-package com.resolute.zero.requests;
+package com.resolute.zero.comm;
 
 import lombok.Builder;
 import lombok.Data;
-
 import java.util.Map;
 
 @Data

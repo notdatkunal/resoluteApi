@@ -7,6 +7,7 @@ import com.resolute.zero.repositories.LoginRecordRepository;
 import com.resolute.zero.repositories.UserRepository;
 import com.resolute.zero.utilities.ApplicationUtility;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -58,9 +59,13 @@ public  class UserService implements UserDetailsService {
         return this.findByUserName(username);
 
     }
-    public List<LoginRecordResponse> getLoginRecords() {
+    public List<LoginRecordResponse> getLoginRecords(Pageable pageable) {
 
-        return loginRecordRepository.findAll().stream().map(Helper.Convert::convertLoginRecord).toList();
+        return loginRecordRepository.findAll(pageable).stream().map(Helper.Convert::convertLoginRecord).toList();
 
+    }
+
+    public long countLoginRecords() {
+        return loginRecordRepository.count();
     }
 }

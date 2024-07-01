@@ -201,6 +201,7 @@ public class MediaService {
         caseSheetRequests.forEach(request->
             check.set(ApplicationUtility.checkCase(request))
         );
+        System.out.println("completed fetching data");
         if(!check.get()){
             return new ArrayList<>();
         }

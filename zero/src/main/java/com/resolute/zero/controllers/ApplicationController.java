@@ -50,11 +50,21 @@ public class ApplicationController {
 
     @PostMapping("/enquiry")
     public void enquiry(@RequestBody EnquiryRequest enquiry){
+
+
         adminService.createEntry(enquiry);
     }
+    @GetMapping("/enquiries/count")
+    public Long enquiryCount(){
+        return adminService.enquiryCount();
+    }
     @GetMapping("/list/enquiries")
-    public List<EnquiryRequest> enquiryRequestList(){
-        return adminService.getEnquiries();
+    public List<EnquiryRequest> enquiryRequestList(@RequestParam(required = false) Integer pageNumber
+            , @PageableDefault(size = 10,page=0,sort = "id") Pageable pageable){
+        if (pageNumber != null) {
+            pageable = PageRequest.of(pageNumber, pageable.getPageSize(), pageable.getSort());
+        }
+        return adminService.getEnquiries(pageable);
     }
 
     @PostMapping("/forget")

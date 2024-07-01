@@ -8,6 +8,9 @@ import com.resolute.zero.responses.UserModel;
 import com.resolute.zero.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +21,18 @@ import java.util.List;
 @CrossOrigin("*")
 public class LoginController {
 
+
+    @GetMapping("/loginRecords/count")
+    public long countLoginRecords(){
+        return userService.countLoginRecords();
+    }
     @GetMapping("/loginRecords")
-    public List<LoginRecordResponse> loginRecordResponse(){
-        return userService.getLoginRecords();
+    public List<LoginRecordResponse> loginRecordResponse(@RequestParam(required = false) Integer pageNumber
+            , @PageableDefault(size = 10,page=0,sort = "id") Pageable pageable){
+        if (pageNumber != null) {
+            pageable = PageRequest.of(pageNumber, pageable.getPageSize(), pageable.getSort());
+        }
+        return userService.getLoginRecords(pageable);
     }
 
     @Autowired
