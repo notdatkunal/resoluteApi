@@ -19,6 +19,58 @@ import java.util.List;
 @Entity
 public class BankCase {
 
+    public String getString() {
+        return "BankCase{" +
+                "accountNumber='" + accountNumber + '\'' +
+                ", id=" + id +
+                ", caseNo='" + caseNo + '\'' +
+                ", sec17OrderDate=" + sec17OrderDate +
+                ", hearingsCount=" + hearingsCount +
+                ", ordersCount=" + ordersCount +
+                ", communicationCount=" + communicationCount +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", caseType='" + caseType + '\'' +
+                ", claimAmountInSOC=" + claimAmountInSOC +
+                ", socFillingDate=" + socFillingDate +
+                ", firstHearingDate=" + firstHearingDate +
+                ", lastHearingDate=" + lastHearingDate +
+                ", documentList=" + documentList +
+                ", proceeding=" + proceeding +
+                ", communications=" + communications +
+                ", orders=" + orders +
+                ", arbitrator=" + arbitrator +
+                ", bank=" + bank +
+                ", state='" + state + '\'' +
+                ", zone='" + zone + '\'' +
+                ", branchName='" + branchName + '\'' +
+                ", customerId='" + customerId + '\'' +
+                ", creditCardNumber='" + creditCardNumber + '\'' +
+                ", customerName='" + customerName + '\'' +
+                ", actualProduct='" + actualProduct + '\'' +
+                ", flagProductGroup='" + flagProductGroup + '\'' +
+                ", natureOfLegalAction='" + natureOfLegalAction + '\'' +
+                ", totalTos=" + totalTos +
+                ", totalTosInCr=" + totalTosInCr +
+                ", noticeDate=" + noticeDate +
+                ", refLetter=" + refLetter +
+                ", stagesOfLastHearingDate='" + stagesOfLastHearingDate + '\'' +
+                ", nextHearingDate=" + nextHearingDate +
+                ", stagesOfNextHearingDate='" + stagesOfNextHearingDate + '\'' +
+                ", caseStatus='" + caseStatus + '\'' +
+                ", flagForContested='" + flagForContested + '\'' +
+                ", detailsRemark='" + detailsRemark + '\'' +
+                ", awardDate=" + awardDate +
+                ", awardAmount='" + awardAmount + '\'' +
+                ", sec17AppFillingDate=" + sec17AppFillingDate +
+                ", sec17AppStatus='" + sec17AppStatus + '\'' +
+                ", courtName='" + courtName + '\'' +
+                ", place='" + place + '\'' +
+                ", lawyerName='" + lawyerName + '\'' +
+                ", lmName='" + lmName + '\'' +
+                '}';
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

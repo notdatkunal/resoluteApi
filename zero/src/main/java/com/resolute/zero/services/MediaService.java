@@ -1,11 +1,12 @@
 package com.resolute.zero.services;
 
 
+import com.resolute.zero.domains.BankCase;
+import com.resolute.zero.domains.BankCaseRepository;
 import com.resolute.zero.domains.Document;
 import com.resolute.zero.exceptions.AppException;
-import com.resolute.zero.repositories.CaseRepository;
-import com.resolute.zero.repositories.DocumentRepository;
-import com.resolute.zero.repositories.ProceedingRepository;
+import com.resolute.zero.helpers.Helper;
+import com.resolute.zero.repositories.*;
 import com.resolute.zero.requests.AdminCaseRequest;
 import com.resolute.zero.utilities.ApplicationUtility;
 import com.resolute.zero.utilities.MediaUtility;
@@ -30,15 +31,21 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.time.Instant;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
 @Slf4j
 @Service
 public class MediaService {
+    @Autowired
+    private BankRepository bankRepository;
+    @Autowired
+    private ArbitratorRepository arbitratorRepository;
+    @Autowired
+    private BankCaseRepository bankCaseRepository;
+
     public void uploadFile(MetaDocInfo metaDocInfo) throws IOException {
         var name = metaDocInfo.getFile().getOriginalFilename();
         if (name == null) throw new AssertionError();
@@ -205,16 +212,34 @@ public class MediaService {
         if(!check.get()){
             return new ArrayList<>();
         }
-        caseSheetRequests.forEach(caseRequest->{
-            try {
-                adminService.updateCase(caseRequest,caseRepository.findByCaseNo(caseRequest.getCaseNo()).getId());
-            }catch (Exception e){
-                throw AppException.builder()
-                        .data(ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT,"problem in row number "+caseRequest.getRowNum())).build())
-                        .build();
-            }
+        var bankCases = new LinkedList<BankCase>();
+        caseSheetRequests.forEach(caseRequest-> {
+            var caseOptional = bankCaseRepository.findByCaseNo(caseRequest.getCaseNo());
+            if(caseOptional.isEmpty())return;
+            var caseDataToBeUpdated = caseOptional.get();
+            if(caseRequest.getArbitratorId()!=null&&caseRequest.getArbitratorId()==0) caseDataToBeUpdated.setArbitrator(null);
+            else if(caseRequest.getArbitratorId()!=null) caseDataToBeUpdated.setArbitrator(arbitratorRepository.getReferenceById(caseRequest.getArbitratorId()));
+            if(caseRequest.getState()!=null) caseDataToBeUpdated.setState(caseRequest.getState());
+            if(caseRequest.getBankId()!=null) caseDataToBeUpdated.setBank(bankRepository.getReferenceById(caseRequest.getBankId()));
+            if(caseRequest.getCaseType()!=null) caseDataToBeUpdated.setCaseType(caseRequest.getCaseType());
+            if(caseRequest.getZone()!=null) caseDataToBeUpdated.setZone(caseRequest.getZone());
+            if(caseRequest.getBranchName()!=null) caseDataToBeUpdated.setBranchName(caseRequest.getBranchName());
+            if(caseRequest.getCustomerId()!=null) caseDataToBeUpdated.setCustomerId(caseRequest.getCustomerId());
+            if(caseRequest.getAccountNumber()!=null) caseDataToBeUpdated.setAccountNumber(caseRequest.getAccountNumber());
+            if(caseRequest.getCreditCardNumber()!=null) caseDataToBeUpdated.setCreditCardNumber(caseRequest.getCreditCardNumber());
+            if(caseRequest.getCustomerName()!=null) caseDataToBeUpdated.setCustomerName(caseRequest.getCustomerName());
+            if(caseRequest.getActualProduct()!=null) caseDataToBeUpdated.setActualProduct(caseRequest.getActualProduct());
+            if(caseRequest.getFlagProductGroup()!=null) caseDataToBeUpdated.setFlagProductGroup(caseRequest.getFlagProductGroup());
+            if(caseRequest.getNatureOfLegalAction()!=null) caseDataToBeUpdated.setNatureOfLegalAction(caseRequest.getNatureOfLegalAction());
+            if(caseRequest.getTotalTos()!=null) caseDataToBeUpdated.setTotalTos(caseRequest.getTotalTos());
+            if(caseRequest.getTotalTosInCr()!=null) caseDataToBeUpdated.setTotalTosInCr(caseRequest.getTotalTosInCr());
+            if(caseRequest.getClaimAmountInSOC()!=null) caseDataToBeUpdated.setClaimAmountInSOC(caseRequest.getClaimAmountInSOC());
+            if(caseRequest.getRefLetter()!=null) caseDataToBeUpdated.setRefLetter(caseRequest.getRefLetter());
+            if(caseRequest.getNoticeDate()!=null) caseDataToBeUpdated.setNoticeDate(caseRequest.getNoticeDate());
+            if(caseRequest.getSocFillingDate()!=null) caseDataToBeUpdated.setSocFillingDate(caseRequest.getSocFillingDate());
+            bankCases.add(caseDataToBeUpdated);
         });
-
+        bankCaseRepository.saveAll(bankCases);
         return caseSheetRequests;
     }
     public List<AdminCaseRequest> saveCases(MultipartFile sheet) {
@@ -266,16 +291,19 @@ public class MediaService {
 
     private static void adminBuilder(XSSFCell cell, int cellIndex, AdminCaseRequest.AdminCaseRequestBuilder builder) throws ParseException {
         if (cell != null&&cell.getRawValue()!=null) {
-
             switch (cellIndex) {
                 case 0:
                     builder.bankId((int)cell.getNumericCellValue()); // Assuming this column contains integer values
                     break;
                 case 1:
-                    builder.arbitratorId((int)cell.getNumericCellValue());
+                    if(cell.getRawValue().equals("211")) builder.arbitratorId(0);
+                    else
+                        builder.arbitratorId((int)cell.getNumericCellValue());
                     break;
                 case 2:
-                    builder.state(cell.getStringCellValue());
+                    if(cell.getRawValue().equals("211")) builder.state("");
+                    else
+                        builder.state(cell.getStringCellValue());
                     break;
                 case 3:
                     builder.caseNo(cell.getStringCellValue()); // Assuming this column contains integer values
@@ -284,50 +312,69 @@ public class MediaService {
                     builder.caseType(cell.getStringCellValue());
                     break;
                 case 5:
-                    builder.zone(cell.getStringCellValue());
+                    if(cell.getRawValue().equals("211")) builder.zone("");
+                    else
+                        builder.zone(cell.getStringCellValue());
                     break;
                 case 6:
-                    builder.branchName(cell.getStringCellValue());
+                    if(cell.getRawValue().equals("211")) builder.branchName("");
+                    else
+                        builder.branchName(cell.getStringCellValue());
                     break;
                 case 7:
                     builder.customerId(cell.getRawValue());
                     break;
                 case 8:
-//                    builder.accountNumber(Objects.requireNonNull(ApplicationUtility.getIntValue(cell)).toString());
                     builder.accountNumber(cell.getStringCellValue());
                     break;
                 case 9:
-                    builder.creditCardNumber(cell.getStringCellValue());
+                    if(cell.getRawValue().equals("211")) builder.creditCardNumber("");
+                    else
+                        builder.creditCardNumber(cell.getStringCellValue());
                     break;
                 case 10:
                     builder.customerName(cell.getStringCellValue());
                     break;
                 case 11:
-                    builder.actualProduct(cell.getStringCellValue());
+                    if(cell.getRawValue().equals("211")) builder.actualProduct("");
+                    else
+                        builder.actualProduct(cell.getStringCellValue());
                     break;
                 case 12:
-                    builder.flagProductGroup(cell.getStringCellValue());
+                    if(cell.getRawValue().equals("211")) builder.flagProductGroup("");
+                    else
+                        builder.flagProductGroup(cell.getStringCellValue());
                     break;
                 case 13:
-                    builder.natureOfLegalAction(cell.getStringCellValue());
+                    if(cell.getRawValue().equals("211")) builder.natureOfLegalAction("");
+                    else
+                        builder.natureOfLegalAction(cell.getStringCellValue());
                     break;
                 case 14:
-                    builder.totalTos(Double.parseDouble(cell.getRawValue()));
+                    if(cell.getRawValue().equals("211")) builder.totalTos(Double.NaN);
+                    else
+                        builder.totalTos(Double.parseDouble(cell.getRawValue()));
                     break;
                 case 15:
-                    builder.totalTosInCr(Double.parseDouble(cell.getRawValue()));
+                    if(cell.getRawValue().equals("211")) builder.totalTosInCr(Double.NaN);
+                    else
+                        builder.totalTosInCr(Double.parseDouble(cell.getRawValue()));
                     break;
                 case 16:
                     builder.noticeDate(ApplicationUtility.parseDate(cell.getStringCellValue()));
                     break;
                 case 17:
-                    builder.refLetter(ApplicationUtility.parseDate(cell.getStringCellValue()));
+                    if(cell.getRawValue().equals("211")) builder.refLetter(Date.from(Instant.EPOCH));
+                    else
+                        builder.refLetter(ApplicationUtility.parseDate(cell.getStringCellValue()));
                     break;
                 case 18:
                     builder.socFillingDate(ApplicationUtility.parseDate(cell.getStringCellValue()));
                     break;
                 case 19:
-                    builder.claimAmountInSOC(Double.parseDouble(cell.getRawValue()));
+                    if(cell.getRawValue().equals("211")) builder.claimAmountInSOC(Double.NaN);
+                    else
+                        builder.claimAmountInSOC(Double.parseDouble(cell.getRawValue()));
                     break;
                 case 20:
                     builder.firstHearingDate(ApplicationUtility.parseDate(cell.getStringCellValue()));
