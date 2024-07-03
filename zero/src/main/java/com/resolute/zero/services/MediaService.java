@@ -5,7 +5,6 @@ import com.resolute.zero.domains.BankCase;
 import com.resolute.zero.domains.BankCaseRepository;
 import com.resolute.zero.domains.Document;
 import com.resolute.zero.exceptions.AppException;
-import com.resolute.zero.helpers.Helper;
 import com.resolute.zero.repositories.*;
 import com.resolute.zero.requests.AdminCaseRequest;
 import com.resolute.zero.utilities.ApplicationUtility;
