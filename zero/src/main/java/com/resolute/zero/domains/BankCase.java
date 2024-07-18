@@ -17,6 +17,17 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "BankCase", indexes = {
+        @Index(name = "idx_customerId", columnList = "customerId"),
+        @Index(name = "idx_caseNo", columnList = "caseNo", unique = true),
+        @Index(name = "idx_caseType", columnList = "caseType"),
+        @Index(name = "idx_bankcase_case_status", columnList = "case_status"),
+        @Index(name = "idx_bankcase_arbitrator_id", columnList = "arbitrator_id"),
+        @Index(name = "idx_bankcase_bank_id", columnList = "bank_id"),
+        @Index(name = "idx_bankcase_account_number", columnList = "account_number"),
+        @Index(name = "idx_bankcase", columnList = "credit_card_number"),
+        @Index(name = "idx_bankcase_soc_filling_date", columnList = "soc_filling_date")
+})
 public class BankCase {
 
     public String getString() {

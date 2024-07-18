@@ -150,13 +150,9 @@ public class AdminService {
 
     public List<CaseResponse> getSearchResponse(String searchParameter, Date date) {
         if(date==null&&searchParameter==null) throw new RuntimeException("no search parameters provided");
-        List<BankCase> cases = caseRepository.findAll();
-        List<BankCase> caseList = new LinkedList<>();
-        List<CaseResponse> caseResponseList;
-        addCaseListByCaseNo(searchParameter, cases, caseList);
-        addCaseListItemsByDate(date, cases, caseList);
-        caseResponseList = caseList.stream().map(Helper.Convert::convertCaseResponse).collect(Collectors.toList());
-        return caseResponseList;
+        List<BankCase> caseList;
+        caseList = caseRepository.findByCaseNoContainsIgnoreCaseOrSocFillingDate(searchParameter, date,Pageable.ofSize(10));
+        return caseList.stream().map(Helper.Convert::convertCaseResponse).collect(Collectors.toList());
     }
 
     private static void addCaseListByCaseNo(String searchParameter, List<BankCase> cases, List<BankCase> caseList) {

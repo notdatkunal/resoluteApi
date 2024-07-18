@@ -8,7 +8,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.io.ByteArrayInputStream;
@@ -63,7 +62,7 @@ public class ExcelService {
     ,arbitrator
     ,lawyerName
     ,lmName
-   ,registrationDate};
+   ,registrationDate}
     public ByteArrayInputStream getExcelDataByBankId(Integer bankId) throws IOException {
         var rowIndex = 0;
         var cases = caseService.getCasesByBankId(bankId, Pageable.unpaged());
@@ -114,7 +113,7 @@ public class ExcelService {
         row.createCell(headerValues.indexOf(headers.actualProduct)).setCellValue(bankCase.getActualProduct());
         row.createCell(headerValues.indexOf(headers.flagProductGroup)).setCellValue(bankCase.getFlagProductGroup());
 //        row.createCell(headerValues.indexOf(headers.natureOfLegalAction)).setCellValue(bankCase.getNatureOfLegalAction());
-        row.createCell(headerValues.indexOf(headers.totalTos)).setCellValue(bankCase.getTotalTos());
+        if(bankCase.getTotalTos()!=null) row.createCell(headerValues.indexOf(headers.totalTos)).setCellValue(bankCase.getTotalTos());
         if(bankCase.getTotalTosInCr()!=null) row.createCell(headerValues.indexOf(headers.totalTosInCr)).setCellValue(bankCase.getTotalTosInCr());
         if(bankCase.getNoticeDate()!=null)row.createCell(headerValues.indexOf(headers.noticeDate)).setCellValue(bankCase.getNoticeDate().toString());
 //        row.createCell(headerValues.indexOf(headers.refLetter)).setCellValue(bankCase.getRefLetter());
@@ -144,6 +143,6 @@ public class ExcelService {
         for(var header : headerValues) {
             var cell = headerRow.createCell(headerValues.indexOf(header));
             cell.setCellValue(header.toString());
-        };
+        }
     }
 }
