@@ -21,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
@@ -32,6 +33,8 @@ import java.nio.file.Path;
 import java.text.ParseException;
 import java.time.Instant;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
@@ -80,7 +83,9 @@ public class MediaService {
 
     @Autowired
     private CaseRepository caseRepository;
-    public ResponseEntity<?> saveDocumentInDB(MetaDocInfo metaDocInfo) {
+
+    @Async("taskExecutor")
+    public Future<ResponseEntity<?>> saveDocumentInDB(MetaDocInfo metaDocInfo) {
         System.out.println(metaDocInfo);
         Document document = new Document();
         document.setDocumentMainTypeTitle(metaDocInfo.getMainType());
@@ -96,9 +101,10 @@ public class MediaService {
             caseObj.setDocumentList(documentsList);
             caseRepository.save(caseObj);
         }else {
-             return ResponseEntity.notFound()
+             return CompletableFuture.completedFuture(
+                     ResponseEntity.notFound()
                      .eTag("case id not found")
-                     .build();
+                     .build());
         }
         if(metaDocInfo.getHearingId()!=null && metaDocInfo.getHearingId() !=0){
             var proceedingOpt = proceedingRepository.findById(metaDocInfo.getHearingId());
@@ -114,7 +120,9 @@ public class MediaService {
             }
             proceedingRepository.save(proceeding);
         }
-        return ResponseEntity.ok(metaDocInfo.getFileName()+" saved in server ");
+        return CompletableFuture.completedFuture(
+                ResponseEntity.ok(metaDocInfo.getFileName()+" saved in server ")
+        );
 
     }
 
@@ -241,6 +249,8 @@ public class MediaService {
         bankCaseRepository.saveAll(bankCases);
         return caseSheetRequests;
     }
+
+    
     public List<AdminCaseRequest> saveCases(MultipartFile sheet) {
         List<AdminCaseRequest> caseSheetRequests = new ArrayList<>();
         try (InputStream inputStream = sheet.getInputStream()) {

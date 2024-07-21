@@ -9,11 +9,13 @@ import com.resolute.zero.utilities.CodeComponent;
 import com.resolute.zero.utilities.MetaDocInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 
 @RestController
@@ -47,7 +49,12 @@ public class MediaController {
     {
         MetaDocInfo metaDocInfo = codeComponent.getMetaCode(mainType,subType,caseId,hearingId,file);
         mediaService.uploadFile(metaDocInfo);
-        return mediaService.saveDocumentInDB(metaDocInfo);
+        try {
+            return mediaService.saveDocumentInDB(metaDocInfo).get();
+        }catch (InterruptedException | ExecutionException e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving document");
+        }
     }
 
     @PostMapping("/media/bulk")
