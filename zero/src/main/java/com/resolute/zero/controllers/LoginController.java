@@ -1,7 +1,9 @@
 package com.resolute.zero.controllers;
 
+import com.resolute.zero.domains.Bank;
 import com.resolute.zero.domains.User;
 import com.resolute.zero.helpers.Helper;
+import com.resolute.zero.repositories.BankRepository;
 import com.resolute.zero.requests.CreateUserRequest;
 import com.resolute.zero.responses.LoginRecordResponse;
 import com.resolute.zero.responses.UserModel;
@@ -37,6 +39,8 @@ public class LoginController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private BankRepository bankRepository;
 
 
     @GetMapping("/login")
@@ -46,8 +50,10 @@ public class LoginController {
         boolean userExists = userService.login(login,ip,country);
         if(userExists) {
             var user = userService.findByUserName(username);
+            int bankId = 0;
+            if ("bank".equals(user.getRole())) bankId = bankRepository.findBankByUsername(user.getUsername()).get().getId();
             System.out.println("userObject"+user);
-        return  ResponseEntity.ok(Helper.Convert.convertUserModel(user));
+        return  ResponseEntity.ok(Helper.Convert.convertUserModel(user,bankId));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(UserModel.builder()
@@ -64,6 +70,7 @@ public class LoginController {
         concreteUser.setRole(user.getRole());
         concreteUser.setPassword(user.getPassword());
         concreteUser.setUserName(user.getUsername());
+        concreteUser.setEmail(user.getEmail());
         userService.createUser(concreteUser);
     }
 

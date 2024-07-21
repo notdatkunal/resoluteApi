@@ -67,7 +67,10 @@ public class MediaController {
     }
 
 
+    @PostMapping("/admin/serverUpload")
+    public void uploadToServer(){
 
+    }
 
     @PostMapping("/emails")
     public String handleDocuments(@RequestAttribute("wordFile") MultipartFile wordFile,

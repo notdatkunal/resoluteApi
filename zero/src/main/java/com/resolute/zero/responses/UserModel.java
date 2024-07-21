@@ -11,5 +11,6 @@ public class UserModel {
     Boolean status;
     String token;
     Integer id;
+    Integer bankId;
     String role;
 }

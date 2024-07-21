@@ -5,21 +5,24 @@ import com.resolute.zero.responses.*;
 import com.resolute.zero.requests.*;
 import com.resolute.zero.domains.*;
 import com.resolute.zero.services.JWTutil;
+
 import java.util.Date;
 
 
 public class Helper {
+
+
     public static class Convert {
 
 
-        public static UserModel convertUserModel(User user){
-
+        public static UserModel convertUserModel(User user, int bankId){
             return UserModel.builder()
                     .id(user.getId())
                     .status(true)
                     .token(JWTutil.generateToken(user.getUsername()))
                     .username(user.getUsername())
                     .role(user.getRole())
+                    .bankId(bankId)
                     .build();
         }
 
