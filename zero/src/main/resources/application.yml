@@ -5,6 +5,8 @@ email:
   password : ${RESOLUTE_EMAIL_PASS}
 
 server:
+  http2:
+    enabled: true
   ssl:
     enabled: true
     key-store-type: PKCS12
