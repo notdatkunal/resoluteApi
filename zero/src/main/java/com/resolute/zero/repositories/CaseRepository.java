@@ -5,6 +5,7 @@ import com.resolute.zero.domains.Proceeding;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 import java.util.Date;
@@ -53,4 +54,12 @@ public interface CaseRepository extends JpaRepository<BankCase,Integer> {
             select b from BankCase b
             where upper(b.caseNo) like upper(concat('%', ?1, '%')) or b.socFillingDate = ?2""")
     List<BankCase> findByCaseNoContainsIgnoreCaseOrSocFillingDate(@Nullable String caseNo, @Nullable Date socFillingDate, Pageable pageable);
+
+    @Query("""
+            select b from BankCase b
+            where b.bank.id = ?1 and upper(b.caseNo) like upper(concat('%', ?2, '%')) or b.socFillingDate = ?3
+            order by b.caseNo""")
+    List<BankCase> bankSearchAPI(@NonNull Integer id, @Nullable String caseNo, @Nullable Date socFillingDate, Pageable pageable);
+
+
 }

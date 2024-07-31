@@ -43,7 +43,7 @@ public class AdminService {
     private BorrowerRepository borrowerRepository;
 
 
-    @Async("taskExecutor")
+
     public void saveCase(AdminCaseRequest request) {
         var caseObj =  Helper.Creator.createCase(request);
         Arbitrator arbitrator = null;
@@ -148,11 +148,10 @@ public class AdminService {
         if(caseOptional.isEmpty()) throw new RuntimeException("Case ID Does Not Exist");
         return Helper.Convert.convertAdminCaseResponse(caseOptional.get());
     }
-
+    //:reference
     public List<CaseResponse> getSearchResponse(String searchParameter, Date date) {
         if(date==null&&searchParameter==null) throw new RuntimeException("no search parameters provided");
-        List<BankCase> caseList;
-        caseList = caseRepository.findByCaseNoContainsIgnoreCaseOrSocFillingDate(searchParameter, date,Pageable.ofSize(10));
+        List<BankCase> caseList = caseRepository.findByCaseNoContainsIgnoreCaseOrSocFillingDate(searchParameter,date,Pageable.ofSize(10));
         return caseList.stream().map(Helper.Convert::convertCaseResponse).collect(Collectors.toList());
     }
 
@@ -259,16 +258,11 @@ public class AdminService {
         caseResponseList = caseList.stream().map(Helper.Convert::convertCaseResponse).collect(Collectors.toList());
         return caseResponseList;
     }
-
+    //: change this one
     public List<CaseResponse> getSearchResponseBankId(String searchParameter, Date date, Integer bankId) {
         if(date==null&&searchParameter==null) throw new RuntimeException("no search parameters provided");
-        List<BankCase> cases = caseRepository.findByBank_Id(bankId);
-        List<BankCase> caseList = new LinkedList<>();
-        List<CaseResponse> caseResponseList;
-        addCaseListByCaseNo(searchParameter, cases, caseList);
-        addCaseListItemsByDate(date, cases, caseList);
-        caseResponseList = caseList.stream().map(Helper.Convert::convertCaseResponse).collect(Collectors.toList());
-        return caseResponseList;
+        List<BankCase> caseList = caseRepository.bankSearchAPI(bankId,searchParameter,date,Pageable.ofSize(10));
+       return caseList.stream().map(Helper.Convert::convertCaseResponse).collect(Collectors.toList());
     }
 
     public List<AdminCaseResponse> getCasesByBankIdAndType(Integer bankId, String type, Pageable pageable) {

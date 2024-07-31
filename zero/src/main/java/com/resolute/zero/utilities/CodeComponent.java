@@ -9,10 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Component
 public class CodeComponent {
@@ -168,13 +165,13 @@ public class CodeComponent {
         }
         return (int) Math.floor(Math.log10(number)) + 1;
     }
-    public List<MetaDocInfo> getMetaDocsInfo(ArrayList<String> fileNamesList) {
-        var list = new ArrayList<MetaDocInfo>();
+    public List<MetaDocInfo> getMetaDocsInfo(List<String> fileNamesList) {
+        Collection<MetaDocInfo> list = new ArrayList<>();
            for(String fileName :  fileNamesList){
                var metaDoc = this.getMetaDocInfo(fileName);
                metaDoc.setFileName(fileName);
                 list.add(metaDoc);
            }
-        return list;
+        return list.stream().toList();
     }
 }

@@ -2,6 +2,7 @@ package com.resolute.zero.domains;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -28,6 +29,7 @@ import java.util.List;
         @Index(name = "idx_bankcase", columnList = "credit_card_number"),
         @Index(name = "idx_bankcase_soc_filling_date", columnList = "soc_filling_date")
 })
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class BankCase {
 
     public String getString() {

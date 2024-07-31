@@ -58,7 +58,7 @@ public class MediaController {
     }
 
     @PostMapping("/media/bulk")
-    public ResponseEntity<?> bulkUploading(@RequestParam("files") MultipartFile[] files) throws IOException {
+    public ResponseEntity<?> bulkUploading(@RequestParam("files") MultipartFile[] files) throws IOException, ExecutionException, InterruptedException {
         var fileNamesList = mediaService.uploadFiles(files);
         mediaService.saveDocumentsInDB(codeComponent.getMetaDocsInfo(fileNamesList));
         return ResponseEntity.ok("file uploaded with names "+fileNamesList);

@@ -12,6 +12,7 @@ import com.resolute.zero.utilities.MediaUtility;
 import com.resolute.zero.utilities.MetaDocInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -34,6 +35,7 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -57,19 +59,21 @@ public class MediaService {
         metaDocInfo.getFile().transferTo(uploadTo);
         metaDocInfo.setFileName(uploadTo.getFileName().toString());
     }
-    public ArrayList<String> uploadFiles(MultipartFile[] files) throws IOException {
+    public List<String> uploadFiles(MultipartFile[] files) throws IOException, ExecutionException, InterruptedException {
         Files.createDirectories(Path.of("media"));
-        var list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
+        list = Collections.synchronizedList(list);
         for (MultipartFile file : files){
-            list.add(saveSingleFile(file));
+            list.add(saveSingleFile(file).get());
         }
-        return list;
+        return list.stream().toList();
     }
 
-    private String saveSingleFile(MultipartFile file) throws IOException {
+    @Async("taskExecutor")
+    protected Future<String> saveSingleFile(MultipartFile file) throws IOException {
         Path uploadTo = Path.of(String.format("media/%s", file.getOriginalFilename()));
         file.transferTo(uploadTo);
-        return file.getOriginalFilename();
+        return CompletableFuture.completedFuture(file.getOriginalFilename());
     }
 
     public void saveDocumentsInDB(List<MetaDocInfo> metaDocsInfo) {
@@ -99,6 +103,7 @@ public class MediaService {
             var documentsList = caseObj.getDocumentList();
             documentsList.add(document);
             caseObj.setDocumentList(documentsList);
+            documentRepository.save(document);
             caseRepository.save(caseObj);
         }else {
              return CompletableFuture.completedFuture(
@@ -334,7 +339,8 @@ public class MediaService {
                     builder.customerId(cell.getRawValue());
                     break;
                 case 8:
-                    builder.accountNumber(cell.getStringCellValue());
+                    if (cell.getCellType()== CellType.STRING) builder.accountNumber(cell.getStringCellValue());
+                    else if (cell.getCellType()== CellType.NUMERIC) builder.accountNumber(""+cell.getNumericCellValue());
                     break;
                 case 9:
                     if(cell.getRawValue().equals("211")) builder.creditCardNumber("");

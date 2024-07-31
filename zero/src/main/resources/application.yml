@@ -24,9 +24,13 @@ management:
 
 logging:
   level:
+    root: debug
     sql: debug
     web: debug
 spring:
+#  cache:
+#    cache-names:
+#      - myEntityCache
   mail:
     host: smtp.gmail.com
     port: 587
@@ -44,6 +48,11 @@ spring:
     hibernate:
       ddl-auto: update
     properties:
+      hibernate:
+#        cache:
+#          use_second_level_cache: true
+#          region:
+#            factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
       format_sql: true
       show-sql: true
   servlet:
